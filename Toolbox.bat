@@ -14,11 +14,9 @@ ECHO.
 ECHO.
 ECHO.
 ECHO  ^=^> Author: Ahsan Khan (@Ahsan400)
-ECHO  ^=^> Terget: Windows 10 19H2
+ECHO  ^=^> Terget: Windows 10 20H1
 ECHO  ^=^> TG Group: https:\\t.me\MagicXMod
-ECHO.
-ECHO  ^=^> This is the initial release. More Features will be added soon.
-ECHO     Keep eye on our TG group for updates.
+ECHO  ^=^> Website: MagicXMod.github.io
 ECHO.
 ECHO.
 ECHO  ***********************
@@ -50,13 +48,11 @@ IF ERRORLEVEL 1 GOTO Appearance
 
 
 
-
-
-
-
-
-
-
+::::::::::::::::::::::::::
+::						::
+::		Appearance		::
+::						::
+::::::::::::::::::::::::::
 :Appearance
 CLS
 COLOR 0E
@@ -108,11 +104,11 @@ GOTO Appearance
 
 
 
-
-
-
-
-
+::::::::::::::::::::::::::::::
+::							::
+::		Context Menu		::
+::							::
+::::::::::::::::::::::::::::::
 :Context_Menu
 CLS
 COLOR 0E
@@ -407,8 +403,11 @@ GOTO Context_Menu
 
 
 
-
-
+::::::::::::::::::::::
+::					::
+::		System		::
+::					::
+::::::::::::::::::::::
 :System
 CLS
 COLOR 0E
@@ -547,6 +546,12 @@ GOTO System
 
 
 
+
+::::::::::::::::::::::::::
+::						::
+::		Download		::
+::						::
+::::::::::::::::::::::::::
 :Downloads
 CLS
 COLOR 0E
@@ -846,19 +851,11 @@ GOTO Downloads
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+::::::::::::::::::::::::::::::
+::							::
+::		Windows Update		::
+::							::
+::::::::::::::::::::::::::::::
 :Windows_Update
 CLS
 COLOR 0E
@@ -1669,14 +1666,11 @@ GOTO Windows_Update
 
 
 
-
-
-
-
-
-
-
-
+::::::::::::::::::::::::::
+::						::
+::		Report Bug		::
+::						::
+::::::::::::::::::::::::::
 :Report_Bugs
 CLS
 COLOR 0E
@@ -1702,6 +1696,11 @@ GOTO Main_Menu
 
 
 
+::::::::::::::::::::::::::::::
+::							::
+::		Check Updates		::
+::							::
+::::::::::::::::::::::::::::::
 :Check_Update
 :: After Click Check Update
 CLS

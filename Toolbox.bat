@@ -484,6 +484,7 @@ SET "App[13]=Sublime Text"
 SET "App[14]=uTorrent Repack"
 SET "App[15]=qBittorrent"
 SET "App[16]=All Apps"
+SET "App[H]=Main Menu"
 
 :APP_Menu
 CLS
@@ -504,6 +505,8 @@ IF DEFINED App[%x%] (
     CALL ECHO   %x%. %%App[%x%]%%
     GOTO MenuLoop
 )
+ECHO.
+ECHO   H. Main Menu
 ECHO.
 
 :Prompt
@@ -572,6 +575,7 @@ IF "%App%" EQU "All Apps" (
 	CALL :uTorrent_Repack
 	CALL :qBittorrent
 )
+IF "%App%" EQU "Main Menu" GOTO Main_Menu
 
 SET "App[%1]="
 IF DEFINED Next SHIFT & GOTO Process

@@ -4,6 +4,7 @@ SET Current_Version=1.0
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400
 
 :Main_Menu
+
 CLS
 COLOR 0E
 ECHO.
@@ -457,6 +458,7 @@ GOTO System
 ::::::::::::::::::::::::::
 :Downloads
 CLS
+SETLOCAL EnableExtensions
 SET Menu_Name=Downloads Menu
 SET Menu_Address=Downloads
 COLOR 0E
@@ -466,6 +468,26 @@ IF EXIST "%DESKTOP%\Apps" GOTO Start_Downloads
 MD "%DESKTOP%\Apps"
 
 :Start_Downloads
+SET "App[1]=Adguard Premium"
+SET "App[2]=AIMP Audio Player"
+SET "App[3]=Betternet VPN"
+SET "App[4]=Google Chrome"
+SET "App[5]=Mozila Firefox"
+SET "App[6]=DU Meter"
+SET "App[7]=Iobit Driver Booster"
+SET "App[8]=Internet Download Manager"
+SET "App[9]=Dolby Home Theater v4"
+SET "App[10]=MEGA Link Downloader"
+SET "App[11]=Notepad++"
+SET "App[12]=Old Calculator"
+SET "App[13]=Sublime Text"
+SET "App[14]=uTorrent Repack"
+SET "App[15]=qBittorrent"
+SET "App[16]=All Apps"
+
+:APP_Menu
+CLS
+ECHO.%Message%
 ECHO.
 ECHO 			=========================
 ECHO 			^|^| MagicX Toolbox v%Current_Version% ^|^|
@@ -475,60 +497,94 @@ ECHO.
 ECHO  ^=^> All apps should be latest. Because I update all apps once in a week.
 ECHO  ^=^> Antivirus may show false alerm for some apps. Don't worry about it.
 ECHO.
-ECHO  1. Adguard Premium
-ECHO  2. AIMP Audio Player
-ECHO  3. Betternet VPN
-ECHO  4. Google Chrome
-ECHO  5. Mozila Firefox
-ECHO  6. DU Meter
-ECHO  7. Driver Booster Repack
-ECHO  8. IDM with Patch
-ECHO  9. Dolby Home Theater v4
-ECHO  A. MEGA Link Downloader
-ECHO  B. Notepad++
-ECHO  C. Old Calculator
-ECHO  D. Sublime Text
-ECHO  E. uTorrent Repack
-ECHO  F. qBittorrent
-ECHO  G. qBittorrent Dark
-ECHO  H. Main Menu
+SET "x=0"
+:MenuLoop
+SET /a "x+=1"
+IF DEFINED App[%x%] (
+    CALL ECHO   %x%. %%App[%x%]%%
+    GOTO MenuLoop
+)
 ECHO.
 
+:Prompt
+ECHO  ^=^> Your can Choose Multiple Options (E.G: 1, 2, 7 or 1 2 7)
+SET /p "Input=Select Options:"
+
+IF NOT DEFINED Input GOTO Prompt
+SET "Input=%Input:"=%"
+SET "Input=%Input:^=%"
+SET "Input=%Input:<=%"
+SET "Input=%Input:>=%"
+SET "Input=%Input:&=%"
+SET "Input=%Input:|=%"
+SET "Input=%Input:(=%"
+SET "Input=%Input:)=%"
+SET "Input=%Input:^==%"
+CALL :Validate %Input%
+
+CALL :Process %Input%
+GOTO End
 
 
+:Validate
+SET "Next=%2"
+IF not DEFINED App[%1] (
+    SET "Message= INVALID INPUT: %1!"
+    GOTO APP_Menu
+)
+IF DEFINED Next shIFt & GOTO Validate
+GOTO :eof
 
 
-CHOICE /C:123456789ABCDEFGH /N /M "Enter your choice: "
+:Process
+SET "Next=%2"
+CALL SET "App=%%App[%1]%%"
 
-ECHO.
+IF "%App%" EQU "Adguard Premium" CALL :Adguard_Premium
+IF "%App%" EQU "AIMP Audio Player" CALL :AIMP_Audio_Player
+IF "%App%" EQU "Betternet VPN" CALL :Betternet_VPN
+IF "%App%" EQU "Google Chrome" CALL :Chrome
+IF "%App%" EQU "Mozila Firefox" CALL :Firefox
+IF "%App%" EQU "DU Meter" CALL :DU_Meter
+IF "%App%" EQU "Iobit Driver Booster" CALL :Driver_Booster
+IF "%App%" EQU "Internet Download Manager" CALL :IDM
+IF "%App%" EQU "Dolby Home Theater v4" CALL :Dolby_HT
+IF "%App%" EQU "MEGA Link Downloader" CALL :MEGA_Link_Downloader
+IF "%App%" EQU "Notepad++" CALL :npp
+IF "%App%" EQU "Old Calculator" CALL :Old_Calculator
+IF "%App%" EQU "Sublime Text" CALL :Sublime_Text
+IF "%App%" EQU "uTorrent Repack" CALL :uTorrent_Repack
+IF "%App%" EQU "qBittorrent" CALL :qBittorrent
+IF "%App%" EQU "All Apps" (
+    CALL :Adguard_Premium
+	CALL :AIMP_Audio_Player
+	CALL :Betternet_VPN
+	CALL :Chrome
+	CALL :Firefox
+	CALL :DU_Meter
+	CALL :Driver_Booster
+	CALL :IDM
+	CALL :Dolby_HT
+	CALL :MEGA_Link_Downloader
+	CALL :npp
+	CALL :Old_Calculator
+	CALL :Sublime_Text
+	CALL :uTorrent_Repack
+	CALL :qBittorrent
+)
 
-IF ERRORLEVEL 17 GOTO Main_Menu
-IF ERRORLEVEL 16 GOTO qBittorrent_Dark
-IF ERRORLEVEL 15 GOTO qBittorrent
-IF ERRORLEVEL 14 GOTO uTorrent_Repack
-IF ERRORLEVEL 13 GOTO Sublime_Text
-IF ERRORLEVEL 12 GOTO Old_Calculator
-IF ERRORLEVEL 11 GOTO npp
-IF ERRORLEVEL 10 GOTO MEGA_Link_Downloader
-IF ERRORLEVEL 9 GOTO Dolby_HT
-IF ERRORLEVEL 8 GOTO IDM
-IF ERRORLEVEL 7 GOTO Driver_Booster_Repack
-IF ERRORLEVEL 6 GOTO DU_Meter
-IF ERRORLEVEL 5 GOTO Firefox
-IF ERRORLEVEL 4 GOTO Chrome
-IF ERRORLEVEL 3 GOTO Betternet_VPN
-IF ERRORLEVEL 2 GOTO AIMP_Audio_Player
-IF ERRORLEVEL 1 GOTO Adguard_Premium
+SET "App[%1]="
+IF DEFINED Next SHIFT & GOTO Process
 
-
-
-
+ENDLOCAL
+CALL :END_LINE_DNL
+EXIT
 
 :Adguard_Premium
 CD "%DESKTOP%"
 ECHO  ^=^> Adguard Premium Downloading.....
 powershell.exe -Command wget %DL_REPO%/Adguard_Premium.zip -OutFile Apps\Adguard_Premium.zip
-CALL :END_LINE_DNL
+EXIT /B
 
 
 
@@ -537,7 +593,7 @@ CALL :END_LINE_DNL
 CD "%DESKTOP%"
 ECHO  ^=^> AIMP Audio Player Downloading.....
 powershell.exe -Command wget %DL_REPO%/AIMP_Audio_Player.exe -OutFile Apps\AIMP_Audio_Player.exe
-CALL :END_LINE_DNL
+EXIT /B
 
 
 
@@ -546,7 +602,7 @@ CALL :END_LINE_DNL
 CD "%DESKTOP%"
 ECHO  ^=^> Betternet VPN Downloading.....
 powershell.exe -Command wget %DL_REPO%/Betternet_VPN_Premium.msi -OutFile Apps\Betternet_VPN_Premium.msi
-CALL :END_LINE_DNL
+EXIT /B
 
 
 
@@ -555,7 +611,7 @@ CALL :END_LINE_DNL
 CD "%DESKTOP%"
 ECHO  ^=^> Google Chrome Downloading.....
 powershell.exe -Command wget %DL_REPO%/Chrome.exe -OutFile Apps\Chrome.exe
-CALL :END_LINE_DNL
+EXIT /B
 
 
 
@@ -564,7 +620,7 @@ CALL :END_LINE_DNL
 CD "%DESKTOP%"
 ECHO  ^=^> Mozila Firefox Downloading.....
 powershell.exe -Command wget %DL_REPO%/Firefox.exe -OutFile Apps\Firefox.exe
-CALL :END_LINE_DNL
+EXIT /B
 
 
 
@@ -573,16 +629,16 @@ CALL :END_LINE_DNL
 CD "%DESKTOP%"
 ECHO  ^=^> DU Meter Downloading.....
 powershell.exe -Command wget %DL_REPO%/DU_Meter.rar -OutFile Apps\DU_Meter.rar
-CALL :END_LINE_DNL
+EXIT /B
 
 
 
 
-:Driver_Booster_Repack
+:Driver_Booster
 CD "%DESKTOP%"
 ECHO  ^=^> Driver Booster Repack Downloading.....
 powershell.exe -Command wget %DL_REPO%/Driver_Booster_Repack.exe -OutFile Apps\Driver_Booster_Repack.exe
-CALL :END_LINE_DNL
+EXIT /B
 
 
 
@@ -591,7 +647,7 @@ CALL :END_LINE_DNL
 CD "%DESKTOP%"
 ECHO  ^=^> IDM with Patch Downloading.....
 powershell.exe -Command wget %DL_REPO%/IDM.zip -OutFile Apps\IDM.zip
-CALL :END_LINE_DNL
+EXIT /B
 
 
 
@@ -600,7 +656,7 @@ CALL :END_LINE_DNL
 CD "%DESKTOP%"
 ECHO  ^=^> Dolby Home Theater v4 Downloading.....
 powershell.exe -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/Windows_10/Mods/Dolby_Home_Theatre_v4.7z -OutFile Apps\Dolby_Home_Theatre_v4.7z
-CALL :END_LINE_DNL
+EXIT /B
 
 
 
@@ -609,7 +665,7 @@ CALL :END_LINE_DNL
 CD "%DESKTOP%"
 ECHO  ^=^> MEGA Link Downloader Downloading.....
 powershell.exe -Command wget %DL_REPO%/MEGA_Link_Downloader.exe -OutFile Apps\MEGA_Link_Downloader.exe
-CALL :END_LINE_DNL
+EXIT /B
 
 
 
@@ -618,7 +674,7 @@ CALL :END_LINE_DNL
 CD "%DESKTOP%"
 ECHO  ^=^> Notepad++ Downloading.....
 powershell.exe -Command wget %DL_REPO%/npp.exe -OutFile Apps\npp.exe
-CALL :END_LINE_DNL
+EXIT /B
 
 
 
@@ -627,7 +683,7 @@ CALL :END_LINE_DNL
 CD "%DESKTOP%"
 ECHO  ^=^> Old Calculator Downloading.....
 powershell.exe -Command wget %DL_REPO%/Old_Calculator_for_Windows_10.exe -OutFile Apps\Old_Calculator_for_Windows_10.exe
-CALL :END_LINE_DNL
+EXIT /B
 
 
 
@@ -636,7 +692,7 @@ CALL :END_LINE_DNL
 CD "%DESKTOP%"
 ECHO  ^=^> Sublime Text Downloading.....
 powershell.exe -Command wget %DL_REPO%/Sublime_Text.exe -OutFile Apps\Sublime_Text.exe
-CALL :END_LINE_DNL
+EXIT /B
 
 
 
@@ -645,8 +701,7 @@ CALL :END_LINE_DNL
 CD "%DESKTOP%"
 ECHO  ^=^> uTorrent Repack Downloading.....
 powershell.exe -Command wget %DL_REPO%/uTorrent_Repack.exe -OutFile Apps\uTorrent_Repack.exe
-CALL :END_LINE_DNL
-
+EXIT /B
 
 
 
@@ -654,18 +709,9 @@ CALL :END_LINE_DNL
 CD "%DESKTOP%"
 ECHO  ^=^> qBittorrent Downloading.....
 powershell.exe -Command wget %DL_REPO%/qBittorrent.exe -OutFile Apps\qBittorrent.exe
-CALL :END_LINE_DNL
+EXIT /B
 
-
-
-
-:qBittorrent_Dark
-CD "%DESKTOP%"
-ECHO  ^=^> qBittorrent Dark Downloading.....
-powershell.exe -Command wget %DL_REPO%/qBittorrent_Dark.exe -OutFile Apps\qBittorrent_Dark.exe
-CALL :END_LINE_DNL
-
-
+GOTO Downloads
 
 
 
@@ -727,18 +773,12 @@ ECHO 			=========================
 ECHO.
 
 
-:::::::::::::::::::::::::::
-:::: Custom REG Tweaks ::::
-:::::::::::::::::::::::::::
-:Start_Tweaks
 
-:: Clear PageFile At Shutdown 
 ECHO  ^=^> Clear PageFile At Shutdown 
 Reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v "ClearPageFileAtShutdown" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
-:: Cortana Tweaks.reg 
 ECHO  ^=^> Cortana Tweaks
 Reg.exe add "HKCU\Software\Microsoft\Windows Search" /v "CortanaConsent" /t REG_DWORD /d "0" /f
 Reg.exe add "HKCU\Software\Microsoft\Personalization\Settings" /v "AcceptedPrivacyPolicy" /t REG_DWORD /d "0" /f
@@ -754,34 +794,24 @@ Reg.exe add "HKLM\SOFTWARE\Microsoft\Speech_OneCore\Preferences" /v "ModelDownlo
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Adv ID.reg 
 ECHO  ^=^> Disable Adv ID
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" /v "Enabled" /t REG_DWORD /d "0" /f
 Reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" /v "Enabled" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable adv with bt.reg 
 ECHO  ^=^> Disable adv with bt
 Reg.exe add "HKLM\SOFTWARE\Microsoft\PolicyManager\current\device\Bluetooth" /v "AllowAdvertising" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
 
-
-:: Disable App Auto Update.reg 
 ECHO  ^=^> Disable App Auto Update
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsStore\WindowsUpdate" /v "AutoDownload" /t REG_DWORD /d "2" /f
 CALL :THREE_ECHO
 
 
 
-
-:: Disable App Telemetry.reg 
 ECHO  ^=^> Disable App Telemetry
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" /v "AllowTelemetry" /t REG_DWORD /d "0" /f
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\AppCompat" /v "DisableInventory" /t REG_DWORD /d "1" /f
@@ -791,25 +821,18 @@ Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v "AllowT
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Apps and Icons Auto Update.reg 
+ 
 ECHO  ^=^> Disable Apps and Icons Auto Update
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata" /v "PreventDeviceMetadataFromNetwork" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
 
-
-:: Disable conducting experiment.reg 
 ECHO  ^=^> Disable conducting experiment
 Reg.exe add "HKLM\SOFTWARE\Microsoft\PolicyManager\current\device\System" /v "AllowExperimentation" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
-
-
-
-:: Disable Customer Experience Improvement.reg 
+ 
 ECHO  ^=^> Disable Customer Experience Improvement
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\SQMClient\Windows" /v "CEIPEnable" /t REG_DWORD /d "0" /f
 Reg.exe add "HKLM\SOFTWARE\Microsoft\SQMClient\Windows" /v "CEIPEnable" /t REG_DWORD /d "0" /f
@@ -817,16 +840,11 @@ CALL :THREE_ECHO
 
 
 
-
-:: Disable Data Collections.reg 
 ECHO  ^=^> Disable Data Collections
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v "AllowTelemetry" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable feedback reminder.reg 
 ECHO  ^=^> Disable feedback reminder
 Reg.exe add "HKLM\SOFTWARE\Microsoft\DataCollection" /v "AllowTelemetry" /t REG_DWORD /d "0" /f
 Reg.exe add "HKCU\Software\Microsoft\Siuf\Rules" /v "NumberOfSIUFInPeriod" /t REG_DWORD /d "0" /f
@@ -834,75 +852,49 @@ Reg.exe add "HKCU\Software\Microsoft\Siuf\Rules" /v "PeriodInNanoSeconds" /t REG
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Gamebar.reg 
 ECHO  ^=^> Disable Gamebar
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR" /v "AllowGameDVR" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Handwriting Data Sharing.reg 
 ECHO  ^=^> Disable Handwriting Data Sharing
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\TabletPC" /v "PreventHandwritingDataSharing" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Handwriting error reporting.reg 
 ECHO  ^=^> Disable Handwriting error reporting
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\HandwritingErrorReports" /v "PreventHandwritingErrorReports" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
 
-
-:: Disable Inventory.reg 
 ECHO  ^=^> Disable Inventory
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\AppCompat" /v "DisableInventory" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Lockscreen fun facts, tips.reg 
 ECHO  ^=^> Disable Lockscreen fun facts, tips
 Reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "RotatingLockScreenOverlayEnabled" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
-
-
-
-:: Disable malware reporting info to ms.reg 
+ 
 ECHO  ^=^> Disable malware reporting info to MS
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\MRT" /v "DontReportInfectionInformation" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable MAP Auto Download.reg 
 ECHO  ^=^> Disable MAP Auto Download
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Maps" /v "AutoDownloadAndUpdateMapData" /t REG_DWORD /d "0" /f
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Maps" /v "AllowUntriggeredNetworkTrafficOnSettingsPage" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable MAP Data Auto Download.reg 
 ECHO  ^=^> Disable MAP Data Auto Download
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Maps" /v "AutoDownloadAndUpdateMapData" /t REG_DWORD /d "0" /f
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Maps" /v "AllowUntriggeredNetworkTrafficOnSettingsPage" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable More Telemetry.reg 
 ECHO  ^=^> Disable More Telemetry
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\AppCompat" /v "AITEnable" /t REG_DWORD /d "0" /f
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\AppCompat" /v "DisableInventory" /t REG_DWORD /d "1" /f
@@ -910,65 +902,41 @@ Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\AppCompat" /v "DisableUAR"
 CALL :THREE_ECHO
 
 
-
-
-:: Disable MS Products Auto Update.reg 
 ECHO  ^=^> Disable MS Products Auto Update
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Services\7971f918-a847-4430-9279-4a52d1efe18d" /v "RegisteredWithAU" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Peernet for windows 10 update.reg 
 ECHO  ^=^> Disable Peernet for windows 10 update
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Peernet" /v "Disabled" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable People from taskbar.reg 
 ECHO  ^=^> Disable People from taskbar
 Reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v "PeopleBand" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Report Collection.reg 
 ECHO  ^=^> Disable Report Collection
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\MRT" /v "DontReportInfectionInformation" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Smart Screen.reg 
 ECHO  ^=^> Disable Smart Screen
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v "EnableSmartScreen" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable store app auto install.reg 
 ECHO  ^=^> Disable store app auto install
 Reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SilentInstalledAppsEnabled" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
-
-
-
-:: Disable submitting sample data to ms.reg 
+ 
 ECHO  ^=^> Disable submitting sample data to MS
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" /v "SubmitSamplesConsent" /t REG_DWORD /d "2" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Sync.reg 
 ECHO  ^=^> Disable Sync
 Reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\SettingSync" /v "BackupPolicy" /t REG_DWORD /d "60" /f
 Reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\SettingSync" /v "DeviceMetadataUploaded" /t REG_DWORD /d "0" /f
@@ -990,9 +958,6 @@ Reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\SettingSync\Groups\W
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Telemetry.reg 
 ECHO  ^=^> Disable Telementry
 Reg.exe add "HKLM\SYSTEM\ControlSet001\Control\WMI\Autologger\AutoLogger-Diagtrack-Listener" /v "Start" /t REG_DWORD /d "0" /f
 Reg.exe add "HKLM\SYSTEM\ControlSet001\Services\dmwappushservice" /v "Start" /t REG_DWORD /d "4" /f
@@ -1000,33 +965,21 @@ Reg.exe add "HKLM\SYSTEM\ControlSet001\Services\DiagTrack" /v "Start" /t REG_DWO
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Text message cloud backup.reg 
 ECHO  ^=^> Disable Text message cloud backup
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Messaging" /v "AllowMessageSync" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Transmission of typing info.reg 
 ECHO  ^=^> Disable Transmission of typing info
 Reg.exe add "HKCU\Software\Microsoft\Input\TIPC" /v "Enabled" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Windows Speech Update.reg 
 ECHO  ^=^> Disable Windows Speech Update
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Speech" /v "AllowSpeechModelUpdate" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Windows Update Peer.reg 
 ECHO  ^=^> Disable Windows Update Peer
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" /v "DODownloadMode" /t REG_DWORD /d "0" /f
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" /v "DODownloadMode" /t REG_DWORD /d "0" /f
@@ -1034,25 +987,16 @@ Reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\DeliveryOptimization
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Camera In LockScreen.reg 
 ECHO  ^=^> Disbale Camera In LockScreen
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v "NoLockScreenCamera" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
-
-
-
-:: Disable Handwriting Error data.reg 
+ 
 ECHO  ^=^> Disbale Handwritting Error data
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\HandwritingErrorReports" /v "PreventHandwritingErrorReports" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
-
-
-:: EDGE Patches.reg 
 ECHO  ^=^> EDGE Patches
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\MicrosoftEdge" /v "PreventFirstRunPage" /t REG_DWORD /d "0" /f
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\MicrosoftEdge\Main" /v "AllowPrelaunch" /t REG_DWORD /d "0" /f
@@ -1062,110 +1006,68 @@ Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\MicrosoftEdge\TabPreloader" /v "Al
 CALL :THREE_ECHO
 
 
-
-
-:: Enable Driver Update.reg 
 ECHO  ^=^> Enable Driver Update
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" /v "DriverUpdateWizardWuSearchEnabled" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Enable full TPM owner authorization.reg 
 ECHO  ^=^> Enable full TPM owner authorization
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\TPM" /v "OSManagedAuthLevel" /t REG_DWORD /d "5" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Force 100% Net.reg 
 ECHO  ^=^> Force to use 100% Net
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Psched" /v "NonBestEffortLimit" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: LocationTweaks.reg
 ECHO  ^=^> Location Tweaks
-:: Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" /v "DisableLocation" /t REG_DWORD /d "1" /f
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" /v "DisableWindowsLocationProvider" /t REG_DWORD /d "1" /f
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" /v "DisableLocationScripting" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Long Path.reg 
 ECHO  ^=^> Long Path
 Reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v "LongPathsEnabled" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
-
-
-:: NoLockScreenCamera.reg 
 ECHO  ^=^> No LockScreen Camera
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v "NoLockScreenCamera" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
-
-
-:: OneDrive Tweaks.reg 
 ECHO  ^=^> OneDrive Tweaks
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\OneDrive" /v "DisableFileSyncNGSC" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Prevent Handwriting Data Sharing.reg 
 ECHO  ^=^> Prevent Handwriting Data Sharing
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\TabletPC" /v "PreventHandwritingDataSharing" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
-
-
-
-:: Reg Pack.reg 
-:: SpeedUp logon
 ECHO  ^=^> SpeedUp logon
 Reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Serialize" /v "StartupDelayInMSec" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Thumbsdb on network drives
 ECHO  ^=^> Disable Thumbsdb on network drives
 Reg.exe add "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v "DisableThumbsDBOnNetworkFolders" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Windows Feedback
 ECHO  ^=^> Disable Windows Feedback
 Reg.exe add "HKCU\SOFTWARE\Microsoft\Siuf\Rules" /v "NumberOfSIUFInPeriod" /t REG_DWORD /d "0" /f
 Reg.exe add "HKCU\SOFTWARE\Microsoft\Siuf\Rules" /v "PeriodInNanoSeconds" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: disable narrator
 ECHO  ^=^> Disable Narrator
 Reg.exe add "HKCU\Software\Microsoft\Narrator\NoRoam" /v "WinEnterLaunchEnabled" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-::  Office Telemetry/Disable data collection for Telemetry Agent
 ECHO  ^=^> Office Telemetry/Disable data collection for Telemetry Agent
 Reg.exe add "HKCU\Software\Microsoft\Office\16.0\Common" /v "sendcustomerdata" /t REG_DWORD /d "0" /f
 Reg.exe add "HKCU\Software\Microsoft\Office\16.0\Common\Feedback" /v "enabled" /t REG_DWORD /d "0" /f
@@ -1198,9 +1100,6 @@ Reg.exe add "HKCU\Software\Policies\Microsoft\Office\16.0\OSM\preventedsolutiont
 CALL :THREE_ECHO
 
 
-
-
-:: Disable cortana but keep search
 ECHO  ^=^> Disable cortana but keep search
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v "PreventIndexOnBattery" /t REG_DWORD /d "1" /f
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v "AllowSearchToUseLocation" /t REG_DWORD /d "0" /f
@@ -1222,84 +1121,54 @@ Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v "AllowC
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Ads In Windows 10 File Explorer
 ECHO  ^=^> Disable Ads In Windows 10 File Explorer
 Reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowSyncProviderNotifications" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable online tips and help for Settings app
 ECHO  ^=^> Disable online tips and help for Settings app
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "AllowOnlineTips" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Activity history
 ECHO  ^=^> Disable Activity history
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v "PublishUserActivities" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Hide Microsoft Edge button in IE
 ECHO  ^=^> Hide Microsoft Edge button in IE
 Reg.exe add "HKCU\SOFTWARE\Policies\Microsoft\Internet Explorer\Main" /v "HideNewEdgeButton" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Remove Games
 ECHO  ^=^> Remove Games
 Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\GameUX\Games\{FC96B68C-09EF-4251-A598-19E4BE1B76A9}" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Remove Shortcut text
 ECHO  ^=^> Remove _Shortcut text From Shortcut
 Reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "link" /t REG_BINARY /d "00000000" /f
 CALL :THREE_ECHO
 
 
-
-
-:: telemetry
 ECHO  ^=^> Disable Telemetry
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\MRT" /v "DontOfferThroughWUAU" /t REG_DWORD /d "1" /f
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\MRT" /v "DontReportInfectionInformation" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
-
-
-:: Disable Windows Error Reporting current user
 ECHO  ^=^> Disable Windows Error Reporting current user
 Reg.exe add "HKCU\Software\Microsoft\Windows\Windows Error Reporting" /v "Disabled" /t REG_DWORD /d "1" /f
 CALL :THREE_ECHO
 
 
 
-
-
-
-:: WCMP Policy.reg 
 ECHO  ^=^> WCMP Policy
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\Internet Settings" /v "CallLegacyWCMPolicies" /t REG_DWORD /d "0" /f
 CALL :THREE_ECHO
 
 
 
-
-:: Wndows Search Tweaks.reg 
 ECHO  ^=^> Wndows Search Tweaks
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v "AllowSearchToUseLocation" /t REG_DWORD /d "0" /f
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v "DisableWebSearch" /t REG_DWORD /d "1" /f
@@ -1474,6 +1343,7 @@ PAUSE >NUL 2>&1
 GOTO %Menu_Address%
 
 :END_LINE_DNL
+ECHO.
 ECHO  ^=^> SUCCESS: Download Complete
 ECHO  ^=^> Check "Apps" folder in Desktop
 ECHO.

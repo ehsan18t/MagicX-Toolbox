@@ -14,7 +14,7 @@ ECHO.
 ECHO.
 ECHO.
 ECHO  ^=^> Author: Ahsan Khan (@Ahsan400)
-ECHO  ^=^> Terget: Windows 10 20H1
+ECHO  ^=^> Target: Windows 10 20H1
 ECHO  ^=^> TG Group: https:\\t.me\MagicXMod
 ECHO  ^=^> Website: MagicXMod.github.io
 ECHO.
@@ -186,13 +186,13 @@ GOTO Context_Menu
 
 
 :rmv_bit_locker
-Reg.exe add "HKCR\Drive\shell\change-passphrase" /v "LegacyDisable" /t REG_SZ /d "" /f
+Reg.exe delete "HKCR\Drive\shell\suspend-bde" /f
+Reg.exe delete "HKCR\Drive\shell\decrypt-bde" /f
 Reg.exe delete "HKCR\Drive\shell\lock-bde" /f
+Reg.exe add "HKCR\Drive\shell\change-passphrase" /v "LegacyDisable" /t REG_SZ /d "" /f
 Reg.exe add "HKCR\Drive\shell\manage-bde" /v "LegacyDisable" /t REG_SZ /d "" /f
 Reg.exe add "HKCR\Drive\shell\resume-bde" /v "LegacyDisable" /t REG_SZ /d "" /f
 Reg.exe add "HKCR\Drive\shell\resume-bde-elev" /v "LegacyDisable" /t REG_SZ /d "" /f
-Reg.exe delete "HKCR\Drive\shell\suspend-bde" /f
-Reg.exe delete "HKCR\Drive\shell\decrypt-bde" /f
 Reg.exe add "HKCR\Drive\shell\encrypt-bde" /v "LegacyDisable" /t REG_SZ /d "" /f
 Reg.exe add "HKCR\Drive\shell\encrypt-bde-elev" /v "LegacyDisable" /t REG_SZ /d "" /f
 Reg.exe add "HKCR\Drive\shell\unlock-bde" /v "LegacyDisable" /t REG_SZ /d "" /f
@@ -270,32 +270,18 @@ GOTO Context_Menu
 
 
 :add-bit_locker
-Reg.exe add "HKCR\Drive\shell\change-passphrase" /ve /t REG_EXPAND_SZ /d "@%%SystemRoot%%\System32\fvewiz.dll,-971" /f
-Reg.exe add "HKCR\Drive\shell\change-passphrase" /v "AppliesTo" /t REG_SZ /d "(System.Volume.BitLockerProtection:=System.Volume.BitLockerProtection#On OR System.Volume.BitLockerProtection:=System.Volume.BitLockerProtection#Encrypting OR System.Volume.BitLockerProtection:=System.Volume.BitLockerProtection#Suspended) AND System.Volume.BitLockerCanChangePassphraseByProxy:=System.StructuredQueryType.Boolean#True" /f
-Reg.exe add "HKCR\Drive\shell\change-passphrase" /v "MultiSelectModel" /t REG_SZ /d "Single" /f
 Reg.exe delete "HKCR\Drive\shell\change-passphrase" /v "LegacyDisable" /f
-Reg.exe add "HKCR\Drive\shell\change-passphrase\command" /ve /t REG_EXPAND_SZ /d "%%SystemRoot%%\System32\bdechangepin.exe -pw %%1" /f
+Reg.exe delete "HKCR\Drive\shell\manage-bde" /v "LegacyDisable" /f
+Reg.exe delete "HKCR\Drive\shell\resume-bde" /v "LegacyDisable" /f
+Reg.exe delete "HKCR\Drive\shell\resume-bde-elev" /v "LegacyDisable" /f
+Reg.exe delete "HKCR\Drive\shell\encrypt-bde" /v "LegacyDisable" /f
+Reg.exe delete "HKCR\Drive\shell\encrypt-bde-elev" /v "LegacyDisable" /f
+Reg.exe delete "HKCR\Drive\shell\unlock-bde" /v "LegacyDisable" /f
 Reg.exe add "HKCR\Drive\shell\lock-bde" /v "AppliesTo" /t REG_SZ /d "System.Volume.BitLockerProtection:=1 OR System.Volume.BitLockerProtection:=3 OR System.Volume.BitLockerProtection:=5 NOT C:" /f
 Reg.exe add "HKCR\Drive\shell\lock-bde" /ve /t REG_SZ /d "Lock Drive" /f
 Reg.exe add "HKCR\Drive\shell\lock-bde" /v "HasLUAShield" /t REG_SZ /d "" /f
 Reg.exe add "HKCR\Drive\shell\lock-bde" /v "MultiSelectModel" /t REG_SZ /d "Single" /f
 Reg.exe add "HKCR\Drive\shell\lock-bde\command" /ve /t REG_EXPAND_SZ /d "wscript.exe lock-bde.vbs %%1" /f
-Reg.exe add "HKCR\Drive\shell\manage-bde" /ve /t REG_EXPAND_SZ /d "@%%SystemRoot%%\System32\fvewiz.dll,-949" /f
-Reg.exe add "HKCR\Drive\shell\manage-bde" /v "AppliesTo" /t REG_SZ /d "System.Volume.BitLockerProtection:=System.Volume.BitLockerProtection#On OR System.Volume.BitLockerProtection:=System.Volume.BitLockerProtection#Encrypting OR System.Volume.BitLockerProtection:=System.Volume.BitLockerProtection#Suspended" /f
-Reg.exe delete "HKCR\Drive\shell\manage-bde" /v "LegacyDisable" /f
-Reg.exe add "HKCR\Drive\shell\manage-bde" /v "MultiSelectModel" /t REG_SZ /d "Single" /f
-Reg.exe add "HKCR\Drive\shell\manage-bde\command" /ve /t REG_EXPAND_SZ /d "%%SystemRoot%%\System32\control.exe /name Microsoft.BitLockerDriveEncryption /page ?InitialVolume==%%1" /f
-Reg.exe add "HKCR\Drive\shell\resume-bde" /ve /t REG_EXPAND_SZ /d "@%%SystemRoot%%\System32\fvewiz.dll,-921" /f
-Reg.exe add "HKCR\Drive\shell\resume-bde" /v "AppliesTo" /t REG_SZ /d "System.Volume.BitLockerProtection:=System.Volume.BitLockerProtection#Suspended AND System.Volume.BitLockerRequiresAdmin:=System.StructuredQueryType.Boolean#False" /f
-Reg.exe add "HKCR\Drive\shell\resume-bde" /v "MultiSelectModel" /t REG_SZ /d "Single" /f
-Reg.exe delete "HKCR\Drive\shell\resume-bde" /v "LegacyDisable" /f
-Reg.exe add "HKCR\Drive\shell\resume-bde\command" /ve /t REG_EXPAND_SZ /d "%%SystemRoot%%\System32\BitLockerWizard.exe %%1 V" /f
-Reg.exe add "HKCR\Drive\shell\resume-bde-elev" /ve /t REG_EXPAND_SZ /d "@%%SystemRoot%%\System32\fvewiz.dll,-921" /f
-Reg.exe add "HKCR\Drive\shell\resume-bde-elev" /v "AppliesTo" /t REG_SZ /d "System.Volume.BitLockerProtection:=System.Volume.BitLockerProtection#Suspended AND System.Volume.BitLockerRequiresAdmin:=System.StructuredQueryType.Boolean#True" /f
-Reg.exe add "HKCR\Drive\shell\resume-bde-elev" /v "HasLUAShield" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\Drive\shell\resume-bde-elev" /v "MultiSelectModel" /t REG_SZ /d "Single" /f
-Reg.exe delete "HKCR\Drive\shell\resume-bde-elev" /v "LegacyDisable" /f
-Reg.exe add "HKCR\Drive\shell\resume-bde-elev\command" /ve /t REG_EXPAND_SZ /d "%%SystemRoot%%\System32\BitLockerWizardElev.exe %%1 V" /f
 Reg.exe add "HKCR\Drive\shell\suspend-bde" /ve /t REG_SZ /d "Suspend BitLocker protection" /f
 Reg.exe add "HKCR\Drive\shell\suspend-bde" /v "AppliesTo" /t REG_SZ /d "(System.Volume.BitLockerProtection:=System.Volume.BitLockerProtection#On" /f
 Reg.exe add "HKCR\Drive\shell\suspend-bde" /v "HasLUAShield" /t REG_SZ /d "" /f
@@ -306,23 +292,6 @@ Reg.exe add "HKCR\Drive\shell\decrypt-bde" /v "AppliesTo" /t REG_SZ /d "(System.
 Reg.exe add "HKCR\Drive\shell\decrypt-bde" /v "HasLUAShield" /t REG_SZ /d "" /f
 Reg.exe add "HKCR\Drive\shell\decrypt-bde" /v "MultiSelectModel" /t REG_SZ /d "Single" /f
 Reg.exe add "HKCR\Drive\shell\decrypt-bde\command" /ve /t REG_EXPAND_SZ /d "wscript.exe decrypt-bde.vbs %%1" /f
-Reg.exe add "HKCR\Drive\shell\encrypt-bde" /ve /t REG_EXPAND_SZ /d "@%%SystemRoot%%\System32\fvewiz.dll,-920" /f
-Reg.exe add "HKCR\Drive\shell\encrypt-bde" /v "AppliesTo" /t REG_SZ /d "(System.Volume.BitLockerProtection:=System.Volume.BitLockerProtection#Off OR System.Volume.BitLockerProtection:=System.Volume.BitLockerProtection#OnPreProvisioned) AND System.Volume.BitLockerRequiresAdmin:=System.StructuredQueryType.Boolean#False" /f
-Reg.exe add "HKCR\Drive\shell\encrypt-bde" /v "MultiSelectModel" /t REG_SZ /d "Single" /f
-Reg.exe delete "HKCR\Drive\shell\encrypt-bde" /v "LegacyDisable" /f
-Reg.exe add "HKCR\Drive\shell\encrypt-bde\command" /ve /t REG_EXPAND_SZ /d "%%SystemRoot%%\System32\BitLockerWizard.exe %%1 T" /f
-Reg.exe add "HKCR\Drive\shell\encrypt-bde-elev" /ve /t REG_EXPAND_SZ /d "@%%SystemRoot%%\System32\fvewiz.dll,-920" /f
-Reg.exe add "HKCR\Drive\shell\encrypt-bde-elev" /v "AppliesTo" /t REG_SZ /d "(System.Volume.BitLockerProtection:=System.Volume.BitLockerProtection#Off OR System.Volume.BitLockerProtection:=System.Volume.BitLockerProtection#OnPreProvisioned) AND System.Volume.BitLockerRequiresAdmin:=System.StructuredQueryType.Boolean#True" /f
-Reg.exe add "HKCR\Drive\shell\encrypt-bde-elev" /v "HasLUAShield" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\Drive\shell\encrypt-bde-elev" /v "MultiSelectModel" /t REG_SZ /d "Single" /f
-Reg.exe delete "HKCR\Drive\shell\encrypt-bde-elev" /v "LegacyDisable" /f
-Reg.exe add "HKCR\Drive\shell\encrypt-bde-elev\command" /ve /t REG_EXPAND_SZ /d "%%SystemRoot%%\System32\BitLockerWizardElev.exe %%1 T" /f
-Reg.exe add "HKCR\Drive\shell\unlock-bde" /ve /t REG_EXPAND_SZ /d "@%%SystemRoot%%\System32\bdeunlock.exe,-100" /f
-Reg.exe add "HKCR\Drive\shell\unlock-bde" /v "AppliesTo" /t REG_SZ /d "System.Volume.BitLockerProtection:=6" /f
-Reg.exe add "HKCR\Drive\shell\unlock-bde" /v "DefaultAppliesTo" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\Drive\shell\unlock-bde" /v "MultiSelectModel" /t REG_SZ /d "Single" /f
-Reg.exe delete "HKCR\Drive\shell\unlock-bde" /v "LegacyDisable" /f
-Reg.exe add "HKCR\Drive\shell\unlock-bde\command" /ve /t REG_EXPAND_SZ /d "%%SystemRoot%%\System32\bdeunlock.exe %%1" /f
 ECHO.
 ECHO  ^=^> Press Any Key To Go Context Menu
 PAUSE >nul

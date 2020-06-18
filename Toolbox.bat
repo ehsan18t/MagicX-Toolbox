@@ -859,11 +859,6 @@ CALL :END_LINE
 
 
 
-
-
-
-
-
 :ds_Windows_Update
 ECHO Disabling Windows Update....
 net stop wuauserv >nul 2>&1
@@ -967,6 +962,8 @@ EXIT
 
 
 :NoUpdate
+SET Menu_Name=Home
+SET Menu_Address=Main_Menu
 RMDIR /S /Q "%CD%\Update"
 DEL "%CD%\Update.zip"
 CLS
@@ -975,10 +972,7 @@ ECHO.
 ECHO 				=====================================
 ECHO 				^|^| You Are Using The Latest Update ^|^|
 ECHO 				=====================================
-ECHO.
-ECHO  ^=^> Press Any Key To Go Home
-PAUSE >nul
-GOTO Main_Menu
+CALL :END_LINE
 
 
 
@@ -987,6 +981,8 @@ GOTO Main_Menu
 
 
 :UpdateError
+SET Menu_Name=Home
+SET Menu_Address=StartHere
 CLS
 COLOR 0C
 ECHO.
@@ -994,10 +990,12 @@ ECHO 		======================================================================
 ECHO 		^|^| Unexpected Error Occurred. Please Check Your Internet Connection ^|^|
 ECHO 		======================================================================
 ECHO.
-ECHO.
-ECHO  ^=^> Press Any Key To Go Home
-PAUSE >nul
-GOTO StartHere
+CALL :END_LINE
+
+
+
+
+
 
 
 :Exit

@@ -237,43 +237,24 @@ CALL :END_LINE
 :add_context
 :add_print
 Reg.exe delete "HKCR\SystemFileAssociations\image\shell\print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\SystemFileAssociations\image\shell\print" /f
 Reg.exe delete "HKCR\batfile\shell\print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\batfile\shell\print" /f
 Reg.exe delete "HKCR\cmdfile\shell\print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\cmdfile\shell\print" /f
 Reg.exe delete "HKCR\docxfile\shell\print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\docxfile\shell\print" /f
 Reg.exe delete "HKCR\fonfile\shell\print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\fonfile\shell\print" /f
 Reg.exe delete "HKCR\htmlfile\shell\print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\htmlfile\shell\print" /f
 Reg.exe delete "HKCR\inffile\shell\print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\inffile\shell\print" /f
 Reg.exe delete "HKCR\inifile\shell\print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\inifile\shell\print" /f
 Reg.exe delete "HKCR\JSEFile\Shell\Print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\JSEFile\Shell\Print" /f
 Reg.exe delete "HKCR\otffile\shell\print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\otffile\shell\print" /f
 Reg.exe delete "HKCR\pfmfile\shell\print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\pfmfile\shell\print" /f
 Reg.exe delete "HKCR\regfile\shell\print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\regfile\shell\print" /f
 Reg.exe delete "HKCR\rtffile\shell\print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\rtffile\shell\print" /f
 Reg.exe delete "HKCR\ttcfile\shell\print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\ttcfile\shell\print" /f
 Reg.exe delete "HKCR\ttffile\shell\print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\ttffile\shell\print" /f
 Reg.exe delete "HKCR\txtfile\shell\print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\txtfile\shell\print" /f
 Reg.exe delete "HKCR\VBEFile\Shell\Print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\VBEFile\Shell\Print" /f
 Reg.exe delete "HKCR\VBSFile\Shell\Print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\VBSFile\Shell\Print" /f
 Reg.exe delete "HKCR\WSFFile\Shell\Print" /v "ProgrammaticAccessOnly" /f
-Reg.exe add "HKCR\WSFFile\Shell\Print" /f
 CAll :END_LINE
 
 
@@ -402,9 +383,7 @@ SET "OPT_ADRS15="
 SET "OPT_ADRS16="
 
 CALL :Header
-
 CAll :CNTXT_Menu_Fig
-
 CALL :END_LINE
 
 
@@ -528,7 +507,6 @@ CAll :END_LINE_RSRT
 
 :ds_large_icn_cache
 Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "Max Cached Icons" /f
-Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /f
 CAll :END_LINE_RSRT
 
 
@@ -981,6 +959,7 @@ GOTO %Menu_Address%
 
 :CNTXT_Menu_Fig
 SET "x=0"
+
 :CNTXT_Var_Loop
 SET /a "x+=1"
 IF "%x%" NEQ "%OPT_AMOUNT%" (
@@ -991,8 +970,8 @@ IF "%x%" NEQ "%OPT_AMOUNT%" (
 SET "CNTXT[H]=Main Menu"
 
 :CNTXT_Menu
-
 SET "x=0"
+
 :CNTXT_MenuLoop
 SET /a "x+=1"
 IF DEFINED CNTXT[%x%] (

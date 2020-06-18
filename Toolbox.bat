@@ -1021,8 +1021,7 @@ SET "Input=%Input:^==%"
 CALL :CNTXT_Inp_Validate %Input%
 
 CALL :CNTXT_Process %Input%
-GOTO End
-
+GOTO End_Tasks
 
 :CNTXT_Inp_Validate
 SET "Next=%2"
@@ -1030,9 +1029,8 @@ IF not DEFINED CNTXT[%1] (
     SET "Message= INVALID INPUT: %1!"
     GOTO CNTXT_Menu
 )
-IF DEFINED Next shIFt & GOTO CNTXT_Inp_Validate
-GOTO :eof
-
+IF DEFINED Next SHIFT & GOTO CNTXT_Inp_Validate
+GOTO :EOF
 
 :CNTXT_Process
 SET "Next=%2"
@@ -1059,6 +1057,7 @@ IF "%CNTXT%" EQU "Main Menu" GOTO Main_Menu
 SET "CNTXT[%1]="
 IF DEFINED Next SHIFT & GOTO CNTXT_Process
 
+:End_Tasks
 ENDLOCAL
 EXIT /B
 

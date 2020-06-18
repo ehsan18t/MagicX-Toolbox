@@ -62,18 +62,49 @@ ECHO 			=========================
 ECHO 			^|^| MagicX Toolbox v%Current_Version% ^|^|
 ECHO 			=========================
 ECHO.
+ECHO  ============
+ECHO  ^|^| Enable ^|^|
+ECHO  ============
+ECHO  1. Enable Arrow Icon In Shortcut
+ECHO  2. Enable Action Center 
+ECHO  3. Enable Old Battery Flyout UI
+ECHO  4. Enable Old Network Flyout UI
+ECHO  5. Enable Old Old Volume Control Flyout UI
+
+ECHO.
+
+ECHO  =============
+ECHO  ^|^| Disable ^|^|
+ECHO  =============
+ECHO  A. Disable Arrow Icon From Shortcut
+ECHO  B. Disable Action Center 
+ECHO  C. Disable Old Battery Flyout UI
+ECHO  D. Disable Old Network Flyout UI
+ECHO  E. Disable Old Old Volume Control Flyout UI
+
+ECHO.
+
 ECHO  H. Main Menu
 ECHO.
 
-CHOICE /C:12H /N /M "Enter your choice: "
+CHOICE /C:12345ABCDEH /N /M "Enter your choice: "
 
 ECHO.
 
-IF ERRORLEVEL 3 GOTO Main_Menu
-IF ERRORLEVEL 2 GOTO rstr_arw_shtct
-IF ERRORLEVEL 1 GOTO rmv_arw_shtct
+IF ERRORLEVEL 11 GOTO Main_Menu
+IF ERRORLEVEL 10 GOTO ds_old_vol_ctrl
+IF ERRORLEVEL 9 GOTO ds_old_net
+IF ERRORLEVEL 8 GOTO ds_old_battery
+IF ERRORLEVEL 7 GOTO ds_act_cent
+IF ERRORLEVEL 6 GOTO ds_arw_shtct
+IF ERRORLEVEL 5 GOTO en_old_vol_ctrl
+IF ERRORLEVEL 4 GOTO en_old_net
+IF ERRORLEVEL 3 GOTO en_old_battery
+IF ERRORLEVEL 2 GOTO en_act_cent
+IF ERRORLEVEL 1 GOTO en_arw_shtct
 
 
+:ds_arw_shtct
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /v "29" /t REG_SZ /d "%%systemroot%%\Blank.ico,0" /f
 ECHO Restarting Windows Explorer....
 taskkill /im explorer.exe /f
@@ -81,6 +112,7 @@ start explorer.exe
 CAll :END_LINE
 
 
+:en_arw_shtct
 Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /v "29" /f
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /f
 ECHO Restarting Windows Explorer....
@@ -89,9 +121,54 @@ start explorer.exe
 CAll :END_LINE
 
 
+:en_act_cent
+Reg.exe delete "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /f
+Reg.exe delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /f
+CAll :END_LINE
 
 
+:ds_act_cent
+Reg.exe add "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "1" /f
+Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "1" /f
+CAll :END_LINE
 
+
+:en_old_battery
+Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell" /v "UseWin32BatteryFlyout" /t REG_DWORD /d "1" /f
+CAll :END_LINE
+
+
+:ds_old_battery
+Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell" /v "UseWin32BatteryFlyout" /f
+CAll :END_LINE
+
+
+:en_old_net
+SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
+SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
+Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" /v "ReplaceVan" /t REG_DWORD /d "2" /f
+SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn ace -ace "n:Administrators;p:read" >NUL 2>&1
+SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn setowner -ownr "n:nt service\trustedinstaller" >NUL 2>&1
+CAll :END_LINE
+
+
+:ds_old_net
+SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
+SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
+Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" /v "ReplaceVan" /t REG_DWORD /d "0" /f
+SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn ace -ace "n:Administrators;p:read" >NUL 2>&1
+SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn setowner -ownr "n:nt service\trustedinstaller" >NUL 2>&1
+CAll :END_LINE
+
+
+:en_old_vol_ctrl
+Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v "EnableMtcUvc" /t REG_DWORD /d "0" /f
+CAll :END_LINE
+
+
+:ds_old_vol_ctrl
+Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v "EnableMtcUvc" /f
+CAll :END_LINE
 
 
 ::::::::::::::::::::::::::::::

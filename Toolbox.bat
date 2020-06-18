@@ -62,8 +62,6 @@ ECHO 			=========================
 ECHO 			^|^| MagicX Toolbox v%Current_Version% ^|^|
 ECHO 			=========================
 ECHO.
-ECHO  1. Remove Arrow From Shortcut
-ECHO  2. Restore Arrow In Shortcut
 ECHO  H. Main Menu
 ECHO.
 
@@ -76,7 +74,6 @@ IF ERRORLEVEL 2 GOTO rstr_arw_shtct
 IF ERRORLEVEL 1 GOTO rmv_arw_shtct
 
 
-:rmv_arw_shtct
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /v "29" /t REG_SZ /d "%%systemroot%%\Blank.ico,0" /f
 ECHO Restarting Windows Explorer....
 taskkill /im explorer.exe /f
@@ -84,8 +81,6 @@ start explorer.exe
 CAll :END_LINE
 
 
-
-:rstr_arw_shtct
 Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /v "29" /f
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /f
 ECHO Restarting Windows Explorer....
@@ -146,7 +141,7 @@ ECHO.
 IF ERRORLEVEL 9 GOTO Main_Menu
 IF ERRORLEVEL 8 GOTO add_personalize_classic
 IF ERRORLEVEL 7 GOTO add_scan_defneder
-IF ERRORLEVEL 6 GOTO add-bit_locker
+IF ERRORLEVEL 6 GOTO add_bit_locker
 IF ERRORLEVEL 5 GOTO add_print
 IF ERRORLEVEL 4 GOTO rmv_personalize_classic
 IF ERRORLEVEL 3 GOTO rmv_scan_defender
@@ -256,7 +251,7 @@ Reg.exe add "HKCR\WSFFile\Shell\Print" /f
 CAll :END_LINE
 
 
-:add-bit_locker
+:add_bit_locker
 Reg.exe delete "HKCR\Drive\shell\change-passphrase" /v "LegacyDisable" /f
 Reg.exe delete "HKCR\Drive\shell\manage-bde" /v "LegacyDisable" /f
 Reg.exe delete "HKCR\Drive\shell\resume-bde" /v "LegacyDisable" /f

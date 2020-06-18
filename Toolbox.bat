@@ -969,7 +969,105 @@ ECHO  ^=^> Press Any Key To Enter Options
 PAUSE >NUL 2>&1
 GOTO %Menu_Address%
 
+
+:CNTXT_Menu_Fig
+SET "x=0"
+:CNTXT_Var_Loop
+SET /a "x+=1"
+IF "%x%" NEQ "%OPT_AMOUNT%" (
+    CALL SET "CNTXT[%x%]=%%CNTXT_OPT%x%%%"
+    GOTO CNTXT_Var_Loop
+)
+
+SET "CNTXT[H]=Main Menu"
+
+:CNTXT_Menu
+
+SET "x=0"
+:CNTXT_MenuLoop
+SET /a "x+=1"
+IF DEFINED CNTXT[%x%] (
+    CALL ECHO   %x%. %%CNTXT[%x%]%%
+    GOTO CNTXT_MenuLoop
+)
+ECHO.
+ECHO   H. Main Menu
+ECHO.
+
+:Prompt
+ECHO.%Message%
+ECHO  ^=^> Your can Choose Multiple Options (E.G: 1, 2, 7 or 1 2 7)
+SET /p "Input=Select Options:"
+
+IF NOT DEFINED Input GOTO Prompt
+SET "Input=%Input:"=%"
+SET "Input=%Input:^=%"
+SET "Input=%Input:<=%"
+SET "Input=%Input:>=%"
+SET "Input=%Input:&=%"
+SET "Input=%Input:|=%"
+SET "Input=%Input:(=%"
+SET "Input=%Input:)=%"
+SET "Input=%Input:^==%"
+CALL :CNTXT_Inp_Validate %Input%
+
+CALL :CNTXT_Process %Input%
+GOTO End
+
+
+:CNTXT_Inp_Validate
+SET "Next=%2"
+IF not DEFINED CNTXT[%1] (
+    SET "Message= INVALID INPUT: %1!"
+    GOTO CNTXT_Menu
+)
+IF DEFINED Next shIFt & GOTO CNTXT_Inp_Validate
+GOTO :eof
+
+
+:CNTXT_Process
+SET "Next=%2"
+CALL SET "CNTXT=%%CNTXT[%1]%%"
+
+IF "%CNTXT%" EQU "%CNTXT_OPT1%" CALL :%OPT_ADRS1%
+IF "%CNTXT%" EQU "%CNTXT_OPT2%" CALL :%OPT_ADRS2%
+IF "%CNTXT%" EQU "%CNTXT_OPT3%" CALL :%OPT_ADRS3%
+IF "%CNTXT%" EQU "%CNTXT_OPT4%" CALL :%OPT_ADRS4%
+IF "%CNTXT%" EQU "%CNTXT_OPT5%" CALL :%OPT_ADRS5%
+IF "%CNTXT%" EQU "%CNTXT_OPT6%" CALL :%OPT_ADRS6%
+IF "%CNTXT%" EQU "%CNTXT_OPT7%" CALL :%OPT_ADRS7%
+IF "%CNTXT%" EQU "%CNTXT_OPT8%" CALL :%OPT_ADRS8%
+IF "%CNTXT%" EQU "%CNTXT_OPT9%" CALL :%OPT_ADRS9%
+IF "%CNTXT%" EQU "%CNTXT_OPT10%" CALL :%OPT_ADRS10%
+IF "%CNTXT%" EQU "%CNTXT_OPT11%" CALL :%OPT_ADRS11%
+IF "%CNTXT%" EQU "%CNTXT_OPT12%" CALL :%OPT_ADRS12%
+IF "%CNTXT%" EQU "%CNTXT_OPT13%" CALL :%OPT_ADRS13%
+IF "%CNTXT%" EQU "%CNTXT_OPT14%" CALL :%OPT_ADRS14%
+IF "%CNTXT%" EQU "%CNTXT_OPT15%" CALL :%OPT_ADRS15%
+IF "%CNTXT%" EQU "%CNTXT_OPT16%" CALL :%OPT_ADRS16%
+IF "%CNTXT%" EQU "Main Menu" GOTO Main_Menu
+
+SET "CNTXT[%1]="
+IF DEFINED Next SHIFT & GOTO CNTXT_Process
+
+ENDLOCAL
+EXIT /B
+
+:Header
+ECHO.
+ECHO 			=========================
+ECHO 			^|^| MagicX Toolbox v%Current_Version% ^|^|
+ECHO 			=========================
+ECHO.
+EXIT /B
+
 :THREE_ECHO
 ECHO.
 ECHO.
 ECHO.
+EXIT /B
+
+:TWO_ECHO
+ECHO.
+ECHO.
+EXIT /B

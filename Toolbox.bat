@@ -517,121 +517,68 @@ IF EXIST "%DESKTOP%\Apps" GOTO Start_Downloads
 MD "%DESKTOP%\Apps"
 
 :Start_Downloads
-SET "App[1]=Adguard Premium"
-SET "App[2]=AIMP Audio Player"
-SET "App[3]=Betternet VPN"
-SET "App[4]=Google Chrome"
-SET "App[5]=Mozila Firefox"
-SET "App[6]=DU Meter"
-SET "App[7]=Iobit Driver Booster"
-SET "App[8]=Internet Download Manager"
-SET "App[9]=Dolby Home Theater v4"
-SET "App[10]=MEGA Link Downloader"
-SET "App[11]=Notepad++"
-SET "App[12]=Old Calculator"
-SET "App[13]=Sublime Text"
-SET "App[14]=uTorrent Repack"
-SET "App[15]=qBittorrent"
-SET "App[16]=All Apps"
-SET "App[H]=Main Menu"
-
-:APP_Menu
 CLS
-ECHO.
-ECHO 			=========================
-ECHO 			^|^| MagicX Toolbox v%Current_Version% ^|^|
-ECHO 			=========================
-ECHO.
+SET "OPT_AMOUNT=17"
+SET "CNTXT_OPT1=Adguard Premium"
+SET "CNTXT_OPT2=AIMP Audio Player"
+SET "CNTXT_OPT3=Betternet VPN"
+SET "CNTXT_OPT4=Google Chrome"
+SET "CNTXT_OPT5=Mozila Firefox"
+SET "CNTXT_OPT6=DU Meter"
+SET "CNTXT_OPT7=Iobit Driver Booster"
+SET "CNTXT_OPT8=Internet Download Manager"
+SET "CNTXT_OPT9=Dolby Home Theater v4"
+SET "CNTXT_OPT10=MEGA Link Downloader"
+SET "CNTXT_OPT11=Notepad++"
+SET "CNTXT_OPT12=Old Calculator"
+SET "CNTXT_OPT13=Sublime Text"
+SET "CNTXT_OPT14=uTorrent Repack"
+SET "CNTXT_OPT15=qBittorrent"
+SET "CNTXT_OPT16=All Apps"
+
+SET "OPT_ADRS1=Adguard_Premium"
+SET "OPT_ADRS2=AIMP_Audio_Player"
+SET "OPT_ADRS3=Betternet_VPN"
+SET "OPT_ADRS4=Chrome"
+SET "OPT_ADRS5=Firefox"
+SET "OPT_ADRS6=DU_Meter"
+SET "OPT_ADRS7=Driver_Booster"
+SET "OPT_ADRS8=IDM"
+SET "OPT_ADRS9=Dolby_HT"
+SET "OPT_ADRS10=MEGA_Link_Downloader"
+SET "OPT_ADRS11=npp"
+SET "OPT_ADRS12=Old_Calculator"
+SET "OPT_ADRS13=Sublime_Text"
+SET "OPT_ADRS14=uTorrent_Repack"
+SET "OPT_ADRS15=qBittorrent"
+SET "OPT_ADRS16=all_apps"
+
+CALL :Header
+
 ECHO.
 ECHO  ^=^> All apps should be latest. Because I update all apps once in a week.
 ECHO  ^=^> Antivirus may show false alerm for some apps. Don't worry about it.
 ECHO.
-SET "x=0"
-:App_MenuLoop
-SET /a "x+=1"
-IF DEFINED App[%x%] (
-    CALL ECHO   %x%. %%App[%x%]%%
-    GOTO App_MenuLoop
-)
-ECHO.
-ECHO   H. Main Menu
-ECHO.
-
-:Prompt
-ECHO.%Message%
-ECHO  ^=^> Your can Choose Multiple Options (E.G: 1, 2, 7 or 1 2 7)
-SET /p "Input=Select Options:"
-
-IF NOT DEFINED Input GOTO Prompt
-SET "Input=%Input:"=%"
-SET "Input=%Input:^=%"
-SET "Input=%Input:<=%"
-SET "Input=%Input:>=%"
-SET "Input=%Input:&=%"
-SET "Input=%Input:|=%"
-SET "Input=%Input:(=%"
-SET "Input=%Input:)=%"
-SET "Input=%Input:^==%"
-CALL :App_Inp_Validate %Input%
-
-CALL :App_Process %Input%
-GOTO End
-
-
-:App_Inp_Validate
-SET "Next=%2"
-IF not DEFINED App[%1] (
-    SET "Message= INVALID INPUT: %1!"
-    GOTO APP_Menu
-)
-IF DEFINED Next shIFt & GOTO App_Inp_Validate
-GOTO :eof
-
-
-:App_Process
-SET "Next=%2"
-CALL SET "App=%%App[%1]%%"
-
-IF "%App%" EQU "Adguard Premium" CALL :Adguard_Premium
-IF "%App%" EQU "AIMP Audio Player" CALL :AIMP_Audio_Player
-IF "%App%" EQU "Betternet VPN" CALL :Betternet_VPN
-IF "%App%" EQU "Google Chrome" CALL :Chrome
-IF "%App%" EQU "Mozila Firefox" CALL :Firefox
-IF "%App%" EQU "DU Meter" CALL :DU_Meter
-IF "%App%" EQU "Iobit Driver Booster" CALL :Driver_Booster
-IF "%App%" EQU "Internet Download Manager" CALL :IDM
-IF "%App%" EQU "Dolby Home Theater v4" CALL :Dolby_HT
-IF "%App%" EQU "MEGA Link Downloader" CALL :MEGA_Link_Downloader
-IF "%App%" EQU "Notepad++" CALL :npp
-IF "%App%" EQU "Old Calculator" CALL :Old_Calculator
-IF "%App%" EQU "Sublime Text" CALL :Sublime_Text
-IF "%App%" EQU "uTorrent Repack" CALL :uTorrent_Repack
-IF "%App%" EQU "qBittorrent" CALL :qBittorrent
-IF "%App%" EQU "All Apps" (
-    CALL :Adguard_Premium
-	CALL :AIMP_Audio_Player
-	CALL :Betternet_VPN
-	CALL :Chrome
-	CALL :Firefox
-	CALL :DU_Meter
-	CALL :Driver_Booster
-	CALL :IDM
-	CALL :Dolby_HT
-	CALL :MEGA_Link_Downloader
-	CALL :npp
-	CALL :Old_Calculator
-	CALL :Sublime_Text
-	CALL :uTorrent_Repack
-	CALL :qBittorrent
-)
-IF "%App%" EQU "Main Menu" GOTO Main_Menu
-
-SET "App[%1]="
-IF DEFINED Next SHIFT & GOTO App_Process
-
-ENDLOCAL
+CALL :CNTXT_Menu_Fig
 CALL :END_LINE_DNL
-EXIT
+
+:all_apps
+CALL :Adguard_Premium
+CALL :AIMP_Audio_Player
+CALL :Betternet_VPN
+CALL :Chrome
+CALL :Firefox
+CALL :DU_Meter
+CALL :Driver_Booster
+CALL :IDM
+CALL :Dolby_HT
+CALL :MEGA_Link_Downloader
+CALL :npp
+CALL :Old_Calculator
+CALL :Sublime_Text
+CALL :uTorrent_Repack
+CALL :qBittorrent
+EXIT /B
 
 :Adguard_Premium
 CD "%DESKTOP%"

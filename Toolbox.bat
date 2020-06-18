@@ -570,11 +570,11 @@ ECHO  ^=^> All apps should be latest. Because I update all apps once in a week.
 ECHO  ^=^> Antivirus may show false alerm for some apps. Don't worry about it.
 ECHO.
 SET "x=0"
-:MenuLoop
+:App_MenuLoop
 SET /a "x+=1"
 IF DEFINED App[%x%] (
     CALL ECHO   %x%. %%App[%x%]%%
-    GOTO MenuLoop
+    GOTO App_MenuLoop
 )
 ECHO.
 ECHO   H. Main Menu
@@ -595,23 +595,23 @@ SET "Input=%Input:|=%"
 SET "Input=%Input:(=%"
 SET "Input=%Input:)=%"
 SET "Input=%Input:^==%"
-CALL :Validate %Input%
+CALL :App_Inp_Validate %Input%
 
-CALL :Process %Input%
+CALL :App_Process %Input%
 GOTO End
 
 
-:Validate
+:App_Inp_Validate
 SET "Next=%2"
 IF not DEFINED App[%1] (
     SET "Message= INVALID INPUT: %1!"
     GOTO APP_Menu
 )
-IF DEFINED Next shIFt & GOTO Validate
+IF DEFINED Next shIFt & GOTO App_Inp_Validate
 GOTO :eof
 
 
-:Process
+:App_Process
 SET "Next=%2"
 CALL SET "App=%%App[%1]%%"
 
@@ -650,7 +650,7 @@ IF "%App%" EQU "All Apps" (
 IF "%App%" EQU "Main Menu" GOTO Main_Menu
 
 SET "App[%1]="
-IF DEFINED Next SHIFT & GOTO Process
+IF DEFINED Next SHIFT & GOTO App_Process
 
 ENDLOCAL
 CALL :END_LINE_DNL

@@ -916,7 +916,6 @@ GOTO Main_Menu
 ::							::
 ::::::::::::::::::::::::::::::
 :Check_Update
-:: After Click Check Update
 CLS
 ECHO.
 ECHO 				============================
@@ -951,16 +950,6 @@ EXIT
 
 
 
-
-
-
-
-
-
-
-
-
-
 :NoUpdate
 SET Menu_Name=Home
 SET Menu_Address=Main_Menu
@@ -976,13 +965,9 @@ CALL :END_LINE
 
 
 
-
-
-
-
 :UpdateError
 SET Menu_Name=Home
-SET Menu_Address=StartHere
+SET Menu_Address=Main_Menu
 CLS
 COLOR 0C
 ECHO.

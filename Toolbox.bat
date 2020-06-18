@@ -483,7 +483,6 @@ SET "App[H]=Main Menu"
 
 :APP_Menu
 CLS
-ECHO.%Message%
 ECHO.
 ECHO 			=========================
 ECHO 			^|^| MagicX Toolbox v%Current_Version% ^|^|
@@ -505,6 +504,7 @@ ECHO   H. Main Menu
 ECHO.
 
 :Prompt
+ECHO.%Message%
 ECHO  ^=^> Your can Choose Multiple Options (E.G: 1, 2, 7 or 1 2 7)
 SET /p "Input=Select Options:"
 

@@ -35,7 +35,7 @@ IF ERRORLEVEL 7 GOTO Report_Bugs
 IF ERRORLEVEL 6 GOTO Check_Update
 IF ERRORLEVEL 5 GOTO Downloads
 IF ERRORLEVEL 4 GOTO Windows_Update
-IF ERRORLEVEL 3 GOTO System
+IF ERRORLEVEL 3 GOTO System_Menu
 IF ERRORLEVEL 2 GOTO Context_Menu
 IF ERRORLEVEL 1 GOTO Appearance
 
@@ -410,12 +410,11 @@ CAll :END_LINE
 ::		System		::
 ::					::
 ::::::::::::::::::::::
-:System
-
-SET Menu_Name=System Menu
-SET Menu_Address=System
+:System_Menu
 CLS
 COLOR 0E
+SET Menu_Name=System Menu
+SET Menu_Address=System_Menu
 
 CALL :Header
 
@@ -442,8 +441,6 @@ IF ERRORLEVEL 4 GOTO en_large_icn_cache_8mb
 IF ERRORLEVEL 3 GOTO en_large_icn_cache_4mb
 IF ERRORLEVEL 2 GOTO ds_large_sys_cache
 IF ERRORLEVEL 1 GOTO en_large_sys_cache
-
-
 
 
 
@@ -494,10 +491,7 @@ ECHO        Use the one works best for you.
 ECHO.
 ECHO  ^=^> "Hibernation" uses 3GB~6GB of space(HDD/SSD) for fastboot/sleep mode.
 ECHO       However if you disable this option PC boot time will be incresed.
-ECHO.
-ECHO  ^=^> Press Any Key To Choose Option
-PAUSE >nul
-GOTO System
+CALL :END_LINE
 
 
 

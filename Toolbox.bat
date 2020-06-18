@@ -196,8 +196,8 @@ SET "CNTXT_OPT1=Add Print"
 SET "CNTXT_OPT2=Add BitLocker Options"
 SET "CNTXT_OPT3=Add Scan With Windows Defender"
 SET "CNTXT_OPT4=Add Personalize Classic (Desktop)"
-SET "CNTXT_OPT5=Feature5"
 SET "CNTXT_OPT6=Feature6"
+SET "CNTXT_OPT5=Add Pin to Quick Access"
 SET "CNTXT_OPT7=Feature7"
 SET "CNTXT_OPT8=Feature8"
 SET "CNTXT_OPT9=Feature9"
@@ -213,8 +213,8 @@ SET "OPT_ADRS1=add_print"
 SET "OPT_ADRS2=add_bit_locker"
 SET "OPT_ADRS3=add_scan_defneder"
 SET "OPT_ADRS4=add_personalize_classic"
-SET "OPT_ADRS5="
 SET "OPT_ADRS6="
+SET "OPT_ADRS5=add_pin_to_Quik"
 SET "OPT_ADRS7="
 SET "OPT_ADRS8="
 SET "OPT_ADRS9="
@@ -341,6 +341,16 @@ Reg.exe add "HKCR\CLSID\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}\Shell\Open\comman
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\NameSpace\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}" /ve /t REG_SZ /d "Personalization (classic)" /f
 CAll :END_LINE
 
+:add_pin_to_Quik
+Reg.exe delete "HKCR\Folder\shell\pintohome" /f
+Reg.exe add "HKCR\Folder\shell\pintohome" /v "AppliesTo" /t REG_SZ /d "System.ParsingName:<>\"::{679f85cb-0220-4080-b29b-5540cc05aab6}\" AND System.ParsingName:<>\"::{645FF040-5081-101B-9F08-00AA002F954E}\" AND System.IsFolder:=System.StructuredQueryType.Boolean#True" /f
+Reg.exe add "HKCR\Folder\shell\pintohome" /v "MUIVerb" /t REG_SZ /d "@shell32.dll,-51377" /f
+Reg.exe add "HKCR\Folder\shell\pintohome\command" /v "DelegateExecute" /t REG_SZ /d "{b455f46e-e4af-4035-b0a4-cf18d2f6f28e}" /f
+Reg.exe delete "HKLM\SOFTWARE\Classes\Folder\shell\pintohome" /f
+Reg.exe add "HKLM\SOFTWARE\Classes\Folder\shell\pintohome" /v "AppliesTo" /t REG_SZ /d "System.ParsingName:<>\"::{679f85cb-0220-4080-b29b-5540cc05aab6}\" AND System.ParsingName:<>\"::{645FF040-5081-101B-9F08-00AA002F954E}\" AND System.IsFolder:=System.StructuredQueryType.Boolean#True" /f
+Reg.exe add "HKLM\SOFTWARE\Classes\Folder\shell\pintohome" /v "MUIVerb" /t REG_SZ /d "@shell32.dll,-51377" /f
+Reg.exe add "HKLM\SOFTWARE\Classes\Folder\shell\pintohome\command" /v "DelegateExecute" /t REG_SZ /d "{b455f46e-e4af-4035-b0a4-cf18d2f6f28e}" /f
+CAll :END_LINE
 
 
 
@@ -352,8 +362,8 @@ SET "CNTXT_OPT1=Remove Print"
 SET "CNTXT_OPT2=Remove BitLocker Options"
 SET "CNTXT_OPT3=Remove Scan With Windows Defender"
 SET "CNTXT_OPT4=Remove Personalize Classic (Desktop)"
-SET "CNTXT_OPT5=Feature5"
 SET "CNTXT_OPT6=Feature6"
+SET "CNTXT_OPT5=Remove Pin to Quick Access"
 SET "CNTXT_OPT7=Feature7"
 SET "CNTXT_OPT8=Feature8"
 SET "CNTXT_OPT9=Feature9"
@@ -369,8 +379,8 @@ SET "OPT_ADRS1=rmv_print"
 SET "OPT_ADRS2=rmv_bit_locker"
 SET "OPT_ADRS3=rmv_scan_defneder"
 SET "OPT_ADRS4=rmv_personalize_classic"
-SET "OPT_ADRS5="
 SET "OPT_ADRS6="
+SET "OPT_ADRS5=rmv_pin_to_Quik"
 SET "OPT_ADRS7="
 SET "OPT_ADRS8="
 SET "OPT_ADRS9="
@@ -442,6 +452,10 @@ Reg.exe delete "HKCR\DesktopBackground\Shell\ClassicPersonalize" /f
 CAll :END_LINE
 
 
+:rmv_pin_to_Quik
+Reg.exe delete "HKCR\Folder\shell\pintohome" /f
+Reg.exe delete "HKLM\SOFTWARE\Classes\Folder\shell\pintohome" /f
+CAll :END_LINE
 
 
 

@@ -196,8 +196,8 @@ SET "CNTXT_OPT1=Add Print"
 SET "CNTXT_OPT2=Add BitLocker Options"
 SET "CNTXT_OPT3=Add Scan With Windows Defender"
 SET "CNTXT_OPT4=Add Personalize Classic (Desktop)"
-SET "CNTXT_OPT6=Feature6"
 SET "CNTXT_OPT5=Add Pin to Quick Access"
+SET "CNTXT_OPT6=Add Pin to Start"
 SET "CNTXT_OPT7=Feature7"
 SET "CNTXT_OPT8=Feature8"
 SET "CNTXT_OPT9=Feature9"
@@ -213,8 +213,8 @@ SET "OPT_ADRS1=add_print"
 SET "OPT_ADRS2=add_bit_locker"
 SET "OPT_ADRS3=add_scan_defneder"
 SET "OPT_ADRS4=add_personalize_classic"
-SET "OPT_ADRS6="
 SET "OPT_ADRS5=add_pin_to_Quik"
+SET "OPT_ADRS6=add_pin_to_strt"
 SET "OPT_ADRS7="
 SET "OPT_ADRS8="
 SET "OPT_ADRS9="
@@ -352,6 +352,12 @@ Reg.exe add "HKLM\SOFTWARE\Classes\Folder\shell\pintohome" /v "MUIVerb" /t REG_S
 Reg.exe add "HKLM\SOFTWARE\Classes\Folder\shell\pintohome\command" /v "DelegateExecute" /t REG_SZ /d "{b455f46e-e4af-4035-b0a4-cf18d2f6f28e}" /f
 CAll :END_LINE
 
+:add_pin_to_strt
+Reg.exe add "HKCR\Folder\shellex\ContextMenuHandlers\PintoStartScreen" /ve /t REG_SZ /d "{470C0EBD-5D73-4d58-9CED-E91E22E23282}" /f
+Reg.exe add "HKCR\exefile\shellex\ContextMenuHandlers\PintoStartScreen" /ve /t REG_SZ /d "{470C0EBD-5D73-4d58-9CED-E91E22E23282}" /f
+Reg.exe add "HKCR\Microsoft.Website\ShellEx\ContextMenuHandlers\PintoStartScreen" /ve /t REG_SZ /d "{470C0EBD-5D73-4d58-9CED-E91E22E23282}" /f
+Reg.exe add "HKCR\mscfile\shellex\ContextMenuHandlers\PintoStartScreen" /ve /t REG_SZ /d "{470C0EBD-5D73-4d58-9CED-E91E22E23282}" /f
+CAll :END_LINE
 
 
 
@@ -362,8 +368,8 @@ SET "CNTXT_OPT1=Remove Print"
 SET "CNTXT_OPT2=Remove BitLocker Options"
 SET "CNTXT_OPT3=Remove Scan With Windows Defender"
 SET "CNTXT_OPT4=Remove Personalize Classic (Desktop)"
-SET "CNTXT_OPT6=Feature6"
 SET "CNTXT_OPT5=Remove Pin to Quick Access"
+SET "CNTXT_OPT6=Remove Pin to Start"
 SET "CNTXT_OPT7=Feature7"
 SET "CNTXT_OPT8=Feature8"
 SET "CNTXT_OPT9=Feature9"
@@ -379,8 +385,8 @@ SET "OPT_ADRS1=rmv_print"
 SET "OPT_ADRS2=rmv_bit_locker"
 SET "OPT_ADRS3=rmv_scan_defneder"
 SET "OPT_ADRS4=rmv_personalize_classic"
-SET "OPT_ADRS6="
 SET "OPT_ADRS5=rmv_pin_to_Quik"
+SET "OPT_ADRS6=rmv_pin_to_Strt"
 SET "OPT_ADRS7="
 SET "OPT_ADRS8="
 SET "OPT_ADRS9="
@@ -458,6 +464,12 @@ Reg.exe delete "HKLM\SOFTWARE\Classes\Folder\shell\pintohome" /f
 CAll :END_LINE
 
 
+:rmv_pin_to_Strt
+Reg.exe delete "HKCR\Folder\shellex\ContextMenuHandlers\PintoStartScreen" /f
+Reg.exe delete "HKCR\exefile\shellex\ContextMenuHandlers\PintoStartScreen" /f
+Reg.exe delete "HKCR\Microsoft.Website\ShellEx\ContextMenuHandlers\PintoStartScreen" /f
+Reg.exe delete "HKCR\mscfile\shellex\ContextMenuHandlers\PintoStartScreen" /f
+CAll END_LINE
 
 
 ::::::::::::::::::::::

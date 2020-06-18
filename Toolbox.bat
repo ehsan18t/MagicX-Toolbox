@@ -4,20 +4,17 @@ SET Current_Version=1.0
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400
 
 :Main_Menu
-
 CLS
 COLOR 0E
-ECHO.
-ECHO 			=========================
-ECHO 			^|^| MagicX Toolbox v%Current_Version% ^|^|
-ECHO 			=========================
-CALL :THREE_ECHO
+
+CALL :Header
+
+CALL :TWO_ECHO
 ECHO  ^=^> Author: Ahsan Khan (@Ahsan400)
 ECHO  ^=^> Target: Windows 10 20H1
 ECHO  ^=^> TG Group: https:\\t.me\MagicXMod
 ECHO  ^=^> Website: MagicXMod.github.io
-ECHO.
-ECHO.
+CALL :TWO_ECHO
 ECHO  ***********************
 ECHO  ***	Main Menu    ***
 ECHO  ***********************
@@ -54,14 +51,12 @@ IF ERRORLEVEL 1 GOTO Appearance
 ::::::::::::::::::::::::::
 :Appearance
 CLS
+COLOR 0E
 SET Menu_Name=Appearance Menu
 SET Menu_Address=Appearance
-COLOR 0E
-ECHO.
-ECHO 			=========================
-ECHO 			^|^| MagicX Toolbox v%Current_Version% ^|^|
-ECHO 			=========================
-ECHO.
+
+CALL :Header
+
 ECHO  ============
 ECHO  ^|^| Enable ^|^|
 ECHO  ============
@@ -70,9 +65,7 @@ ECHO  2. Enable Action Center
 ECHO  3. Enable Old Battery Flyout UI
 ECHO  4. Enable Old Network Flyout UI
 ECHO  5. Enable Old Old Volume Control Flyout UI
-
 ECHO.
-
 ECHO  =============
 ECHO  ^|^| Disable ^|^|
 ECHO  =============
@@ -81,16 +74,13 @@ ECHO  B. Disable Action Center
 ECHO  C. Disable Old Battery Flyout UI
 ECHO  D. Disable Old Network Flyout UI
 ECHO  E. Disable Old Old Volume Control Flyout UI
-
 ECHO.
-
 ECHO  H. Main Menu
 ECHO.
 
 CHOICE /C:12345ABCDEH /N /M "Enter your choice: "
 
 ECHO.
-
 IF ERRORLEVEL 11 GOTO Main_Menu
 IF ERRORLEVEL 10 GOTO ds_old_vol_ctrl
 IF ERRORLEVEL 9 GOTO ds_old_net
@@ -426,11 +416,9 @@ SET Menu_Name=System Menu
 SET Menu_Address=System
 CLS
 COLOR 0E
-ECHO.
-ECHO 			=========================
-ECHO 			^|^| MagicX Toolbox v%Current_Version% ^|^|
-ECHO 			=========================
-ECHO.
+
+CALL :Header
+
 ECHO  1. Enable Large System Cache (Only for 8GB+ RAM Users)
 ECHO  2. Disable Large System Cache 
 ECHO  3. Enable Large Icon Cache (4MB)
@@ -442,14 +430,9 @@ ECHO  8. HELP (Description of All Above Tweaks)
 ECHO  H. Main Menu
 ECHO.
 
-
-
-
-
 CHOICE /C:12345678H /N /M "Enter your choice: "
 
 ECHO.
-
 IF ERRORLEVEL 9 GOTO Main_Menu
 IF ERRORLEVEL 8 GOTO sys_help
 IF ERRORLEVEL 7 GOTO ds_hibernate
@@ -805,20 +788,17 @@ GOTO Downloads
 ::::::::::::::::::::::::::::::
 :Windows_Update
 CLS
+COLOR 0E
 SET Menu_Name=Windows Update Menu
 SET Menu_Address=Windows_Update
-COLOR 0E
-ECHO.
-ECHO 			=========================
-ECHO 			^|^| MagicX Toolbox v%Current_Version% ^|^|
-ECHO 			=========================
-ECHO.
+
+CALL :Header
+
 ECHO.
 ECHO  ^=^> Please Apply "After Update Tweaks" After Install Windows Update.
 ECHO  ^=^> Because After You Update Windwos It Can Change all the Tweaks I Made.
 ECHO  ^=^> That Might Make System Slower and MS Will Collect Data/Log From Your PC.
-ECHO.
-ECHO.
+CALL :TWO_ECHO
 ECHO  1. After Update Tweaks
 ECHO  2. Disable Windows Update
 ECHO  3. Enable Windows Update
@@ -828,7 +808,6 @@ ECHO.
 CHOICE /C:123H /N /M "Enter your choice: "
 
 ECHO.
-
 IF ERRORLEVEL 4 GOTO Main_Menu
 IF ERRORLEVEL 3 GOTO en_Windows_Update
 IF ERRORLEVEL 2 GOTO ds_Windows_Update
@@ -842,20 +821,11 @@ IF ERRORLEVEL 1 GOTO after_update_tweaks
 :after_update_tweaks
 CLS
 COLOR 0E
-ECHO.
-ECHO 			=========================
-ECHO 			^|^| MagicX Toolbox v%Current_Version% ^|^|
-ECHO 			=========================
-ECHO.
 
+CALL :Header
 
 
 CALL :END_LINE
-
-
-
-
-
 
 
 
@@ -890,17 +860,15 @@ CALL :END_LINE
 :Report_Bugs
 CLS
 COLOR 0E
-ECHO.
-ECHO 			=========================
-ECHO 			^|^| MagicX Toolbox v%Current_Version% ^|^|
-ECHO 			=========================
-CALL :THREE_ECHO
+
+CALL :Header
+
+CALL :TWO_ECHO
 ECHO  ^=^> Facebook: @Ahsan400
 ECHO  ^=^> Telegram: @Ahsan400
 ECHO  ^=^> Email: help.ahsan@gmail.com
 ECHO  ^=^> TG Group: https:\\t.me\MagicXMod
-ECHO.
-ECHO.
+CALL :TWO_ECHO
 ECHO  ^=^> Send me BUG details with ScreenShot through any option here.
 ECHO  [Any Key] Main Menu
 PAUSE >nul
@@ -940,8 +908,7 @@ ECHO.
 ECHO 				===========================
 ECHO 				^|^| New Update Available! ^|^|
 ECHO 				===========================
-ECHO.
-ECHO.
+CALL :TWO_ECHO
 ECHO  ^=^> Update Process will Start in 5s. Please Don't Close App While it Updating. 
 TIMEOUT /t 5 >nul
 CLS

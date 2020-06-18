@@ -168,110 +168,69 @@ CAll :END_LINE
 ::::::::::::::::::::::::::::::
 :Context_Menu
 CLS
+SETLOCAL EnableExtensions
 SET Menu_Name=Context Menu
 SET Menu_Address=Context_Menu
 COLOR 0E
-ECHO.
-ECHO 			=========================
-ECHO 			^|^| MagicX Toolbox v%Current_Version% ^|^|
-ECHO 			=========================
-ECHO.
-ECHO  ============
-ECHO  ^|^| Remove ^|^|
-ECHO  ============
-ECHO  1. Remove Print
-ECHO  2. Remove BitLocker Options
-ECHO  3. Remove Scan With Windows Defender
-ECHO  4. Remove Personalize Classic (Desktop)
 
+CALL :Header
+
+ECHO  1. Add Something To Context Menu
+ECHO  2. Remove Something From Context Menu
 ECHO.
-
-ECHO  =========
-ECHO  ^|^| Add ^|^|
-ECHO  =========
-ECHO  A. Add Print
-ECHO  B. Add BitLocker Options
-ECHO  C. Add Scan With Windows Defender
-ECHO  D. Add Personalize Classic (Desktop)
-
-ECHO.
-
 ECHO  H. Main Menu
 ECHO.
 
-
-
-CHOICE /C:1234ABCDH /N /M "Enter your choice: "
+CHOICE /C:12H /N /M "Enter your choice: "
 
 ECHO.
-
-IF ERRORLEVEL 9 GOTO Main_Menu
-IF ERRORLEVEL 8 GOTO add_personalize_classic
-IF ERRORLEVEL 7 GOTO add_scan_defneder
-IF ERRORLEVEL 6 GOTO add_bit_locker
-IF ERRORLEVEL 5 GOTO add_print
-IF ERRORLEVEL 4 GOTO rmv_personalize_classic
-IF ERRORLEVEL 3 GOTO rmv_scan_defender
-IF ERRORLEVEL 2 GOTO rmv_bit_locker
-IF ERRORLEVEL 1 GOTO rmv_print
+IF ERRORLEVEL 3 GOTO Main_Menu
+IF ERRORLEVEL 2 GOTO CNTXT_REM
+IF ERRORLEVEL 1 GOTO CNTXT_ADD
 
 
+:CNTXT_ADD
+CLS
+SET "OPT_AMOUNT=17"
+SET "CNTXT_OPT1=Add Print"
+SET "CNTXT_OPT2=Add BitLocker Options"
+SET "CNTXT_OPT3=Add Scan With Windows Defender"
+SET "CNTXT_OPT4=Add Personalize Classic (Desktop)"
+SET "CNTXT_OPT5=Feature5"
+SET "CNTXT_OPT6=Feature6"
+SET "CNTXT_OPT7=Feature7"
+SET "CNTXT_OPT8=Feature8"
+SET "CNTXT_OPT9=Feature9"
+SET "CNTXT_OPT10=Feature10"
+SET "CNTXT_OPT11=Feature11"
+SET "CNTXT_OPT12=Feature12"
+SET "CNTXT_OPT13=Feature13"
+SET "CNTXT_OPT14=Feature14"
+SET "CNTXT_OPT15=Feature15"
+SET "CNTXT_OPT16=Feature16"
 
+SET "OPT_ADRS1=add_print"
+SET "OPT_ADRS2=add_bit_locker"
+SET "OPT_ADRS3=add_scan_defneder"
+SET "OPT_ADRS4=add_personalize_classic"
+SET "OPT_ADRS5="
+SET "OPT_ADRS6="
+SET "OPT_ADRS7="
+SET "OPT_ADRS8="
+SET "OPT_ADRS9="
+SET "OPT_ADRS10="
+SET "OPT_ADRS11="
+SET "OPT_ADRS12="
+SET "OPT_ADRS13="
+SET "OPT_ADRS14="
+SET "OPT_ADRS15="
+SET "OPT_ADRS16="
 
+CALL :Header
 
-:remove_context
-:rmv_print
-Reg.exe add "HKCR\SystemFileAssociations\image\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\batfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\cmdfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\docxfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\fonfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\htmlfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\inffile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\inifile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\JSEFile\Shell\Print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\otffile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\pfmfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\regfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\rtffile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\ttcfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\ttffile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\txtfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\VBEFile\Shell\Print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\VBSFile\Shell\Print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\WSFFile\Shell\Print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
-CAll :END_LINE
+CAll :CNTXT_Menu_Fig
 
-
-:rmv_bit_locker
-Reg.exe delete "HKCR\Drive\shell\suspend-bde" /f
-Reg.exe delete "HKCR\Drive\shell\decrypt-bde" /f
-Reg.exe delete "HKCR\Drive\shell\lock-bde" /f
-Reg.exe add "HKCR\Drive\shell\change-passphrase" /v "LegacyDisable" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\Drive\shell\manage-bde" /v "LegacyDisable" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\Drive\shell\resume-bde" /v "LegacyDisable" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\Drive\shell\resume-bde-elev" /v "LegacyDisable" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\Drive\shell\encrypt-bde" /v "LegacyDisable" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\Drive\shell\encrypt-bde-elev" /v "LegacyDisable" /t REG_SZ /d "" /f
-Reg.exe add "HKCR\Drive\shell\unlock-bde" /v "LegacyDisable" /t REG_SZ /d "" /f
-CAll :END_LINE
-
-
-:rmv_scan_defender
-Reg.exe delete "HKCR\*\shellex\ContextMenuHandlers\EPP" /f
-Reg.exe delete "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
-Reg.exe delete "HKCR\Directory\shellex\ContextMenuHandlers\EPP" /f
-Reg.exe delete "HKCR\Drive\shellex\ContextMenuHandlers\EPP" /f
-CAll :END_LINE
-
-
-:rmv_personalize_classic
-Reg.exe delete "HKCR\CLSID\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}" /f
-Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\NameSpace\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}" /f
-Reg.exe delete "HKCR\DesktopBackground\Shell\ClassicPersonalize" /f
-CAll :END_LINE
-
-
+CALL :END_LINE
 
 
 
@@ -400,6 +359,109 @@ Reg.exe add "HKCR\CLSID\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}\DefaultIcon" /ve 
 Reg.exe add "HKCR\CLSID\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}\Shell\Open\command" /ve /t REG_SZ /d "explorer shell:::{ED834ED6-4B5A-4bfe-8F11-A626DCB6A921}" /f
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\NameSpace\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}" /ve /t REG_SZ /d "Personalization (classic)" /f
 CAll :END_LINE
+
+
+
+
+
+:CNTXT_REM
+CLS
+SET "OPT_AMOUNT=17"
+SET "CNTXT_OPT1=Remove Print"
+SET "CNTXT_OPT2=Remove BitLocker Options"
+SET "CNTXT_OPT3=Remove Scan With Windows Defender"
+SET "CNTXT_OPT4=Remove Personalize Classic (Desktop)"
+SET "CNTXT_OPT5=Feature5"
+SET "CNTXT_OPT6=Feature6"
+SET "CNTXT_OPT7=Feature7"
+SET "CNTXT_OPT8=Feature8"
+SET "CNTXT_OPT9=Feature9"
+SET "CNTXT_OPT10=Feature10"
+SET "CNTXT_OPT11=Feature11"
+SET "CNTXT_OPT12=Feature12"
+SET "CNTXT_OPT13=Feature13"
+SET "CNTXT_OPT14=Feature14"
+SET "CNTXT_OPT15=Feature15"
+SET "CNTXT_OPT16=Feature16"
+
+SET "OPT_ADRS1=rmv_print"
+SET "OPT_ADRS2=rmv_bit_locker"
+SET "OPT_ADRS3=rmv_scan_defneder"
+SET "OPT_ADRS4=rmv_personalize_classic"
+SET "OPT_ADRS5="
+SET "OPT_ADRS6="
+SET "OPT_ADRS7="
+SET "OPT_ADRS8="
+SET "OPT_ADRS9="
+SET "OPT_ADRS10="
+SET "OPT_ADRS11="
+SET "OPT_ADRS12="
+SET "OPT_ADRS13="
+SET "OPT_ADRS14="
+SET "OPT_ADRS15="
+SET "OPT_ADRS16="
+
+CALL :Header
+
+CAll :CNTXT_Menu_Fig
+
+CALL :END_LINE
+
+
+
+
+:remove_context
+:rmv_print
+Reg.exe add "HKCR\SystemFileAssociations\image\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\batfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\cmdfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\docxfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\fonfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\htmlfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\inffile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\inifile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\JSEFile\Shell\Print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\otffile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\pfmfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\regfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\rtffile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\ttcfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\ttffile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\txtfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\VBEFile\Shell\Print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\VBSFile\Shell\Print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\WSFFile\Shell\Print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
+CAll :END_LINE
+
+
+:rmv_bit_locker
+Reg.exe delete "HKCR\Drive\shell\suspend-bde" /f
+Reg.exe delete "HKCR\Drive\shell\decrypt-bde" /f
+Reg.exe delete "HKCR\Drive\shell\lock-bde" /f
+Reg.exe add "HKCR\Drive\shell\change-passphrase" /v "LegacyDisable" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\Drive\shell\manage-bde" /v "LegacyDisable" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\Drive\shell\resume-bde" /v "LegacyDisable" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\Drive\shell\resume-bde-elev" /v "LegacyDisable" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\Drive\shell\encrypt-bde" /v "LegacyDisable" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\Drive\shell\encrypt-bde-elev" /v "LegacyDisable" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\Drive\shell\unlock-bde" /v "LegacyDisable" /t REG_SZ /d "" /f
+CAll :END_LINE
+
+
+:rmv_scan_defender
+Reg.exe delete "HKCR\*\shellex\ContextMenuHandlers\EPP" /f
+Reg.exe delete "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
+Reg.exe delete "HKCR\Directory\shellex\ContextMenuHandlers\EPP" /f
+Reg.exe delete "HKCR\Drive\shellex\ContextMenuHandlers\EPP" /f
+CAll :END_LINE
+
+
+:rmv_personalize_classic
+Reg.exe delete "HKCR\CLSID\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}" /f
+Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\NameSpace\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}" /f
+Reg.exe delete "HKCR\DesktopBackground\Shell\ClassicPersonalize" /f
+CAll :END_LINE
+
 
 
 

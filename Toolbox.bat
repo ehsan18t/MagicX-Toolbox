@@ -199,7 +199,7 @@ SET "CNTXT_OPT4=Add Personalize Classic (Desktop)"
 SET "CNTXT_OPT5=Add Pin to Quick Access"
 SET "CNTXT_OPT6=Add Pin to Start"
 SET "CNTXT_OPT7=Add Give Access"
-SET "CNTXT_OPT8=Feature8"
+SET "CNTXT_OPT8=Add Include in Library"
 SET "CNTXT_OPT9=Feature9"
 SET "CNTXT_OPT10=Feature10"
 SET "CNTXT_OPT11=Feature11"
@@ -216,7 +216,7 @@ SET "OPT_ADRS4=add_personalize_classic"
 SET "OPT_ADRS5=add_pin_to_Quik"
 SET "OPT_ADRS6=add_pin_to_strt"
 SET "OPT_ADRS7=add_give_access"
-SET "OPT_ADRS8="
+SET "OPT_ADRS8=add_inc_lib"
 SET "OPT_ADRS9="
 SET "OPT_ADRS10="
 SET "OPT_ADRS11="
@@ -375,6 +375,14 @@ Reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v "forceguest" /t REG_D
 CALL END_LINE
 
 
+:add_inc_lib
+Reg.exe add "HKCR\Folder\ShellEx\ContextMenuHandlers\Library Location" /ve /t REG_SZ /d "{3dad6c5d-2167-4cae-9914-f99e41c12cfa}" /f
+Reg.exe add "HKLM\SOFTWARE\Classes\Folder\ShellEx\ContextMenuHandlers\Library Location" /ve /t REG_SZ /d "{3dad6c5d-2167-4cae-9914-f99e41c12cfa}" /f
+CALL END_LINE
+
+
+
+
 :CNTXT_REM
 CLS
 SET "OPT_AMOUNT=17"
@@ -385,7 +393,7 @@ SET "CNTXT_OPT4=Remove Personalize Classic (Desktop)"
 SET "CNTXT_OPT5=Remove Pin to Quick Access"
 SET "CNTXT_OPT6=Remove Pin to Start"
 SET "CNTXT_OPT7=Remove Give Access"
-SET "CNTXT_OPT8=Feature8"
+SET "CNTXT_OPT8=Remove Include in Library"
 SET "CNTXT_OPT9=Feature9"
 SET "CNTXT_OPT10=Feature10"
 SET "CNTXT_OPT11=Feature11"
@@ -402,7 +410,7 @@ SET "OPT_ADRS4=rmv_personalize_classic"
 SET "OPT_ADRS5=rmv_pin_to_Quik"
 SET "OPT_ADRS6=rmv_pin_to_Strt"
 SET "OPT_ADRS7=rmv_give_access"
-SET "OPT_ADRS8="
+SET "OPT_ADRS8=rmv_inc_lib"
 SET "OPT_ADRS9="
 SET "OPT_ADRS10="
 SET "OPT_ADRS11="
@@ -498,6 +506,10 @@ Reg.exe delete "HKCR\LibraryFolder\background\shellex\ContextMenuHandlers\Sharin
 Reg.exe delete "HKCR\UserLibraryFolder\shellex\ContextMenuHandlers\Sharing" /f
 CALL END_LINE
 
+:rmv_inc_lib
+Reg.exe delete "HKCR\Folder\ShellEx\ContextMenuHandlers\Library Location" /f
+Reg.exe delete "HKLM\SOFTWARE\Classes\Folder\ShellEx\ContextMenuHandlers\Library Location" /f
+CALL END_LINE
 
 
 ::::::::::::::::::::::

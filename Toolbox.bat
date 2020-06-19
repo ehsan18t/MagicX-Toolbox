@@ -198,7 +198,7 @@ SET "CNTXT_OPT3=Add Scan With Windows Defender"
 SET "CNTXT_OPT4=Add Personalize Classic (Desktop)"
 SET "CNTXT_OPT5=Add Pin to Quick Access"
 SET "CNTXT_OPT6=Add Pin to Start"
-SET "CNTXT_OPT7=Feature7"
+SET "CNTXT_OPT7=Add Give Access"
 SET "CNTXT_OPT8=Feature8"
 SET "CNTXT_OPT9=Feature9"
 SET "CNTXT_OPT10=Feature10"
@@ -215,7 +215,7 @@ SET "OPT_ADRS3=add_scan_defneder"
 SET "OPT_ADRS4=add_personalize_classic"
 SET "OPT_ADRS5=add_pin_to_Quik"
 SET "OPT_ADRS6=add_pin_to_strt"
-SET "OPT_ADRS7="
+SET "OPT_ADRS7=add_give_access"
 SET "OPT_ADRS8="
 SET "OPT_ADRS9="
 SET "OPT_ADRS10="
@@ -359,6 +359,20 @@ Reg.exe add "HKCR\Microsoft.Website\ShellEx\ContextMenuHandlers\PintoStartScreen
 Reg.exe add "HKCR\mscfile\shellex\ContextMenuHandlers\PintoStartScreen" /ve /t REG_SZ /d "{470C0EBD-5D73-4d58-9CED-E91E22E23282}" /f
 CAll :END_LINE
 
+:add_give_access
+Reg.exe add "HKCR\*\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
+Reg.exe add "HKCR\Directory\Background\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
+Reg.exe add "HKCR\Directory\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
+Reg.exe add "HKCR\Directory\shellex\CopyHookHandlers\Sharing" /ve /t REG_SZ /d "{40dd6e20-7c17-11ce-a804-00aa003ca9f6}" /f
+Reg.exe add "HKCR\Directory\shellex\PropertySheetHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
+Reg.exe add "HKCR\Drive\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
+Reg.exe add "HKCR\Drive\shellex\PropertySheetHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
+Reg.exe add "HKCR\LibraryFolder\background\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
+Reg.exe add "HKCR\UserLibraryFolder\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
+Reg.exe delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInplaceSharing" /f
+Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" /v "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
+Reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v "forceguest" /t REG_DWORD /d "0" /f
+CALL END_LINE
 
 
 :CNTXT_REM
@@ -370,7 +384,7 @@ SET "CNTXT_OPT3=Remove Scan With Windows Defender"
 SET "CNTXT_OPT4=Remove Personalize Classic (Desktop)"
 SET "CNTXT_OPT5=Remove Pin to Quick Access"
 SET "CNTXT_OPT6=Remove Pin to Start"
-SET "CNTXT_OPT7=Feature7"
+SET "CNTXT_OPT7=Remove Give Access"
 SET "CNTXT_OPT8=Feature8"
 SET "CNTXT_OPT9=Feature9"
 SET "CNTXT_OPT10=Feature10"
@@ -387,7 +401,7 @@ SET "OPT_ADRS3=rmv_scan_defneder"
 SET "OPT_ADRS4=rmv_personalize_classic"
 SET "OPT_ADRS5=rmv_pin_to_Quik"
 SET "OPT_ADRS6=rmv_pin_to_Strt"
-SET "OPT_ADRS7="
+SET "OPT_ADRS7=rmv_give_access"
 SET "OPT_ADRS8="
 SET "OPT_ADRS9="
 SET "OPT_ADRS10="
@@ -470,6 +484,20 @@ Reg.exe delete "HKCR\exefile\shellex\ContextMenuHandlers\PintoStartScreen" /f
 Reg.exe delete "HKCR\Microsoft.Website\ShellEx\ContextMenuHandlers\PintoStartScreen" /f
 Reg.exe delete "HKCR\mscfile\shellex\ContextMenuHandlers\PintoStartScreen" /f
 CAll END_LINE
+
+
+:rmv_give_access
+Reg.exe delete "HKCR\*\shellex\ContextMenuHandlers\Sharing" /f
+Reg.exe delete "HKCR\Directory\Background\shellex\ContextMenuHandlers\Sharing" /f
+Reg.exe delete "HKCR\Directory\shellex\ContextMenuHandlers\Sharing" /f
+Reg.exe delete "HKCR\Directory\shellex\CopyHookHandlers\Sharing" /f
+Reg.exe delete "HKCR\Directory\shellex\PropertySheetHandlers\Sharing" /f
+Reg.exe delete "HKCR\Drive\shellex\ContextMenuHandlers\Sharing" /f
+Reg.exe delete "HKCR\Drive\shellex\PropertySheetHandlers\Sharing" /f
+Reg.exe delete "HKCR\LibraryFolder\background\shellex\ContextMenuHandlers\Sharing" /f
+Reg.exe delete "HKCR\UserLibraryFolder\shellex\ContextMenuHandlers\Sharing" /f
+CALL END_LINE
+
 
 
 ::::::::::::::::::::::

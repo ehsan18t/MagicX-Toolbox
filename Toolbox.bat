@@ -201,7 +201,7 @@ SET "CNTXT_OPT6=Add Pin to Start"
 SET "CNTXT_OPT7=Add Give Access"
 SET "CNTXT_OPT8=Add Include in Library"
 SET "CNTXT_OPT9=Add Secure Delete"
-SET "CNTXT_OPT10=Feature10"
+SET "CNTXT_OPT10=Add Secure Clean to Recycle Bin"
 SET "CNTXT_OPT11=Feature11"
 SET "CNTXT_OPT12=Feature12"
 SET "CNTXT_OPT13=Feature13"
@@ -218,7 +218,7 @@ SET "OPT_ADRS6=add_pin_to_strt"
 SET "OPT_ADRS7=add_give_access"
 SET "OPT_ADRS8=add_inc_lib"
 SET "OPT_ADRS9=add_sec_del"
-SET "OPT_ADRS10="
+SET "OPT_ADRS10=add_sec_cln_rec"
 SET "OPT_ADRS11="
 SET "OPT_ADRS12="
 SET "OPT_ADRS13="
@@ -396,6 +396,14 @@ Reg.exe add "HKCR\Directory\shell\Z007AAO\command" /ve /t REG_SZ /d "sdelete -p 
 CALL END_LINE
 
 
+:add_sec_cln_rec
+Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /ve /t REG_SZ /d "Secure Clean" /f
+Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /v "NoWorkingDirectory" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /v "Icon" /t REG_SZ /d "imageres.dll,-5305" /f
+Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /v "HasLUAShield" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean\command" /ve /t REG_SZ /d "nircmd elevate cmd /c \"for %%%%I in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) do if exist \"%%%%I:\$Recycle.Bin\" (sdelete64.exe -p 3 -s \"%%%%I:\$Recycle.Bin\*\") && taskkill /im explorer.exe /f & start explorer.exe\"" /f
+CALL END_LINE
+
 
 :CNTXT_REM
 CLS
@@ -409,7 +417,7 @@ SET "CNTXT_OPT6=Remove Pin to Start"
 SET "CNTXT_OPT7=Remove Give Access"
 SET "CNTXT_OPT8=Remove Include in Library"
 SET "CNTXT_OPT9=Remove Secure Delete"
-SET "CNTXT_OPT10=Feature10"
+SET "CNTXT_OPT10=Remove Secure Clean from Recycle Bin"
 SET "CNTXT_OPT11=Feature11"
 SET "CNTXT_OPT12=Feature12"
 SET "CNTXT_OPT13=Feature13"
@@ -426,7 +434,7 @@ SET "OPT_ADRS6=rmv_pin_to_Strt"
 SET "OPT_ADRS7=rmv_give_access"
 SET "OPT_ADRS8=rmv_inc_lib"
 SET "OPT_ADRS9=rmv_sec_del"
-SET "OPT_ADRS10="
+SET "OPT_ADRS10=rmv_sec_cln_rec"
 SET "OPT_ADRS11="
 SET "OPT_ADRS12="
 SET "OPT_ADRS13="
@@ -530,6 +538,10 @@ Reg.exe delete "HKCR\*\shell\Z007AAO" /f
 Reg.exe delete "HKCR\Directory\shell\Z007AAO" /f
 CALL END_LINE
 
+
+:rmv_sec_cln_rec
+Reg.exe delete "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /f
+CALL END_LINE
 
 
 ::::::::::::::::::::::

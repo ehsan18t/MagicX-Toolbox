@@ -200,7 +200,7 @@ SET "CNTXT_OPT5=Add Pin to Quick Access"
 SET "CNTXT_OPT6=Add Pin to Start"
 SET "CNTXT_OPT7=Add Give Access"
 SET "CNTXT_OPT8=Add Include in Library"
-SET "CNTXT_OPT9=Feature9"
+SET "CNTXT_OPT9=Add Secure Delete"
 SET "CNTXT_OPT10=Feature10"
 SET "CNTXT_OPT11=Feature11"
 SET "CNTXT_OPT12=Feature12"
@@ -217,7 +217,7 @@ SET "OPT_ADRS5=add_pin_to_Quik"
 SET "OPT_ADRS6=add_pin_to_strt"
 SET "OPT_ADRS7=add_give_access"
 SET "OPT_ADRS8=add_inc_lib"
-SET "OPT_ADRS9="
+SET "OPT_ADRS9=add_sec_del"
 SET "OPT_ADRS10="
 SET "OPT_ADRS11="
 SET "OPT_ADRS12="
@@ -381,6 +381,20 @@ Reg.exe add "HKLM\SOFTWARE\Classes\Folder\ShellEx\ContextMenuHandlers\Library Lo
 CALL END_LINE
 
 
+:add_sec_del
+Reg.exe add "HKCR\*\shell\Z007AAO" /ve /t REG_SZ /d "Secure Delete" /f
+Reg.exe add "HKCR\*\shell\Z007AAO" /v "NoWorkingDirectory" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\*\shell\Z007AAO" /v "Position" /t REG_SZ /d "bottom" /f
+Reg.exe add "HKCR\*\shell\Z007AAO" /v "Icon" /t REG_SZ /d "imageres.dll,-5320" /f
+Reg.exe add "HKCR\*\shell\Z007AAO\command" /ve /t REG_SZ /d "sdelete -p 3 \"%%1\"" /f
+Reg.exe add "HKCR\Directory\shell\Z007AAO" /ve /t REG_SZ /d "Secure Delete" /f
+Reg.exe add "HKCR\Directory\shell\Z007AAO" /v "AppliesTo" /t REG_SZ /d "NOT (System.ItemPathDisplay:=\"C:\Users\" OR System.ItemPathDisplay:=\"C:\ProgramData\" OR System.ItemPathDisplay:=\"C:\Windows\" OR System.ItemPathDisplay:=\"C:\Windows.old\" OR System.ItemPathDisplay:=\"C:\Windows\System32\" OR System.ItemPathDisplay:=\"C:\Program Files\" OR System.ItemPathDisplay:=\"C:\Program Files (x86)\")" /f
+Reg.exe add "HKCR\Directory\shell\Z007AAO" /v "NoWorkingDirectory" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\Directory\shell\Z007AAO" /v "Position" /t REG_SZ /d "bottom" /f
+Reg.exe add "HKCR\Directory\shell\Z007AAO" /v "Icon" /t REG_SZ /d "imageres.dll,-5320" /f
+Reg.exe add "HKCR\Directory\shell\Z007AAO\command" /ve /t REG_SZ /d "sdelete -p 3 -s \"%%1\"" /f
+CALL END_LINE
+
 
 
 :CNTXT_REM
@@ -394,7 +408,7 @@ SET "CNTXT_OPT5=Remove Pin to Quick Access"
 SET "CNTXT_OPT6=Remove Pin to Start"
 SET "CNTXT_OPT7=Remove Give Access"
 SET "CNTXT_OPT8=Remove Include in Library"
-SET "CNTXT_OPT9=Feature9"
+SET "CNTXT_OPT9=Remove Secure Delete"
 SET "CNTXT_OPT10=Feature10"
 SET "CNTXT_OPT11=Feature11"
 SET "CNTXT_OPT12=Feature12"
@@ -411,7 +425,7 @@ SET "OPT_ADRS5=rmv_pin_to_Quik"
 SET "OPT_ADRS6=rmv_pin_to_Strt"
 SET "OPT_ADRS7=rmv_give_access"
 SET "OPT_ADRS8=rmv_inc_lib"
-SET "OPT_ADRS9="
+SET "OPT_ADRS9=rmv_sec_del"
 SET "OPT_ADRS10="
 SET "OPT_ADRS11="
 SET "OPT_ADRS12="
@@ -510,6 +524,12 @@ CALL END_LINE
 Reg.exe delete "HKCR\Folder\ShellEx\ContextMenuHandlers\Library Location" /f
 Reg.exe delete "HKLM\SOFTWARE\Classes\Folder\ShellEx\ContextMenuHandlers\Library Location" /f
 CALL END_LINE
+
+:rmv_sec_del
+Reg.exe delete "HKCR\*\shell\Z007AAO" /f
+Reg.exe delete "HKCR\Directory\shell\Z007AAO" /f
+CALL END_LINE
+
 
 
 ::::::::::::::::::::::

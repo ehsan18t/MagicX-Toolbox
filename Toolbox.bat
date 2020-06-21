@@ -208,7 +208,7 @@ SET "CNTXT_OPT12=Add Restore Previous Versions"
 SET "CNTXT_OPT13=Add Burn Disc Image"
 SET "CNTXT_OPT14=Add Cast to Device"
 SET "CNTXT_OPT15=Add Share"
-SET "CNTXT_OPT16=Feature16"
+SET "CNTXT_OPT16=Add Quick Access to Explorer Navigation Pane"
 
 SET "OPT_ADRS1=add_print"
 SET "OPT_ADRS2=add_bit_locker"
@@ -225,7 +225,7 @@ SET "OPT_ADRS12=add_rstr_prev_ver"
 SET "OPT_ADRS13=add_brn_dsk_img"
 SET "OPT_ADRS14=add_cast_dev"
 SET "OPT_ADRS15=add_share"
-SET "OPT_ADRS16="
+SET "OPT_ADRS16=add_quik_acces_nav_pan"
 
 CALL :Header
 
@@ -446,6 +446,11 @@ Reg.exe add "HKCR\*\shellex\ContextMenuHandlers\ModernSharing" /ve /t REG_SZ /d 
 CALL :END_LINE
 
 
+:add_quik_acces_nav_pan
+Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "HubMode" /f
+CALL :END_LINE
+
+
 :CNTXT_REM
 CLS
 SET "OPT_AMOUNT=16"
@@ -465,7 +470,7 @@ SET "CNTXT_OPT12=Remove Restore Previous Versions"
 SET "CNTXT_OPT13=Remove Burn Disc Image"
 SET "CNTXT_OPT14=Remove Cast to Device"
 SET "CNTXT_OPT15=Remove Share"
-SET "CNTXT_OPT16=Feature16"
+SET "CNTXT_OPT16=Remove Quick Access to Navigation Pane"
 
 SET "OPT_ADRS1=rmv_print"
 SET "OPT_ADRS2=rmv_bit_locker"
@@ -482,7 +487,7 @@ SET "OPT_ADRS12=rmv_rstr_prev_ver"
 SET "OPT_ADRS13=rmv_brn_dsk_img"
 SET "OPT_ADRS14=rmv_cast_dev"
 SET "OPT_ADRS15=rmv_share"
-SET "OPT_ADRS16="
+SET "OPT_ADRS16=rmv_quik_acces_nav_pan"
 
 CALL :Header
 CAll :CNTXT_Menu_Fig
@@ -624,6 +629,10 @@ CALL :END_LINE
 Reg.exe delete "HKCR\*\shellex\ContextMenuHandlers\ModernSharing" /f
 CALL :END_LINE
 
+
+:rmv_quik_acces_nav_pan
+Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "HubMode" /t REG_DWORD /d "1" /f
+CALL :END_LINE
 
 
 ::::::::::::::::::::::

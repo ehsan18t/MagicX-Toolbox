@@ -168,7 +168,6 @@ CAll :END_LINE
 ::::::::::::::::::::::::::::::
 :Context_Menu
 CLS
-SETLOCAL EnableExtensions
 SET Menu_Name=Context Menu
 SET Menu_Address=Context_Menu
 COLOR 0E
@@ -799,7 +798,6 @@ CALL :END_LINE
 ::::::::::::::::::::::::::
 :Downloads
 CLS
-SETLOCAL EnableExtensions
 SET Menu_Name=Downloads Menu
 SET Menu_Address=Downloads
 COLOR 0E
@@ -1215,6 +1213,7 @@ EXIT /B
 
 
 :CNTXT_Menu_Fig
+SETLOCAL EnableExtensions
 SET /a "OPT_AMOUNT+=1"
 SET "x=0"
 
@@ -1276,6 +1275,7 @@ CALL SET "OPT_ADRS=%%OPT_ADRS%1%%"
 CALL SET "CNTXT_OPT=%%CNTXT_OPT%1%%"
 
 IF "%CNTXT%" EQU "%CNTXT_OPT%" CALL :%OPT_ADRS%
+ECHO.
 IF "%CNTXT%" EQU "Main Menu" GOTO Main_Menu
 
 SET "CNTXT[%1]="

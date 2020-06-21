@@ -1167,8 +1167,7 @@ ECHO   H. Main Menu
 ECHO.
 
 :Prompt
-ECHO.%Message%
-
+ECHO.%Inp_Error_Message%
 ECHO --^> Your can Choose Multiple Options (E.G: 1, 2, 7 or 1 2 7)
 SET /p "Input= %INP_MSG%"
 ECHO.
@@ -1190,7 +1189,7 @@ GOTO End_Tasks
 :CNTXT_Inp_Validate
 SET "Next=%2"
 IF not DEFINED CNTXT[%1] (
-    SET "Message= INVALID INPUT: %1!"
+    SET "Inp_Error_Message= INVALID INPUT: %1!"
     GOTO CNTXT_Menu
 )
 IF DEFINED Next SHIFT & GOTO CNTXT_Inp_Validate

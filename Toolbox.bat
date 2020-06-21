@@ -202,7 +202,7 @@ SET "CNTXT_OPT7=Add Give Access"
 SET "CNTXT_OPT8=Add Include in Library"
 SET "CNTXT_OPT9=Add Secure Delete"
 SET "CNTXT_OPT10=Add Secure Clean to Recycle Bin"
-SET "CNTXT_OPT11=Feature11"
+SET "CNTXT_OPT11=Add Open as Portable Devices"
 SET "CNTXT_OPT12=Feature12"
 SET "CNTXT_OPT13=Feature13"
 SET "CNTXT_OPT14=Feature14"
@@ -219,7 +219,7 @@ SET "OPT_ADRS7=add_give_access"
 SET "OPT_ADRS8=add_inc_lib"
 SET "OPT_ADRS9=add_sec_del"
 SET "OPT_ADRS10=add_sec_cln_rec"
-SET "OPT_ADRS11="
+SET "OPT_ADRS11=add_opn_as_port"
 SET "OPT_ADRS12="
 SET "OPT_ADRS13="
 SET "OPT_ADRS14="
@@ -405,6 +405,10 @@ Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean
 CALL END_LINE
 
 
+:add_opn_as_port
+Reg.exe add "HKLM\SOFTWARE\Classes\Drive\shellex\ContextMenuHandlers\{D6791A63-E7E2-4fee-BF52-5DED8E86E9B8}" /v "{D6791A63-E7E2-4fee-BF52-5DED8E86E9B8}" /t REG_SZ /d "Portable Devices Menu" /f
+CALL END_LINE
+
 :CNTXT_REM
 CLS
 SET "OPT_AMOUNT=17"
@@ -418,7 +422,7 @@ SET "CNTXT_OPT7=Remove Give Access"
 SET "CNTXT_OPT8=Remove Include in Library"
 SET "CNTXT_OPT9=Remove Secure Delete"
 SET "CNTXT_OPT10=Remove Secure Clean from Recycle Bin"
-SET "CNTXT_OPT11=Feature11"
+SET "CNTXT_OPT11=Remove Open as Portable Devices"
 SET "CNTXT_OPT12=Feature12"
 SET "CNTXT_OPT13=Feature13"
 SET "CNTXT_OPT14=Feature14"
@@ -435,7 +439,7 @@ SET "OPT_ADRS7=rmv_give_access"
 SET "OPT_ADRS8=rmv_inc_lib"
 SET "OPT_ADRS9=rmv_sec_del"
 SET "OPT_ADRS10=rmv_sec_cln_rec"
-SET "OPT_ADRS11="
+SET "OPT_ADRS11=rmv_opn_as_port"
 SET "OPT_ADRS12="
 SET "OPT_ADRS13="
 SET "OPT_ADRS14="
@@ -542,6 +546,13 @@ CALL END_LINE
 :rmv_sec_cln_rec
 Reg.exe delete "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /f
 CALL END_LINE
+
+
+:rmv_opn_as_port
+Reg.exe delete "HKLM\SOFTWARE\Classes\Drive\shellex\ContextMenuHandlers\{D6791A63-E7E2-4fee-BF52-5DED8E86E9B8}" /f
+CALL END_LINE
+
+
 
 
 ::::::::::::::::::::::

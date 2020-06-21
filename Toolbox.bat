@@ -361,7 +361,7 @@ Reg.exe add "HKCR\mscfile\shellex\ContextMenuHandlers\PintoStartScreen" /ve /t R
 CAll :END_LINE
 
 :add_give_access
-Reg.exe add "HKCR\*\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
+Reg.exe add "HKCR\*\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f >NUL 2>&1
 Reg.exe add "HKCR\Directory\Background\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
 Reg.exe add "HKCR\Directory\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
 Reg.exe add "HKCR\Directory\shellex\CopyHookHandlers\Sharing" /ve /t REG_SZ /d "{40dd6e20-7c17-11ce-a804-00aa003ca9f6}" /f
@@ -370,8 +370,8 @@ Reg.exe add "HKCR\Drive\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{
 Reg.exe add "HKCR\Drive\shellex\PropertySheetHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
 Reg.exe add "HKCR\LibraryFolder\background\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
 Reg.exe add "HKCR\UserLibraryFolder\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
-Reg.exe delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInplaceSharing" /f
-Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" /v "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
+Reg.exe delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInplaceSharing" /f >NUL 2>&1
+Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" /v "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f >NUL 2>&1
 Reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v "forceguest" /t REG_DWORD /d "0" /f
 CALL :END_LINE
 
@@ -545,8 +545,8 @@ CAll :END_LINE
 
 
 :rmv_pin_to_Quik
-Reg.exe delete "HKCR\Folder\shell\pintohome" /f
 Reg.exe delete "HKLM\SOFTWARE\Classes\Folder\shell\pintohome" /f
+Reg.exe delete "HKCR\Folder\shell\pintohome" /f >NUL 2>&1
 CAll :END_LINE
 
 
@@ -555,7 +555,7 @@ Reg.exe delete "HKCR\Folder\shellex\ContextMenuHandlers\PintoStartScreen" /f
 Reg.exe delete "HKCR\exefile\shellex\ContextMenuHandlers\PintoStartScreen" /f
 Reg.exe delete "HKCR\Microsoft.Website\ShellEx\ContextMenuHandlers\PintoStartScreen" /f
 Reg.exe delete "HKCR\mscfile\shellex\ContextMenuHandlers\PintoStartScreen" /f
-CAll END_LINE
+CAll :END_LINE
 
 
 :rmv_give_access

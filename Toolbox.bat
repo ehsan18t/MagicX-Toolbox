@@ -192,6 +192,7 @@ IF ERRORLEVEL 1 GOTO CNTXT_ADD
 :CNTXT_ADD
 CLS
 SET "OPT_AMOUNT=17"
+SET "INP_MSG= --> Select Options to Apply: "
 SET "CNTXT_OPT1=Add Print"
 SET "CNTXT_OPT2=Add BitLocker Options"
 SET "CNTXT_OPT3=Add Scan With Windows Defender"
@@ -448,6 +449,7 @@ CALL :END_LINE
 :CNTXT_REM
 CLS
 SET "OPT_AMOUNT=17"
+SET "INP_MSG= --> Select Options to Apply: "
 SET "CNTXT_OPT1=Remove Print"
 SET "CNTXT_OPT2=Remove BitLocker Options"
 SET "CNTXT_OPT3=Remove Scan With Windows Defender"
@@ -737,6 +739,7 @@ MD "%DESKTOP%\Apps"
 :Start_Downloads
 CLS
 SET "OPT_AMOUNT=17"
+SET "INP_MSG= --> Choose Apps to Download: "
 SET "CNTXT_OPT1=Adguard Premium"
 SET "CNTXT_OPT2=AIMP Audio Player"
 SET "CNTXT_OPT3=Betternet VPN"
@@ -1165,9 +1168,10 @@ ECHO.
 
 :Prompt
 ECHO.%Message%
-ECHO  ^=^> Your can Choose Multiple Options (E.G: 1, 2, 7 or 1 2 7)
-SET /p "Input=Select Options:"
 
+ECHO --^> Your can Choose Multiple Options (E.G: 1, 2, 7 or 1 2 7)
+SET /p "Input= %INP_MSG%"
+ECHO.
 IF NOT DEFINED Input GOTO Prompt
 SET "Input=%Input:"=%"
 SET "Input=%Input:^=%"

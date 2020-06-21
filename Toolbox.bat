@@ -191,7 +191,7 @@ IF ERRORLEVEL 1 GOTO CNTXT_ADD
 
 :CNTXT_ADD
 CLS
-SET "OPT_AMOUNT=16"
+SET "OPT_AMOUNT=17"
 SET "INP_MSG= --> Select Options to Apply: "
 SET "CNTXT_OPT1=Add Print"
 SET "CNTXT_OPT2=Add BitLocker Options"
@@ -209,6 +209,7 @@ SET "CNTXT_OPT13=Add Burn Disc Image"
 SET "CNTXT_OPT14=Add Cast to Device"
 SET "CNTXT_OPT15=Add Share"
 SET "CNTXT_OPT16=Add Quick Access to Explorer Navigation Pane"
+SET "CNTXT_OPT17=Add Network to Explorer Navigation Pane"
 
 SET "OPT_ADRS1=add_print"
 SET "OPT_ADRS2=add_bit_locker"
@@ -226,6 +227,7 @@ SET "OPT_ADRS13=add_brn_dsk_img"
 SET "OPT_ADRS14=add_cast_dev"
 SET "OPT_ADRS15=add_share"
 SET "OPT_ADRS16=add_quik_acces_nav_pan"
+SET "OPT_ADRS17=add_network_nav_pan"
 
 CALL :Header
 
@@ -437,7 +439,8 @@ CALL :END_LINE
 
 :add_cast_dev
 REG Delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" /V {7AD84985-87B4-4a16-BE58-8B72A5B390F7} /F
-taskkill /f /im explorer.exe
+ECHO Restarting Windows Explorer....
+taskkill /im explorer.exe /f
 start explorer.exe
 CALL :END_LINE
 
@@ -451,9 +454,21 @@ Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "Hub
 CALL :END_LINE
 
 
+:add_network_nav_pan
+SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
+SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
+Reg.exe add "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" /v "Attributes" /t REG_DWORD /d "2953052260" /f
+SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn ace -ace "n:Administrators;p:read" >NUL 2>&1
+SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn setowner -ownr "n:nt service\trustedinstaller" >NUL 2>&1
+ECHO Restarting Windows Explorer....
+taskkill /im explorer.exe /f
+start explorer.exe
+CALL :END_LINE
+
+
 :CNTXT_REM
 CLS
-SET "OPT_AMOUNT=16"
+SET "OPT_AMOUNT=17"
 SET "INP_MSG= --> Select Options to Apply: "
 SET "CNTXT_OPT1=Remove Print"
 SET "CNTXT_OPT2=Remove BitLocker Options"
@@ -470,7 +485,8 @@ SET "CNTXT_OPT12=Remove Restore Previous Versions"
 SET "CNTXT_OPT13=Remove Burn Disc Image"
 SET "CNTXT_OPT14=Remove Cast to Device"
 SET "CNTXT_OPT15=Remove Share"
-SET "CNTXT_OPT16=Remove Quick Access to Navigation Pane"
+SET "CNTXT_OPT16=Remove Quick Access from Explorer Navigation Pane"
+SET "CNTXT_OPT17=Remove Network from Explorer Navigation Pane"
 
 SET "OPT_ADRS1=rmv_print"
 SET "OPT_ADRS2=rmv_bit_locker"
@@ -488,6 +504,7 @@ SET "OPT_ADRS13=rmv_brn_dsk_img"
 SET "OPT_ADRS14=rmv_cast_dev"
 SET "OPT_ADRS15=rmv_share"
 SET "OPT_ADRS16=rmv_quik_acces_nav_pan"
+SET "OPT_ADRS17=rmv_network_nav_pan"
 
 CALL :Header
 CAll :CNTXT_Menu_Fig
@@ -633,6 +650,19 @@ CALL :END_LINE
 :rmv_quik_acces_nav_pan
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "HubMode" /t REG_DWORD /d "1" /f
 CALL :END_LINE
+
+
+:rmv_network_nav_pan
+SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
+SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
+Reg.exe add "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" /v "Attributes" /t REG_DWORD /d "2954100836" /f
+SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn ace -ace "n:Administrators;p:read" >NUL 2>&1
+SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn setowner -ownr "n:nt service\trustedinstaller" >NUL 2>&1
+ECHO Restarting Windows Explorer....
+taskkill /im explorer.exe /f
+start explorer.exe
+CALL :END_LINE
+
 
 
 ::::::::::::::::::::::

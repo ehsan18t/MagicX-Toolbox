@@ -1151,6 +1151,7 @@ ECHO.
 ECHO 				===========================
 ECHO 				^|^| New Update Available! ^|^|
 ECHO 				===========================
+IF EXIST "%CD%\Update\PreUpdater.bat" COPY "%CD%\Update\PreUpdater.bat" "%CD%\PreUpdater.bat" && CALL "%CD%\PreUpdater.bat"
 CALL :TWO_ECHO
 ECHO  ^=^> Update Process will Start in 5s. Please Don't Close App While it Updating. 
 TIMEOUT /t 5 >nul

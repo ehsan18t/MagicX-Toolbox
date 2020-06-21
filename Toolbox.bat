@@ -206,7 +206,7 @@ SET "CNTXT_OPT11=Add Open as Portable Devices"
 SET "CNTXT_OPT12=Add Restore Previous Versions"
 SET "CNTXT_OPT13=Add Burn Disc Image"
 SET "CNTXT_OPT14=Add Cast to Device"
-SET "CNTXT_OPT15=Feature15"
+SET "CNTXT_OPT15=Add Share"
 SET "CNTXT_OPT16=Feature16"
 
 SET "OPT_ADRS1=add_print"
@@ -223,7 +223,7 @@ SET "OPT_ADRS11=add_opn_as_port"
 SET "OPT_ADRS12=add_rstr_prev_ver"
 SET "OPT_ADRS13=add_brn_dsk_img"
 SET "OPT_ADRS14=add_cast_dev"
-SET "OPT_ADRS15="
+SET "OPT_ADRS15=add_share"
 SET "OPT_ADRS16="
 
 CALL :Header
@@ -440,6 +440,10 @@ taskkill /f /im explorer.exe
 start explorer.exe
 CALL :END_LINE
 
+:add_share
+Reg.exe add "HKCR\*\shellex\ContextMenuHandlers\ModernSharing" /ve /t REG_SZ /d "{e2bf9676-5f8f-435c-97eb-11607a5bedf7}" /f
+CALL :END_LINE
+
 
 :CNTXT_REM
 CLS
@@ -458,7 +462,7 @@ SET "CNTXT_OPT11=Remove Open as Portable Devices"
 SET "CNTXT_OPT12=Remove Restore Previous Versions"
 SET "CNTXT_OPT13=Remove Burn Disc Image"
 SET "CNTXT_OPT14=Remove Cast to Device"
-SET "CNTXT_OPT15=Feature15"
+SET "CNTXT_OPT15=Remove Share"
 SET "CNTXT_OPT16=Feature16"
 
 SET "OPT_ADRS1=rmv_print"
@@ -475,7 +479,7 @@ SET "OPT_ADRS11=rmv_opn_as_port"
 SET "OPT_ADRS12=rmv_rstr_prev_ver"
 SET "OPT_ADRS13=rmv_brn_dsk_img"
 SET "OPT_ADRS14=rmv_cast_dev"
-SET "OPT_ADRS15="
+SET "OPT_ADRS15=rmv_share"
 SET "OPT_ADRS16="
 
 CALL :Header
@@ -612,6 +616,12 @@ REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked
 taskkill /f /im explorer.exe
 start explorer.exe
 CALL :END_LINE
+
+
+:rmv_share
+Reg.exe delete "HKCR\*\shellex\ContextMenuHandlers\ModernSharing" /f
+CALL :END_LINE
+
 
 
 ::::::::::::::::::::::

@@ -410,20 +410,11 @@ EXIT /B
 
 :add_sec_cln_rec
 ECHO  -^> Adding Secure Clean to Recycle Bin...
-IF EXIST SecureClean.reg DEL SecureClean.reg
-ECHO Windows Registry Editor Version 5.00 >> SecureClean.reg
-ECHO.>> SecureClean.reg
-ECHO [HKEY_CLASSES_ROOT\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean] >> SecureClean.reg
-ECHO @="Secure Clean" >> SecureClean.reg
-ECHO "NoWorkingDirectory"="" >> SecureClean.reg
-ECHO "Icon"="imageres.dll,-5305" >> SecureClean.reg
-ECHO "HasLUAShield"="" >> SecureClean.reg
-ECHO.>> SecureClean.reg
-ECHO [HKEY_CLASSES_ROOT\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean\command] >> SecureClean.reg
-ECHO @="nircmd elevate cmd /c \"for %%%%I in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) do if exist \"%%%%I:\\$Recycle.Bin\" (sdelete64.exe -p 3 -s \"%%%%I:\\$Recycle.Bin\\*\")\"" >> SecureClean.reg
-regedit.exe /S SecureClean.reg
-DEL SecureClean.reg
-ECHO The operation completed successfully.
+Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /ve /t REG_SZ /d "Secure Clean" /f
+Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /v "NoWorkingDirectory" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /v "Icon" /t REG_SZ /d "imageres.dll,-5305" /f
+Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /v "HasLUAShield" /t REG_SZ /d "" /f
+Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean\command" /ve /t REG_SZ /d "nircmd elevate cmd /c \"for %%%%I in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) do if exist \"%%%%I:\$Recycle.Bin\" (sdelete64.exe -p 3 -s \"%%%%I:\$Recycle.Bin\*\") ^&^& taskkill /im explorer.exe /f ^&^& start explorer.exe\"" /f
 EXIT /B
 
 

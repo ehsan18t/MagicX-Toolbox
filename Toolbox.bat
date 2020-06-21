@@ -239,6 +239,7 @@ CALL :END_LINE
 
 :add_context
 :add_print
+ECHO  -^> Adding Print...
 Reg.exe delete "HKCR\SystemFileAssociations\image\shell\print" /v "ProgrammaticAccessOnly" /f
 Reg.exe delete "HKCR\batfile\shell\print" /v "ProgrammaticAccessOnly" /f
 Reg.exe delete "HKCR\cmdfile\shell\print" /v "ProgrammaticAccessOnly" /f
@@ -262,6 +263,7 @@ EXIT /B
 
 
 :add_bit_locker
+ECHO  -^> Adding BitLocker Options...
 Reg.exe delete "HKCR\Drive\shell\change-passphrase" /v "LegacyDisable" /f
 Reg.exe delete "HKCR\Drive\shell\manage-bde" /v "LegacyDisable" /f
 Reg.exe delete "HKCR\Drive\shell\resume-bde" /v "LegacyDisable" /f
@@ -288,6 +290,7 @@ EXIT /B
 
 
 :add_scan_defneder
+ECHO  -^> Adding Scan With Windows Defender...
 Reg.exe add "HKCR\*\shellex\ContextMenuHandlers\EPP" /ve /t REG_SZ /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
 Reg.exe add "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}\InprocServer32" /ve /t REG_SZ /d "C:\Program Files\Windows Defender\shellext.dll" /f
 Reg.exe add "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}\InprocServer32" /v "ThreadingModel" /t REG_SZ /d "Apartment" /f
@@ -298,6 +301,7 @@ EXIT /B
 
 
 :add_personalize_classic
+ECHO  -^> Adding Personalize Classic...
 Reg.exe add "HKCR\DesktopBackground\Shell\ClassicPersonalize" /v "Icon" /t REG_SZ /d "themecpl.dll" /f
 Reg.exe add "HKCR\DesktopBackground\Shell\ClassicPersonalize" /v "MUIVerb" /t REG_SZ /d "Personalize (Classic)" /f
 Reg.exe add "HKCR\DesktopBackground\Shell\ClassicPersonalize" /v "Position" /t REG_SZ /d "Bottom" /f
@@ -345,6 +349,7 @@ Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPane
 EXIT /B
 
 :add_pin_to_Quik
+ECHO  -^> Adding Pin to Quick Access...
 Reg.exe delete "HKCR\Folder\shell\pintohome" /f
 Reg.exe add "HKCR\Folder\shell\pintohome" /v "AppliesTo" /t REG_SZ /d "System.ParsingName:<>\"::{679f85cb-0220-4080-b29b-5540cc05aab6}\" AND System.ParsingName:<>\"::{645FF040-5081-101B-9F08-00AA002F954E}\" AND System.IsFolder:=System.StructuredQueryType.Boolean#True" /f
 Reg.exe add "HKCR\Folder\shell\pintohome" /v "MUIVerb" /t REG_SZ /d "@shell32.dll,-51377" /f
@@ -356,6 +361,7 @@ Reg.exe add "HKLM\SOFTWARE\Classes\Folder\shell\pintohome\command" /v "DelegateE
 EXIT /B
 
 :add_pin_to_strt
+ECHO  -^> Adding Pin to Start...
 Reg.exe add "HKCR\Folder\shellex\ContextMenuHandlers\PintoStartScreen" /ve /t REG_SZ /d "{470C0EBD-5D73-4d58-9CED-E91E22E23282}" /f
 Reg.exe add "HKCR\exefile\shellex\ContextMenuHandlers\PintoStartScreen" /ve /t REG_SZ /d "{470C0EBD-5D73-4d58-9CED-E91E22E23282}" /f
 Reg.exe add "HKCR\Microsoft.Website\ShellEx\ContextMenuHandlers\PintoStartScreen" /ve /t REG_SZ /d "{470C0EBD-5D73-4d58-9CED-E91E22E23282}" /f
@@ -363,6 +369,7 @@ Reg.exe add "HKCR\mscfile\shellex\ContextMenuHandlers\PintoStartScreen" /ve /t R
 EXIT /B
 
 :add_give_access
+ECHO  -^> Adding Give Access...
 Reg.exe add "HKCR\*\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f >NUL 2>&1
 Reg.exe add "HKCR\Directory\Background\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
 Reg.exe add "HKCR\Directory\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
@@ -379,12 +386,14 @@ EXIT /B
 
 
 :add_inc_lib
+ECHO  -^> Adding Include in Library...
 Reg.exe add "HKCR\Folder\ShellEx\ContextMenuHandlers\Library Location" /ve /t REG_SZ /d "{3dad6c5d-2167-4cae-9914-f99e41c12cfa}" /f
 Reg.exe add "HKLM\SOFTWARE\Classes\Folder\ShellEx\ContextMenuHandlers\Library Location" /ve /t REG_SZ /d "{3dad6c5d-2167-4cae-9914-f99e41c12cfa}" /f
 EXIT /B
 
 
 :add_sec_del
+ECHO  -^> Adding Secure Delete...
 Reg.exe add "HKCR\*\shell\Z007AAO" /ve /t REG_SZ /d "Secure Delete" /f
 Reg.exe add "HKCR\*\shell\Z007AAO" /v "NoWorkingDirectory" /t REG_SZ /d "" /f
 Reg.exe add "HKCR\*\shell\Z007AAO" /v "Position" /t REG_SZ /d "bottom" /f
@@ -400,6 +409,7 @@ EXIT /B
 
 
 :add_sec_cln_rec
+ECHO  -^> Adding Secure Clean to Recycle Bin...
 IF EXIST SecureClean.reg DEL SecureClean.reg
 ECHO Windows Registry Editor Version 5.00 >> SecureClean.reg
 ECHO.>> SecureClean.reg
@@ -418,11 +428,13 @@ EXIT /B
 
 
 :add_opn_as_port
+ECHO  -^> Adding Open as Portable Devices...
 Reg.exe add "HKLM\SOFTWARE\Classes\Drive\shellex\ContextMenuHandlers\{D6791A63-E7E2-4fee-BF52-5DED8E86E9B8}" /v "{D6791A63-E7E2-4fee-BF52-5DED8E86E9B8}" /t REG_SZ /d "Portable Devices Menu" /f
 EXIT /B
 
 
 :add_rstr_prev_ver
+ECHO  -^> Adding Restore Previous Versions...
 Reg.exe add "HKCR\AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
 Reg.exe add "HKCR\CLSID\{450D8FBA-AD25-11D0-98A8-0800361B1103}\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
 Reg.exe add "HKCR\Directory\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
@@ -441,12 +453,14 @@ EXIT /B
 
 
 :add_brn_dsk_img
+ECHO  -^> Adding Burn Disc Image...
 Reg.exe add "HKCR\Windows.IsoFile\shell\burn" /v "MUIVerb" /t REG_EXPAND_SZ /d "@%%SystemRoot%%\System32\isoburn.exe,-351" /f
 Reg.exe add "HKCR\Windows.IsoFile\shell\burn\command" /ve /t REG_EXPAND_SZ /d "%%SystemRoot%%\System32\isoburn.exe \"%%1\"" /f
 EXIT /B
 
 
 :add_cast_dev
+ECHO  -^> Adding Cast to Device...
 REG Delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" /V {7AD84985-87B4-4a16-BE58-8B72A5B390F7} /F
 ECHO Restarting Windows Explorer....
 taskkill /im explorer.exe /f
@@ -454,16 +468,19 @@ start explorer.exe
 EXIT /B
 
 :add_share
+ECHO  -^> Adding Share...
 Reg.exe add "HKCR\*\shellex\ContextMenuHandlers\ModernSharing" /ve /t REG_SZ /d "{e2bf9676-5f8f-435c-97eb-11607a5bedf7}" /f
 EXIT /B
 
 
 :add_quik_acces_nav_pan
+ECHO  -^> Adding Quick Access to Explorer Navigation Pane...
 Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "HubMode" /f
 EXIT /B
 
 
 :add_network_nav_pan
+ECHO  -^> Adding Network to Explorer Navigation Pane...
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
 Reg.exe add "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" /v "Attributes" /t REG_DWORD /d "2953052260" /f
@@ -523,6 +540,7 @@ CALL :END_LINE
 
 :remove_context
 :rmv_print
+ECHO  -^> Removing Print
 Reg.exe add "HKCR\SystemFileAssociations\image\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
 Reg.exe add "HKCR\batfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
 Reg.exe add "HKCR\cmdfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
@@ -546,6 +564,7 @@ EXIT /B
 
 
 :rmv_bit_locker
+ECHO  -^> Removing BitLocker Options
 Reg.exe delete "HKCR\Drive\shell\suspend-bde" /f
 Reg.exe delete "HKCR\Drive\shell\decrypt-bde" /f
 Reg.exe delete "HKCR\Drive\shell\lock-bde" /f
@@ -560,6 +579,7 @@ EXIT /B
 
 
 :rmv_scan_defender
+ECHO  -^> Removing Scan With Windows Defender
 Reg.exe delete "HKCR\*\shellex\ContextMenuHandlers\EPP" /f
 Reg.exe delete "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
 Reg.exe delete "HKCR\Directory\shellex\ContextMenuHandlers\EPP" /f
@@ -568,6 +588,7 @@ EXIT /B
 
 
 :rmv_personalize_classic
+ECHO  -^> Removing Personalize Classic
 Reg.exe delete "HKCR\CLSID\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}" /f
 Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\NameSpace\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}" /f
 Reg.exe delete "HKCR\DesktopBackground\Shell\ClassicPersonalize" /f
@@ -575,12 +596,14 @@ EXIT /B
 
 
 :rmv_pin_to_Quik
+ECHO  -^> Removing Pin to Quick Access
 Reg.exe delete "HKLM\SOFTWARE\Classes\Folder\shell\pintohome" /f
 Reg.exe delete "HKCR\Folder\shell\pintohome" /f >NUL 2>&1
 EXIT /B
 
 
 :rmv_pin_to_Strt
+ECHO  -^> Removing Pin to Start
 Reg.exe delete "HKCR\Folder\shellex\ContextMenuHandlers\PintoStartScreen" /f
 Reg.exe delete "HKCR\exefile\shellex\ContextMenuHandlers\PintoStartScreen" /f
 Reg.exe delete "HKCR\Microsoft.Website\ShellEx\ContextMenuHandlers\PintoStartScreen" /f
@@ -589,6 +612,7 @@ EXIT /B
 
 
 :rmv_give_access
+ECHO  -^> Removing Give Access
 Reg.exe delete "HKCR\*\shellex\ContextMenuHandlers\Sharing" /f
 Reg.exe delete "HKCR\Directory\Background\shellex\ContextMenuHandlers\Sharing" /f
 Reg.exe delete "HKCR\Directory\shellex\ContextMenuHandlers\Sharing" /f
@@ -601,27 +625,32 @@ Reg.exe delete "HKCR\UserLibraryFolder\shellex\ContextMenuHandlers\Sharing" /f
 EXIT /B
 
 :rmv_inc_lib
+ECHO  -^> Removing Include in Library
 Reg.exe delete "HKCR\Folder\ShellEx\ContextMenuHandlers\Library Location" /f
 Reg.exe delete "HKLM\SOFTWARE\Classes\Folder\ShellEx\ContextMenuHandlers\Library Location" /f
 EXIT /B
 
 :rmv_sec_del
+ECHO  -^> Removing Secure Delete
 Reg.exe delete "HKCR\*\shell\Z007AAO" /f
 Reg.exe delete "HKCR\Directory\shell\Z007AAO" /f
 EXIT /B
 
 
 :rmv_sec_cln_rec
+ECHO  -^> Removing Secure Clean from Recycle Bin
 Reg.exe delete "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /f
 EXIT /B
 
 
 :rmv_opn_as_port
+ECHO  -^> Removing Open as Portable Devices
 Reg.exe delete "HKLM\SOFTWARE\Classes\Drive\shellex\ContextMenuHandlers\{D6791A63-E7E2-4fee-BF52-5DED8E86E9B8}" /f
 EXIT /B
 
 
 :rmv_rstr_prev_ver
+ECHO  -^> Removing Restore Previous Versions
 Reg.exe delete "HKCR\AllFilesystemObjects\shellex\PropertySheetHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
 Reg.exe delete "HKCR\CLSID\{450D8FBA-AD25-11D0-98A8-0800361B1103}\shellex\PropertySheetHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
 Reg.exe delete "HKCR\Directory\shellex\PropertySheetHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
@@ -639,11 +668,13 @@ EXIT /B
 
 
 :rmv_brn_dsk_img
+ECHO  -^> Removing Burn Disc Image
 Reg.exe delete "HKCR\Windows.IsoFile\shell\burn" /f
 EXIT /B
 
 
 :rmv_cast_dev
+ECHO  -^> Removing Cast to Device
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" /V {7AD84985-87B4-4a16-BE58-8B72A5B390F7} /T REG_SZ /D "Play to Menu" /F
 taskkill /f /im explorer.exe
 start explorer.exe
@@ -651,16 +682,19 @@ EXIT /B
 
 
 :rmv_share
+ECHO  -^> Removing Share
 Reg.exe delete "HKCR\*\shellex\ContextMenuHandlers\ModernSharing" /f
 EXIT /B
 
 
 :rmv_quik_acces_nav_pan
+ECHO  -^> Removing Quick Access from Explorer Navigation Pane
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "HubMode" /t REG_DWORD /d "1" /f
 EXIT /B
 
 
 :rmv_network_nav_pan
+ECHO  -^> Removing Network from Explorer Navigation Pane
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
 Reg.exe add "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" /v "Attributes" /t REG_DWORD /d "2954100836" /f

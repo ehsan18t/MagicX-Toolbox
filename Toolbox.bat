@@ -203,7 +203,7 @@ SET "CNTXT_OPT8=Add Include in Library"
 SET "CNTXT_OPT9=Add Secure Delete"
 SET "CNTXT_OPT10=Add Secure Clean to Recycle Bin"
 SET "CNTXT_OPT11=Add Open as Portable Devices"
-SET "CNTXT_OPT12=Feature12"
+SET "CNTXT_OPT12=Add Restore Previous Versions"
 SET "CNTXT_OPT13=Feature13"
 SET "CNTXT_OPT14=Feature14"
 SET "CNTXT_OPT15=Feature15"
@@ -220,7 +220,7 @@ SET "OPT_ADRS8=add_inc_lib"
 SET "OPT_ADRS9=add_sec_del"
 SET "OPT_ADRS10=add_sec_cln_rec"
 SET "OPT_ADRS11=add_opn_as_port"
-SET "OPT_ADRS12="
+SET "OPT_ADRS12=add_rstr_prev_ver"
 SET "OPT_ADRS13="
 SET "OPT_ADRS14="
 SET "OPT_ADRS15="
@@ -409,6 +409,25 @@ CALL END_LINE
 Reg.exe add "HKLM\SOFTWARE\Classes\Drive\shellex\ContextMenuHandlers\{D6791A63-E7E2-4fee-BF52-5DED8E86E9B8}" /v "{D6791A63-E7E2-4fee-BF52-5DED8E86E9B8}" /t REG_SZ /d "Portable Devices Menu" /f
 CALL END_LINE
 
+
+:add_rstr_prev_ver
+Reg.exe add "HKCR\AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe add "HKCR\CLSID\{450D8FBA-AD25-11D0-98A8-0800361B1103}\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe add "HKCR\Directory\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe add "HKCR\Drive\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe add "HKCR\AllFilesystemObjects\shellex\PropertySheetHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe add "HKCR\CLSID\{450D8FBA-AD25-11D0-98A8-0800361B1103}\shellex\PropertySheetHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe add "HKCR\Directory\shellex\PropertySheetHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe add "HKCR\Drive\shellex\PropertySheetHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "NoPreviousVersionsPage" /f
+Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "NoPreviousVersionsPage" /f
+Reg.exe delete "HKLM\SOFTWARE\Policies\Microsoft\PreviousVersions" /v "DisableLocalPage" /f
+Reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "NoPreviousVersionsPage" /f
+Reg.exe delete "HKCU\Software\Policies\Microsoft\PreviousVersions" /v "DisableLocalPage" /f
+Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" /v "{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+CALL END_LINE
+
+
 :CNTXT_REM
 CLS
 SET "OPT_AMOUNT=17"
@@ -423,7 +442,7 @@ SET "CNTXT_OPT8=Remove Include in Library"
 SET "CNTXT_OPT9=Remove Secure Delete"
 SET "CNTXT_OPT10=Remove Secure Clean from Recycle Bin"
 SET "CNTXT_OPT11=Remove Open as Portable Devices"
-SET "CNTXT_OPT12=Feature12"
+SET "CNTXT_OPT12=Remove Restore Previous Versions"
 SET "CNTXT_OPT13=Feature13"
 SET "CNTXT_OPT14=Feature14"
 SET "CNTXT_OPT15=Feature15"
@@ -440,7 +459,7 @@ SET "OPT_ADRS8=rmv_inc_lib"
 SET "OPT_ADRS9=rmv_sec_del"
 SET "OPT_ADRS10=rmv_sec_cln_rec"
 SET "OPT_ADRS11=rmv_opn_as_port"
-SET "OPT_ADRS12="
+SET "OPT_ADRS12=rmv_rstr_prev_ver"
 SET "OPT_ADRS13="
 SET "OPT_ADRS14="
 SET "OPT_ADRS15="
@@ -553,6 +572,21 @@ Reg.exe delete "HKLM\SOFTWARE\Classes\Drive\shellex\ContextMenuHandlers\{D6791A6
 CALL END_LINE
 
 
+:rmv_rstr_prev_ver
+Reg.exe delete "HKCR\AllFilesystemObjects\shellex\PropertySheetHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe delete "HKCR\CLSID\{450D8FBA-AD25-11D0-98A8-0800361B1103}\shellex\PropertySheetHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe delete "HKCR\Directory\shellex\PropertySheetHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe delete "HKCR\Drive\shellex\PropertySheetHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe delete "HKCR\AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe delete "HKCR\CLSID\{450D8FBA-AD25-11D0-98A8-0800361B1103}\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe delete "HKCR\Directory\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe delete "HKCR\Drive\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
+Reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "NoPreviousVersionsPage" /f
+Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "NoPreviousVersionsPage" /f
+Reg.exe delete "HKLM\SOFTWARE\Policies\Microsoft\PreviousVersions" /v "DisableLocalPage" /f
+Reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "NoPreviousVersionsPage" /f
+Reg.exe delete "HKCU\Software\Policies\Microsoft\PreviousVersions" /v "DisableLocalPage" /f
+CALL END_LINE
 
 
 ::::::::::::::::::::::

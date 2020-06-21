@@ -205,7 +205,7 @@ SET "CNTXT_OPT10=Add Secure Clean to Recycle Bin"
 SET "CNTXT_OPT11=Add Open as Portable Devices"
 SET "CNTXT_OPT12=Add Restore Previous Versions"
 SET "CNTXT_OPT13=Add Burn Disc Image"
-SET "CNTXT_OPT14=Feature14"
+SET "CNTXT_OPT14=Add Cast to Device"
 SET "CNTXT_OPT15=Feature15"
 SET "CNTXT_OPT16=Feature16"
 
@@ -222,7 +222,7 @@ SET "OPT_ADRS10=add_sec_cln_rec"
 SET "OPT_ADRS11=add_opn_as_port"
 SET "OPT_ADRS12=add_rstr_prev_ver"
 SET "OPT_ADRS13=add_brn_dsk_img"
-SET "OPT_ADRS14="
+SET "OPT_ADRS14=add_cast_dev"
 SET "OPT_ADRS15="
 SET "OPT_ADRS16="
 
@@ -434,6 +434,13 @@ Reg.exe add "HKCR\Windows.IsoFile\shell\burn\command" /ve /t REG_EXPAND_SZ /d "%
 CALL END_LINE
 
 
+:add_cast_dev
+REG Delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" /V {7AD84985-87B4-4a16-BE58-8B72A5B390F7} /F
+taskkill /f /im explorer.exe
+start explorer.exe
+CALL END_LINE
+
+
 :CNTXT_REM
 CLS
 SET "OPT_AMOUNT=17"
@@ -450,7 +457,7 @@ SET "CNTXT_OPT10=Remove Secure Clean from Recycle Bin"
 SET "CNTXT_OPT11=Remove Open as Portable Devices"
 SET "CNTXT_OPT12=Remove Restore Previous Versions"
 SET "CNTXT_OPT13=Remove Burn Disc Image"
-SET "CNTXT_OPT14=Feature14"
+SET "CNTXT_OPT14=Remove Cast to Device"
 SET "CNTXT_OPT15=Feature15"
 SET "CNTXT_OPT16=Feature16"
 
@@ -467,7 +474,7 @@ SET "OPT_ADRS10=rmv_sec_cln_rec"
 SET "OPT_ADRS11=rmv_opn_as_port"
 SET "OPT_ADRS12=rmv_rstr_prev_ver"
 SET "OPT_ADRS13=rmv_brn_dsk_img"
-SET "OPT_ADRS14="
+SET "OPT_ADRS14=rmv_cast_dev"
 SET "OPT_ADRS15="
 SET "OPT_ADRS16="
 
@@ -597,6 +604,13 @@ CALL END_LINE
 
 :rmv_brn_dsk_img
 Reg.exe delete "HKCR\Windows.IsoFile\shell\burn" /f
+CALL END_LINE
+
+
+:rmv_cast_dev
+REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" /V {7AD84985-87B4-4a16-BE58-8B72A5B390F7} /T REG_SZ /D "Play to Menu" /F
+taskkill /f /im explorer.exe
+start explorer.exe
 CALL END_LINE
 
 

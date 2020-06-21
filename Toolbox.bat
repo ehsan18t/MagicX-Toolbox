@@ -191,7 +191,7 @@ IF ERRORLEVEL 1 GOTO CNTXT_ADD
 
 :CNTXT_ADD
 CLS
-SET "OPT_AMOUNT=17"
+SET "OPT_AMOUNT=16"
 SET "INP_MSG= --> Select Options to Apply: "
 SET "CNTXT_OPT1=Add Print"
 SET "CNTXT_OPT2=Add BitLocker Options"
@@ -448,7 +448,7 @@ CALL :END_LINE
 
 :CNTXT_REM
 CLS
-SET "OPT_AMOUNT=17"
+SET "OPT_AMOUNT=16"
 SET "INP_MSG= --> Select Options to Apply: "
 SET "CNTXT_OPT1=Remove Print"
 SET "CNTXT_OPT2=Remove BitLocker Options"
@@ -738,7 +738,7 @@ MD "%DESKTOP%\Apps"
 
 :Start_Downloads
 CLS
-SET "OPT_AMOUNT=17"
+SET "OPT_AMOUNT=16"
 SET "INP_MSG= --> Choose Apps to Download: "
 SET "CNTXT_OPT1=Adguard Premium"
 SET "CNTXT_OPT2=AIMP Audio Player"
@@ -1142,6 +1142,7 @@ EXIT /B
 
 
 :CNTXT_Menu_Fig
+SET /a "OPT_AMOUNT+=1"
 SET "x=0"
 
 :CNTXT_Var_Loop

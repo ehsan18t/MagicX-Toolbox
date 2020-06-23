@@ -41,9 +41,6 @@ IF ERRORLEVEL 1 GOTO Appearance
 
 
 
-
-
-
 ::::::::::::::::::::::::::
 ::						::
 ::		Appearance		::
@@ -101,7 +98,6 @@ taskkill /im explorer.exe /f
 start explorer.exe
 CAll :END_LINE
 
-
 :en_arw_shtct
 Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /v "29" /f
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /f
@@ -110,28 +106,23 @@ taskkill /im explorer.exe /f
 start explorer.exe
 CAll :END_LINE
 
-
 :en_act_cent
 Reg.exe delete "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /f
 Reg.exe delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /f
 CAll :END_LINE
-
 
 :ds_act_cent
 Reg.exe add "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "1" /f
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "1" /f
 CAll :END_LINE
 
-
 :en_old_battery
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell" /v "UseWin32BatteryFlyout" /t REG_DWORD /d "1" /f
 CAll :END_LINE
 
-
 :ds_old_battery
 Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell" /v "UseWin32BatteryFlyout" /f
 CAll :END_LINE
-
 
 :en_old_net
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
@@ -141,7 +132,6 @@ SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Set
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn setowner -ownr "n:nt service\trustedinstaller" >NUL 2>&1
 CAll :END_LINE
 
-
 :ds_old_net
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
@@ -150,11 +140,9 @@ SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Set
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn setowner -ownr "n:nt service\trustedinstaller" >NUL 2>&1
 CAll :END_LINE
 
-
 :en_old_vol_ctrl
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v "EnableMtcUvc" /t REG_DWORD /d "0" /f
 CAll :END_LINE
-
 
 :ds_old_vol_ctrl
 Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v "EnableMtcUvc" /f
@@ -235,8 +223,6 @@ CAll :CNTXT_Menu_Fig
 CALL :END_LINE
 
 
-
-:add_context
 :add_print
 ECHO  -^> Adding Print...
 Reg.exe delete "HKCR\SystemFileAssociations\image\shell\print" /v "ProgrammaticAccessOnly" /f
@@ -259,7 +245,6 @@ Reg.exe delete "HKCR\VBEFile\Shell\Print" /v "ProgrammaticAccessOnly" /f
 Reg.exe delete "HKCR\VBSFile\Shell\Print" /v "ProgrammaticAccessOnly" /f
 Reg.exe delete "HKCR\WSFFile\Shell\Print" /v "ProgrammaticAccessOnly" /f
 EXIT /B
-
 
 :add_bit_locker
 ECHO  -^> Adding BitLocker Options...
@@ -287,7 +272,6 @@ Reg.exe add "HKCR\Drive\shell\decrypt-bde" /v "MultiSelectModel" /t REG_SZ /d "S
 Reg.exe add "HKCR\Drive\shell\decrypt-bde\command" /ve /t REG_EXPAND_SZ /d "wscript.exe decrypt-bde.vbs %%1" /f
 EXIT /B
 
-
 :add_scan_defneder
 ECHO  -^> Adding Scan With Windows Defender...
 Reg.exe add "HKCR\*\shellex\ContextMenuHandlers\EPP" /ve /t REG_SZ /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
@@ -297,7 +281,6 @@ Reg.exe add "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}\Version" /ve /t R
 Reg.exe add "HKCR\Directory\shellex\ContextMenuHandlers\EPP" /ve /t REG_SZ /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
 Reg.exe add "HKCR\Drive\shellex\ContextMenuHandlers\EPP" /ve /t REG_SZ /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
 EXIT /B
-
 
 :add_personalize_classic
 ECHO  -^> Adding Personalize Classic...
@@ -336,7 +319,6 @@ Reg.exe add "HKCR\DesktopBackground\Shell\ClassicPersonalize\shell\08 Notificati
 Reg.exe add "HKCR\DesktopBackground\Shell\ClassicPersonalize\shell\09 System Icons" /v "Icon" /t REG_SZ /d "taskbarcpl.dll,-1" /f
 Reg.exe add "HKCR\DesktopBackground\Shell\ClassicPersonalize\shell\09 System Icons" /v "MUIVerb" /t REG_SZ /d "System Icons" /f
 Reg.exe add "HKCR\DesktopBackground\Shell\ClassicPersonalize\shell\09 System Icons\command" /ve /t REG_SZ /d "explorer shell:::{05d7b0f4-2121-4eff-bf6b-ed3f69b894d9} \SystemIcons,,0" /f
-
 Reg.exe add "HKCR\CLSID\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}" /ve /t REG_SZ /d "Personalization (classic)" /f
 Reg.exe add "HKCR\CLSID\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}" /v "InfoTip" /t REG_SZ /d "@%%SystemRoot%%\System32\themecpl.dll,-2#immutable1" /f
 Reg.exe add "HKCR\CLSID\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}" /v "System.ApplicationName" /t REG_SZ /d "Microsoft.Personalization" /f
@@ -383,13 +365,11 @@ Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\
 Reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v "forceguest" /t REG_DWORD /d "0" /f
 EXIT /B
 
-
 :add_inc_lib
 ECHO  -^> Adding Include in Library...
 Reg.exe add "HKCR\Folder\ShellEx\ContextMenuHandlers\Library Location" /ve /t REG_SZ /d "{3dad6c5d-2167-4cae-9914-f99e41c12cfa}" /f
 Reg.exe add "HKLM\SOFTWARE\Classes\Folder\ShellEx\ContextMenuHandlers\Library Location" /ve /t REG_SZ /d "{3dad6c5d-2167-4cae-9914-f99e41c12cfa}" /f
 EXIT /B
-
 
 :add_sec_del
 ECHO  -^> Adding Secure Delete...
@@ -406,7 +386,6 @@ Reg.exe add "HKCR\Directory\shell\Z007AAO" /v "Icon" /t REG_SZ /d "imageres.dll,
 Reg.exe add "HKCR\Directory\shell\Z007AAO\command" /ve /t REG_SZ /d "sdelete -p 3 -s \"%%1\"" /f
 EXIT /B
 
-
 :add_sec_cln_rec
 ECHO  -^> Adding Secure Clean to Recycle Bin...
 Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /ve /t REG_SZ /d "Secure Clean" /f
@@ -416,12 +395,10 @@ Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean
 Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean\command" /ve /t REG_SZ /d "nircmd elevate cmd /c \"for %%%%I in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) do if exist \"%%%%I:\$Recycle.Bin\" (sdelete64.exe -p 3 -s \"%%%%I:\$Recycle.Bin\*\") ^&^& taskkill /im explorer.exe /f ^&^& start explorer.exe\"" /f
 EXIT /B
 
-
 :add_opn_as_port
 ECHO  -^> Adding Open as Portable Devices...
 Reg.exe add "HKLM\SOFTWARE\Classes\Drive\shellex\ContextMenuHandlers\{D6791A63-E7E2-4fee-BF52-5DED8E86E9B8}" /v "{D6791A63-E7E2-4fee-BF52-5DED8E86E9B8}" /t REG_SZ /d "Portable Devices Menu" /f
 EXIT /B
-
 
 :add_rstr_prev_ver
 ECHO  -^> Adding Restore Previous Versions...
@@ -441,13 +418,11 @@ Reg.exe delete "HKCU\Software\Policies\Microsoft\PreviousVersions" /v "DisableLo
 Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" /v "{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f >NUL 2>&1
 EXIT /B
 
-
 :add_brn_dsk_img
 ECHO  -^> Adding Burn Disc Image...
 Reg.exe add "HKCR\Windows.IsoFile\shell\burn" /v "MUIVerb" /t REG_EXPAND_SZ /d "@%%SystemRoot%%\System32\isoburn.exe,-351" /f
 Reg.exe add "HKCR\Windows.IsoFile\shell\burn\command" /ve /t REG_EXPAND_SZ /d "%%SystemRoot%%\System32\isoburn.exe \"%%1\"" /f
 EXIT /B
-
 
 :add_cast_dev
 ECHO  -^> Adding Cast to Device...
@@ -462,12 +437,10 @@ ECHO  -^> Adding Share...
 Reg.exe add "HKCR\*\shellex\ContextMenuHandlers\ModernSharing" /ve /t REG_SZ /d "{e2bf9676-5f8f-435c-97eb-11607a5bedf7}" /f
 EXIT /B
 
-
 :add_quik_acces_nav_pan
 ECHO  -^> Adding Quick Access to Explorer Navigation Pane...
 Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "HubMode" /f
 EXIT /B
-
 
 :add_network_nav_pan
 ECHO  -^> Adding Network to Explorer Navigation Pane...
@@ -480,6 +453,7 @@ ECHO Restarting Windows Explorer....
 taskkill /im explorer.exe /f
 start explorer.exe
 EXIT /B
+
 
 
 :CNTXT_REM
@@ -526,9 +500,6 @@ CAll :CNTXT_Menu_Fig
 CALL :END_LINE
 
 
-
-
-:remove_context
 :rmv_print
 ECHO  -^> Removing Print
 Reg.exe add "HKCR\SystemFileAssociations\image\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
@@ -552,7 +523,6 @@ Reg.exe add "HKCR\VBSFile\Shell\Print" /v "ProgrammaticAccessOnly" /t REG_SZ /d 
 Reg.exe add "HKCR\WSFFile\Shell\Print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
 EXIT /B
 
-
 :rmv_bit_locker
 ECHO  -^> Removing BitLocker Options
 Reg.exe delete "HKCR\Drive\shell\suspend-bde" /f
@@ -567,7 +537,6 @@ Reg.exe add "HKCR\Drive\shell\encrypt-bde-elev" /v "LegacyDisable" /t REG_SZ /d 
 Reg.exe add "HKCR\Drive\shell\unlock-bde" /v "LegacyDisable" /t REG_SZ /d "" /f
 EXIT /B
 
-
 :rmv_scan_defender
 ECHO  -^> Removing Scan With Windows Defender
 Reg.exe delete "HKCR\*\shellex\ContextMenuHandlers\EPP" /f
@@ -576,7 +545,6 @@ Reg.exe delete "HKCR\Directory\shellex\ContextMenuHandlers\EPP" /f
 Reg.exe delete "HKCR\Drive\shellex\ContextMenuHandlers\EPP" /f
 EXIT /B
 
-
 :rmv_personalize_classic
 ECHO  -^> Removing Personalize Classic
 Reg.exe delete "HKCR\CLSID\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}" /f
@@ -584,13 +552,11 @@ Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlP
 Reg.exe delete "HKCR\DesktopBackground\Shell\ClassicPersonalize" /f
 EXIT /B
 
-
 :rmv_pin_to_Quik
 ECHO  -^> Removing Pin to Quick Access
 Reg.exe delete "HKLM\SOFTWARE\Classes\Folder\shell\pintohome" /f
 Reg.exe delete "HKCR\Folder\shell\pintohome" /f >NUL 2>&1
 EXIT /B
-
 
 :rmv_pin_to_Strt
 ECHO  -^> Removing Pin to Start
@@ -599,7 +565,6 @@ Reg.exe delete "HKCR\exefile\shellex\ContextMenuHandlers\PintoStartScreen" /f
 Reg.exe delete "HKCR\Microsoft.Website\ShellEx\ContextMenuHandlers\PintoStartScreen" /f
 Reg.exe delete "HKCR\mscfile\shellex\ContextMenuHandlers\PintoStartScreen" /f
 EXIT /B
-
 
 :rmv_give_access
 ECHO  -^> Removing Give Access
@@ -626,18 +591,15 @@ Reg.exe delete "HKCR\*\shell\Z007AAO" /f
 Reg.exe delete "HKCR\Directory\shell\Z007AAO" /f
 EXIT /B
 
-
 :rmv_sec_cln_rec
 ECHO  -^> Removing Secure Clean from Recycle Bin
 Reg.exe delete "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /f
 EXIT /B
 
-
 :rmv_opn_as_port
 ECHO  -^> Removing Open as Portable Devices
 Reg.exe delete "HKLM\SOFTWARE\Classes\Drive\shellex\ContextMenuHandlers\{D6791A63-E7E2-4fee-BF52-5DED8E86E9B8}" /f
 EXIT /B
-
 
 :rmv_rstr_prev_ver
 ECHO  -^> Removing Restore Previous Versions
@@ -656,12 +618,10 @@ Reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "NoP
 Reg.exe delete "HKCU\Software\Policies\Microsoft\PreviousVersions" /v "DisableLocalPage" /f >NUL 2>&1
 EXIT /B
 
-
 :rmv_brn_dsk_img
 ECHO  -^> Removing Burn Disc Image
 Reg.exe delete "HKCR\Windows.IsoFile\shell\burn" /f
 EXIT /B
-
 
 :rmv_cast_dev
 ECHO  -^> Removing Cast to Device
@@ -670,18 +630,15 @@ taskkill /f /im explorer.exe
 start explorer.exe
 EXIT /B
 
-
 :rmv_share
 ECHO  -^> Removing Share
 Reg.exe delete "HKCR\*\shellex\ContextMenuHandlers\ModernSharing" /f
 EXIT /B
 
-
 :rmv_quik_acces_nav_pan
 ECHO  -^> Removing Quick Access from Explorer Navigation Pane
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "HubMode" /t REG_DWORD /d "1" /f
 EXIT /B
-
 
 :rmv_network_nav_pan
 ECHO  -^> Removing Network from Explorer Navigation Pane
@@ -735,43 +692,35 @@ IF ERRORLEVEL 2 GOTO ds_large_sys_cache
 IF ERRORLEVEL 1 GOTO en_large_sys_cache
 
 
-
 :en_large_sys_cache
 Reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v "LargeSystemCache" /t REG_DWORD /d "1" /f
 CAll :END_LINE_RSRT
-
 
 :ds_large_sys_cache
 Reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v "LargeSystemCache" /t REG_DWORD /d "1" /f
 CAll :END_LINE_RSRT
 
-
 :en_large_icn_cache_4mb
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "Max Cached Icons" /t REG_SZ /d "4096" /f
 CAll :END_LINE_RSRT
-
 
 :en_large_icn_cache_8mb
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "Max Cached Icons" /t REG_SZ /d "8192" /f
 CAll :END_LINE_RSRT
 
-
 :ds_large_icn_cache
 Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "Max Cached Icons" /f
 CAll :END_LINE_RSRT
-
 
 :en_hibernate
 powercfg.exe /h off
 ECHO  SUCCESS: Hibernation Enabled
 CAll :END_LINE_RSRT
 
-
 :ds_hibernate
 powercfg.exe /h on
 ECHO  SUCCESS: Hibernation Disabled
 CAll :END_LINE_RSRT
-
 
 :sys_help
 ECHO  ^=^> "Large System Cache" Make system faster but uses more RAM.
@@ -786,11 +735,6 @@ CALL :END_LINE
 
 
 
-
-
-
-
-
 ::::::::::::::::::::::::::
 ::						::
 ::		Download		::
@@ -801,13 +745,10 @@ CLS
 SET Menu_Name=Downloads Menu
 SET Menu_Address=Downloads
 COLOR 0E
-SET DL_REPO=https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/Windows_10/Apps
-SET DESKTOP=%UserProfile%\Desktop
-IF EXIST "%DESKTOP%\Apps" GOTO Start_Downloads
-MD "%DESKTOP%\Apps"
+SET "DL_REPO=https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/Windows_10/Apps"
+SET "DESKTOP=%UserProfile%\Desktop"
+IF NOT EXIST "%DESKTOP%\Apps" MD "%DESKTOP%\Apps"
 
-:Start_Downloads
-CLS
 SET "OPT_AMOUNT=16"
 SET "INP_MSG= --> Choose Apps to Download: "
 SET "CNTXT_OPT1=Adguard Premium"
@@ -877,17 +818,11 @@ ECHO  ^=^> Adguard Premium Downloading.....
 powershell.exe -Command wget %DL_REPO%/Adguard_Premium.zip -OutFile Apps\Adguard_Premium.zip
 EXIT /B
 
-
-
-
 :AIMP_Audio_Player
 CD "%DESKTOP%"
 ECHO  ^=^> AIMP Audio Player Downloading.....
 powershell.exe -Command wget %DL_REPO%/AIMP_Audio_Player.exe -OutFile Apps\AIMP_Audio_Player.exe
 EXIT /B
-
-
-
 
 :Betternet_VPN
 CD "%DESKTOP%"
@@ -895,17 +830,11 @@ ECHO  ^=^> Betternet VPN Downloading.....
 powershell.exe -Command wget %DL_REPO%/Betternet_VPN_Premium.msi -OutFile Apps\Betternet_VPN_Premium.msi
 EXIT /B
 
-
-
-
 :Chrome
 CD "%DESKTOP%"
 ECHO  ^=^> Google Chrome Downloading.....
 powershell.exe -Command wget %DL_REPO%/Chrome.exe -OutFile Apps\Chrome.exe
 EXIT /B
-
-
-
 
 :Firefox
 CD "%DESKTOP%"
@@ -913,17 +842,11 @@ ECHO  ^=^> Mozila Firefox Downloading.....
 powershell.exe -Command wget %DL_REPO%/Firefox.exe -OutFile Apps\Firefox.exe
 EXIT /B
 
-
-
-
 :DU_Meter
 CD "%DESKTOP%"
 ECHO  ^=^> DU Meter Downloading.....
 powershell.exe -Command wget %DL_REPO%/DU_Meter.rar -OutFile Apps\DU_Meter.rar
 EXIT /B
-
-
-
 
 :Driver_Booster
 CD "%DESKTOP%"
@@ -931,17 +854,11 @@ ECHO  ^=^> Driver Booster Repack Downloading.....
 powershell.exe -Command wget %DL_REPO%/Driver_Booster_Repack.exe -OutFile Apps\Driver_Booster_Repack.exe
 EXIT /B
 
-
-
-
 :IDM
 CD "%DESKTOP%"
 ECHO  ^=^> IDM with Patch Downloading.....
 powershell.exe -Command wget %DL_REPO%/IDM.zip -OutFile Apps\IDM.zip
 EXIT /B
-
-
-
 
 :Dolby_HT
 CD "%DESKTOP%"
@@ -949,17 +866,11 @@ ECHO  ^=^> Dolby Home Theater v4 Downloading.....
 powershell.exe -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/Windows_10/Mods/Dolby_Home_Theatre_v4.7z -OutFile Apps\Dolby_Home_Theatre_v4.7z
 EXIT /B
 
-
-
-
 :MEGA_Link_Downloader
 CD "%DESKTOP%"
 ECHO  ^=^> MEGA Link Downloader Downloading.....
 powershell.exe -Command wget %DL_REPO%/MEGA_Link_Downloader.exe -OutFile Apps\MEGA_Link_Downloader.exe
 EXIT /B
-
-
-
 
 :npp
 CD "%DESKTOP%"
@@ -967,17 +878,11 @@ ECHO  ^=^> Notepad++ Downloading.....
 powershell.exe -Command wget %DL_REPO%/npp.exe -OutFile Apps\npp.exe
 EXIT /B
 
-
-
-
 :Old_Calculator
 CD "%DESKTOP%"
 ECHO  ^=^> Old Calculator Downloading.....
 powershell.exe -Command wget %DL_REPO%/Old_Calculator_for_Windows_10.exe -OutFile Apps\Old_Calculator_for_Windows_10.exe
 EXIT /B
-
-
-
 
 :Sublime_Text
 CD "%DESKTOP%"
@@ -985,16 +890,11 @@ ECHO  ^=^> Sublime Text Downloading.....
 powershell.exe -Command wget %DL_REPO%/Sublime_Text.exe -OutFile Apps\Sublime_Text.exe
 EXIT /B
 
-
-
-
 :uTorrent_Repack
 CD "%DESKTOP%"
 ECHO  ^=^> uTorrent Repack Downloading.....
 powershell.exe -Command wget %DL_REPO%/uTorrent_Repack.exe -OutFile Apps\uTorrent_Repack.exe
 EXIT /B
-
-
 
 :qBittorrent
 CD "%DESKTOP%"
@@ -1002,14 +902,7 @@ ECHO  ^=^> qBittorrent Downloading.....
 powershell.exe -Command wget %DL_REPO%/qBittorrent.exe -OutFile Apps\qBittorrent.exe
 EXIT /B
 
-GOTO Downloads
-
-
-
-
-
-
-
+GOTO %Menu_Address%
 
 
 
@@ -1046,41 +939,27 @@ IF ERRORLEVEL 2 GOTO ds_Windows_Update
 IF ERRORLEVEL 1 GOTO after_update_tweaks
 
 
-
-
-
-
 :after_update_tweaks
 CLS
 COLOR 0E
 
 CALL :Header
 
-
 CALL :END_LINE
-
 
 
 :ds_Windows_Update
 ECHO Disabling Windows Update....
-net stop wuauserv >nul 2>&1
+net stop wuauserv >NUL 2>&1
 sc config wuauserv start= disabled
-net stop wuauserv >nul 2>&1
+net stop wuauserv >NUL 2>&1
 CALL :END_LINE
-
-
-
 
 :en_Windows_Update
 ECHO Enabling Windows Update....
 sc config wuauserv start= demand
-net start wuauserv >nul 2>&1
+net start wuauserv >NUL 2>&1
 CALL :END_LINE
-
-
-
-
-
 
 
 
@@ -1103,10 +982,8 @@ ECHO  ^=^> TG Group: https:\\t.me\MagicXMod
 CALL :TWO_ECHO
 ECHO  ^=^> Send me BUG details with ScreenShot through any option here.
 ECHO  [Any Key] Main Menu
-PAUSE >nul
+PAUSE >NUL 2>&1
 GOTO Main_Menu
-
-
 
 
 
@@ -1132,7 +1009,6 @@ If Exist "%CD%\Update\*.bat" GOTO Update
 GOTO UpdateError
 
 
-
 :Update
 CLS
 COLOR 0E
@@ -1143,12 +1019,10 @@ ECHO 				===========================
 IF EXIST "%CD%\Update\PreUpdater.bat" COPY "%CD%\Update\PreUpdater.bat" "%CD%\PreUpdater.bat" && CALL "%CD%\PreUpdater.bat"
 CALL :TWO_ECHO
 ECHO  ^=^> Update Process will Start in 5s. Please Don't Close App While it Updating. 
-TIMEOUT /t 5 >nul
+TIMEOUT /t 5 >NUL 2>&1
 CLS
 CSCRIPT /B /Nologo "%CD%\Updater.vbs"
 EXIT
-
-
 
 :NoUpdate
 SET Menu_Name=Home
@@ -1162,8 +1036,6 @@ ECHO 				=====================================
 ECHO 				^|^| You Are Using The Latest Update ^|^|
 ECHO 				=====================================
 CALL :END_LINE
-
-
 
 :UpdateError
 SET Menu_Name=Home
@@ -1179,11 +1051,6 @@ CALL :END_LINE
 
 
 
-
-
-
-
-:Exit
 Exit
 
 :END_LINE
@@ -1203,7 +1070,7 @@ EXIT /B
 
 :END_LINE_DNL
 ECHO.
-ECHO  ^=^> SUCCESS: Download Complete
+ECHO  ^=^> DOWNLOAD COMPLETE
 ECHO  ^=^> Check "Apps" folder in Desktop
 ECHO.
 ECHO  ^=^> Press Any Key To Enter Options

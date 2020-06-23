@@ -1,4 +1,5 @@
 @ECHO OFF
+SET _rand=(%RANDOM%*6/32768)
 ::mode con:cols=78 lines=28
 SET Current_Version=1.0
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400
@@ -1154,9 +1155,9 @@ EXIT /B
 
 :Header
 ECHO.
-ECHO 			=========================
+ECHO [1;3%_rand%m			=========================
 ECHO 			^|^| MagicX Toolbox v%Current_Version% ^|^|
-ECHO 			=========================
+ECHO 			=========================[1;33m
 ECHO.
 EXIT /B
 

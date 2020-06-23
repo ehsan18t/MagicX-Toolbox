@@ -62,7 +62,7 @@ ECHO  1. Enable Arrow Icon In Shortcut
 ECHO  2. Enable Action Center 
 ECHO  3. Enable Old Battery Flyout UI
 ECHO  4. Enable Old Network Flyout UI
-ECHO  5. Enable Old Old Volume Control Flyout UI
+ECHO  5. Enable Old Volume Control Flyout UI
 ECHO.
 ECHO  =============
 ECHO  ^|^| Disable ^|^|
@@ -71,7 +71,7 @@ ECHO  A. Disable Arrow Icon From Shortcut
 ECHO  B. Disable Action Center 
 ECHO  C. Disable Old Battery Flyout UI
 ECHO  D. Disable Old Network Flyout UI
-ECHO  E. Disable Old Old Volume Control Flyout UI
+ECHO  E. Disable Old Volume Control Flyout UI
 ECHO.
 ECHO  H. Main Menu
 ECHO.
@@ -996,15 +996,15 @@ GOTO Main_Menu
 :Check_Update
 CLS
 ECHO.
-ECHO 				============================
+ECHO  				============================
 ECHO 				^|^| MagicX Toolbox Updater ^|^|
 ECHO 				============================
 ECHO.
 COLOR 03
 CD /d %~dp0
-ECHO  ^=^> Checking For New Update.....
-powershell.exe -nologo -noprofile -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/ToolBox_Update.zip -OutFile Update.zip
-powershell.exe -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('Update.zip', 'Update'); }"
+ECHO  [1;33m^=^> Checking For New Update.....
+powershell.exe -nologo -noprofile -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/ToolBox_Update.zip -OutFile Update.zip >NUL 2>&1
+powershell.exe -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('Update.zip', 'Update'); }" >NUL 2>&1
 If Exist "%CD%\Update\%Current_Version%.bat" GOTO NoUpdate
 If Exist "%CD%\Update\*.bat" GOTO Update
 GOTO UpdateError
@@ -1017,7 +1017,7 @@ ECHO.
 ECHO 				===========================
 ECHO 				^|^| New Update Available! ^|^|
 ECHO 				===========================
-IF EXIST "%CD%\Update\PreUpdater.bat" COPY "%CD%\Update\PreUpdater.bat" "%CD%\PreUpdater.bat" && CALL "%CD%\PreUpdater.bat"
+IF EXIST "%CD%\Update\PreUpdater.bat" COPY "%CD%\Update\PreUpdater.bat" "%CD%\PreUpdater.bat" && CALL "%CD%\PreUpdater.bat" >NUL 2>&1
 CALL :TWO_ECHO
 ECHO  ^=^> Update Process will Start in 5s. Please Don't Close App While it Updating. 
 TIMEOUT /t 5 >NUL 2>&1
@@ -1109,7 +1109,7 @@ ECHO.
 
 :Prompt
 ECHO.%Inp_Error_Message%
-ECHO --^> Your can Choose Multiple Options (E.G: 1, 2, 7 or 1 2 7)
+ECHO --^> Your can Choose Multiple Options (E.G: 1,2,7 or 1 2 7)
 SET /p "Input= %INP_MSG%"
 ECHO.
 IF NOT DEFINED Input GOTO Prompt

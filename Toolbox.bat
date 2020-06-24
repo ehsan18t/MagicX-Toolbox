@@ -995,13 +995,28 @@ ECHO 				^|^| MagicX Toolbox Updater ^|^|
 ECHO 				============================
 ECHO.
 COLOR 03
-CD /d %~dp0
+CD /D %~dp0
 ECHO  [1;33m^=^> Checking For New Update.....
 powershell.exe -nologo -noprofile -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/ToolBox_Update.zip -OutFile Update.zip >NUL 2>&1
 powershell.exe -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('Update.zip', 'Update'); }" >NUL 2>&1
-If Exist "%CD%\Update\%Current_Version%.bat" GOTO NoUpdate
-If Exist "%CD%\Update\*.bat" GOTO Update
-GOTO UpdateError
+IF EXIST "%CD%\Update\%Current_Version%.bat" GOTO NoUpdate
+IF NOT EXIST "%CD%\Update\*.bat" CALL :Network_Error
+SET "Current_Dir=%CD%"
+CD Update
+FOR %%F IN (*.bat) DO (
+ SET "Toolbox_NEW=%%F"
+ GOTO ExitScan
+)
+:ExitScan
+CD %Current_Dir%
+SET "Toolbox_NEW=%Toolbox_NEW:~0,-4%"
+IF "%Toolbox_NEW%" GTR "%Current_Version%" (
+    GOTO Update
+) ELSE IF "%Toolbox_NEW%" LEQ "%Current_Version%" (
+    GOTO NoUpdate
+) ELSE (
+    CALL :Network_Error
+)
 
 
 :Update
@@ -1011,7 +1026,7 @@ ECHO.
 ECHO 				===========================
 ECHO 				^|^| New Update Available! ^|^|
 ECHO 				===========================
-IF EXIST "%CD%\Update\PreUpdater.bat" COPY "%CD%\Update\PreUpdater.bat" "%CD%\PreUpdater.bat" && CALL "%CD%\PreUpdater.bat" >NUL 2>&1
+IF EXIST "%CD%\Update\PreUpdater.bat" COPY /Y "%CD%\Update\PreUpdater.bat" "%CD%\PreUpdater.bat" && CALL "%CD%\PreUpdater.bat" >NUL 2>&1
 CALL :TWO_ECHO
 ECHO  ^=^> Update Process will Start in 5s. Please Don't Close App While it Updating. 
 TIMEOUT /t 5 >NUL 2>&1
@@ -1031,19 +1046,6 @@ ECHO 				=====================================
 ECHO 				^|^| You Are Using The Latest Update ^|^|
 ECHO 				=====================================
 CALL :END_LINE
-
-:UpdateError
-SET Menu_Name=Home
-SET Menu_Address=Main_Menu
-CLS
-COLOR 0C
-ECHO.
-ECHO 		======================================================================
-ECHO 		^|^| Unexpected Error Occurred. Please Check Your Internet Connection ^|^|
-ECHO 		======================================================================
-ECHO.
-CALL :END_LINE
-
 
 
 Exit
@@ -1156,6 +1158,19 @@ ECHO   ^| ^|  ^| ^| (_^| ^| (_^| ^| ^| (__ /  \    ^| ^| (_) ^| (_) ^| ^| ^|_) ^
 ECHO   ^|_^|  ^|_^|\__,_^|\__, ^|_^|\___/_/\_\   ^|_^|\___/ \___/^|_^|_.__/ \___/_/\_\
 ECHO                 ^|___/         [1;33m
 ECHO.
+EXIT /B
+
+:Network_Error
+SET Menu_Name=Main Menu
+SET Menu_Address=Main_Menu
+CLS
+COLOR 0C
+ECHO.
+ECHO 		======================================================================
+ECHO 		^|^| Unexpected Error Occurred. Please Check Your Internet Connection ^|^|
+ECHO 		======================================================================
+ECHO.
+CALL :END_LINE
 EXIT /B
 
 :THREE_ECHO

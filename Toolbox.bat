@@ -26,10 +26,9 @@ ECHO  5. Download Center
 ECHO  U. Check Update
 ECHO  R. Report BUGS
 ECHO  X. Exit
-ECHO.
-
+ECHO [1;37m
 CHOICE /C:12345URX /N /M "Enter your choice: "
-
+ECHO [1;33m
 IF ERRORLEVEL 8 GOTO Exit
 IF ERRORLEVEL 7 GOTO Report_Bugs
 IF ERRORLEVEL 6 GOTO Check_Update
@@ -51,9 +50,7 @@ CLS
 COLOR 0E
 SET Menu_Name=Appearance Menu
 SET Menu_Address=Appearance
-
 CALL :Header
-
 ECHO  ============
 ECHO  ^|^| Enable ^|^|
 ECHO  ============
@@ -72,11 +69,10 @@ ECHO  C. Disable Old Battery Flyout UI
 ECHO  D. Disable Old Network Flyout UI
 ECHO  E. Disable Old Volume Control Flyout UI
 ECHO.
-ECHO  H. Main Menu
-ECHO.
-
+ECHO  [1;36mH. Main Menu[1;33m
+ECHO [1;37m
 CHOICE /C:12345ABCDEH /N /M "Enter your choice: "
-
+ECHO [1;33m
 ECHO.
 IF ERRORLEVEL 11 GOTO Main_Menu
 IF ERRORLEVEL 10 GOTO ds_old_vol_ctrl
@@ -165,12 +161,10 @@ CALL :Header
 ECHO  1. Add Something To Context Menu
 ECHO  2. Remove Something From Context Menu
 ECHO.
-ECHO  H. Main Menu
-ECHO.
-
+ECHO  [1;36mH. Main Menu[1;33m
+ECHO [1;37m
 CHOICE /C:12H /N /M "Enter your choice: "
-
-ECHO.
+ECHO [1;33m
 IF ERRORLEVEL 3 GOTO Main_Menu
 IF ERRORLEVEL 2 GOTO CNTXT_REM
 IF ERRORLEVEL 1 GOTO CNTXT_ADD
@@ -676,12 +670,11 @@ ECHO  5. Disable Large Icon Cache (Default=500KB)
 ECHO  6. Enable Hibernation (Recommended)
 ECHO  7. Disable Hibernation
 ECHO  8. HELP (Description of All Above Tweaks)
-ECHO  H. Main Menu
 ECHO.
-
+ECHO  [1;36mH. Main Menu[1;33m
+ECHO [1;37m
 CHOICE /C:12345678H /N /M "Enter your choice: "
-
-ECHO.
+ECHO [1;33m
 IF ERRORLEVEL 9 GOTO Main_Menu
 IF ERRORLEVEL 8 GOTO sys_help
 IF ERRORLEVEL 7 GOTO ds_hibernate
@@ -928,7 +921,8 @@ CALL :TWO_ECHO
 ECHO  1. After Update Tweaks
 ECHO  2. Disable Windows Update
 ECHO  3. Enable Windows Update
-ECHO  H. Main Menu
+ECHO.
+ECHO  [1;36mH. Main Menu[1;33m
 ECHO.
 
 CHOICE /C:123H /N /M "Enter your choice: "
@@ -1056,7 +1050,7 @@ Exit
 
 :END_LINE
 ECHO.
-ECHO  ^=^> Press Any Key To Go %Menu_Name%
+ECHO [1;36m ^=^> Press Any Key To Go %Menu_Name%[1;33m
 PAUSE >NUL 2>&1
 GOTO %Menu_Address%
 EXIT /B
@@ -1064,7 +1058,7 @@ EXIT /B
 :END_LINE_RSRT
 ECHO.
 ECHO  ^=^> Please Restart Windows to Apply This Tweak
-ECHO  ^=^> Press Any Key To Go %Menu_Name%
+ECHO [1;36m ^=^> Press Any Key To Go %Menu_Name%[1;33m
 PAUSE >NUL 2>&1
 GOTO %Menu_Address%
 EXIT /B
@@ -1074,7 +1068,7 @@ ECHO.
 ECHO  ^=^> DOWNLOAD COMPLETE
 ECHO  ^=^> Check "Apps" folder in Desktop
 ECHO.
-ECHO  ^=^> Press Any Key To Enter Options
+ECHO [1;36m ^=^> Press Any Key To Enter Options[1;33m
 PAUSE >NUL 2>&1
 GOTO %Menu_Address%
 EXIT /B
@@ -1104,14 +1098,15 @@ IF DEFINED CNTXT[%x%] (
     GOTO CNTXT_MenuLoop
 )
 ECHO.
-ECHO   H. Main Menu
+ECHO  [1;36m H. Main Menu[1;33m
 ECHO.
 
 :Prompt
 ECHO.%Inp_Error_Message%
 ECHO --^> Your can Choose Multiple Options (E.G: 1,2,7 or 1 2 7)
+ECHO [1;37m
 SET /p "Input= %INP_MSG%"
-ECHO.
+ECHO [1;33m
 IF NOT DEFINED Input GOTO Prompt
 SET "Input=%Input:"=%"
 SET "Input=%Input:^=%"

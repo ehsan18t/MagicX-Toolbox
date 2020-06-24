@@ -735,169 +735,64 @@ CALL :END_LINE
 ::						::
 ::::::::::::::::::::::::::
 :Downloads
-CLS
-SET Menu_Name=Downloads Menu
-SET Menu_Address=Downloads
-COLOR 0E
-SET "DL_REPO=https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/Windows_10/Apps"
+SET Menu_Name=Downloads Center
+SET Menu_Address=Downloads_Menu
 SET "DESKTOP=%UserProfile%\Desktop"
+ECHO  ^=^> [1;36mFetching Downloads Info......[1;33m
+powershell.exe -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/Windows_10/Downloads_Info.bat -OutFile Downloads_Info.bat >NUL 2>&1
+IF NOT EXIST "Downloads_Info.bat" CALL :Network_Error
+CALL Downloads_Info.bat
+DEL Downloads_Info.bat
+
+:Downloads_Menu
 IF NOT EXIST "%DESKTOP%\Apps" MD "%DESKTOP%\Apps"
+CLS
+COLOR 0E
+Set "Pattern= "
+Set "Replace=_"
 
-SET "OPT_AMOUNT=16"
-SET "INP_MSG= --> Choose Apps to Download: "
-SET "CNTXT_OPT1=Adguard Premium"
-SET "CNTXT_OPT2=AIMP Audio Player"
-SET "CNTXT_OPT3=Betternet VPN"
-SET "CNTXT_OPT4=Google Chrome"
-SET "CNTXT_OPT5=Mozila Firefox"
-SET "CNTXT_OPT6=DU Meter"
-SET "CNTXT_OPT7=Iobit Driver Booster"
-SET "CNTXT_OPT8=Internet Download Manager"
-SET "CNTXT_OPT9=Dolby Home Theater v4"
-SET "CNTXT_OPT10=MEGA Link Downloader"
-SET "CNTXT_OPT11=Notepad++"
-SET "CNTXT_OPT12=Old Calculator"
-SET "CNTXT_OPT13=Sublime Text"
-SET "CNTXT_OPT14=uTorrent Repack"
-SET "CNTXT_OPT15=qBittorrent"
-SET "CNTXT_OPT16=All Apps"
-
-SET "OPT_ADRS1=Adguard_Premium"
-SET "OPT_ADRS2=AIMP_Audio_Player"
-SET "OPT_ADRS3=Betternet_VPN"
-SET "OPT_ADRS4=Chrome"
-SET "OPT_ADRS5=Firefox"
-SET "OPT_ADRS6=DU_Meter"
-SET "OPT_ADRS7=Driver_Booster"
-SET "OPT_ADRS8=IDM"
-SET "OPT_ADRS9=Dolby_HT"
-SET "OPT_ADRS10=MEGA_Link_Downloader"
-SET "OPT_ADRS11=npp"
-SET "OPT_ADRS12=Old_Calculator"
-SET "OPT_ADRS13=Sublime_Text"
-SET "OPT_ADRS14=uTorrent_Repack"
-SET "OPT_ADRS15=qBittorrent"
-SET "OPT_ADRS16=all_apps"
 
 CALL :Header
-
 ECHO.
-ECHO  ^=^> All apps should be latest. Because I update all apps once in a week.
 ECHO  ^=^> Antivirus may show false alerm for some apps. Don't worry about it.
 ECHO.
 CALL :CNTXT_Menu_Fig
 CALL :END_LINE_DNL
 
-:all_apps
-CALL :Adguard_Premium
-CALL :AIMP_Audio_Player
-CALL :Betternet_VPN
-CALL :Chrome
-CALL :Firefox
-CALL :DU_Meter
-CALL :Driver_Booster
-CALL :IDM
-CALL :Dolby_HT
-CALL :MEGA_Link_Downloader
-CALL :npp
-CALL :Old_Calculator
-CALL :Sublime_Text
-CALL :uTorrent_Repack
-CALL :qBittorrent
+
+:Download_Start_Apps_exe
+CD "%DESKTOP%"
+CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"
+SET "File_Name=!DNL_OPT:%Pattern%=%Replace%!"
+ECHO  ^=^> %DNL_OPT% Downloading.....
+powershell.exe -Command wget %DL_REPO%/Apps/%File_Name%.exe -OutFile Apps\%File_Name%.exe
 EXIT /B
 
-:Adguard_Premium
+:Download_Start_Apps_zip
 CD "%DESKTOP%"
-ECHO  ^=^> Adguard Premium Downloading.....
-powershell.exe -Command wget %DL_REPO%/Adguard_Premium.zip -OutFile Apps\Adguard_Premium.zip
+CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"
+SET "File_Name=!DNL_OPT:%Pattern%=%Replace%!"
+ECHO  ^=^> %DNL_OPT% Downloading.....
+powershell.exe -Command wget %DL_REPO%/Apps/%File_Name%.zip -OutFile Apps\%File_Name%.zip
 EXIT /B
 
-:AIMP_Audio_Player
+:Download_Start_Mods
 CD "%DESKTOP%"
-ECHO  ^=^> AIMP Audio Player Downloading.....
-powershell.exe -Command wget %DL_REPO%/AIMP_Audio_Player.exe -OutFile Apps\AIMP_Audio_Player.exe
+CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"
+SET "File_Name=!DNL_OPT:%Pattern%=%Replace%!"
+ECHO  ^=^> %DNL_OPT% Downloading.....
+powershell.exe -Command wget %DL_REPO%/Mods/%File_Name%.zip -OutFile Apps\%File_Name%.zip
 EXIT /B
 
-:Betternet_VPN
+:Download_Start_Tuts
 CD "%DESKTOP%"
-ECHO  ^=^> Betternet VPN Downloading.....
-powershell.exe -Command wget %DL_REPO%/Betternet_VPN_Premium.msi -OutFile Apps\Betternet_VPN_Premium.msi
-EXIT /B
-
-:Chrome
-CD "%DESKTOP%"
-ECHO  ^=^> Google Chrome Downloading.....
-powershell.exe -Command wget %DL_REPO%/Chrome.exe -OutFile Apps\Chrome.exe
-EXIT /B
-
-:Firefox
-CD "%DESKTOP%"
-ECHO  ^=^> Mozila Firefox Downloading.....
-powershell.exe -Command wget %DL_REPO%/Firefox.exe -OutFile Apps\Firefox.exe
-EXIT /B
-
-:DU_Meter
-CD "%DESKTOP%"
-ECHO  ^=^> DU Meter Downloading.....
-powershell.exe -Command wget %DL_REPO%/DU_Meter.rar -OutFile Apps\DU_Meter.rar
-EXIT /B
-
-:Driver_Booster
-CD "%DESKTOP%"
-ECHO  ^=^> Driver Booster Repack Downloading.....
-powershell.exe -Command wget %DL_REPO%/Driver_Booster_Repack.exe -OutFile Apps\Driver_Booster_Repack.exe
-EXIT /B
-
-:IDM
-CD "%DESKTOP%"
-ECHO  ^=^> IDM with Patch Downloading.....
-powershell.exe -Command wget %DL_REPO%/IDM.zip -OutFile Apps\IDM.zip
-EXIT /B
-
-:Dolby_HT
-CD "%DESKTOP%"
-ECHO  ^=^> Dolby Home Theater v4 Downloading.....
-powershell.exe -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/Windows_10/Mods/Dolby_Home_Theatre_v4.7z -OutFile Apps\Dolby_Home_Theatre_v4.7z
-EXIT /B
-
-:MEGA_Link_Downloader
-CD "%DESKTOP%"
-ECHO  ^=^> MEGA Link Downloader Downloading.....
-powershell.exe -Command wget %DL_REPO%/MEGA_Link_Downloader.exe -OutFile Apps\MEGA_Link_Downloader.exe
-EXIT /B
-
-:npp
-CD "%DESKTOP%"
-ECHO  ^=^> Notepad++ Downloading.....
-powershell.exe -Command wget %DL_REPO%/npp.exe -OutFile Apps\npp.exe
-EXIT /B
-
-:Old_Calculator
-CD "%DESKTOP%"
-ECHO  ^=^> Old Calculator Downloading.....
-powershell.exe -Command wget %DL_REPO%/Old_Calculator_for_Windows_10.exe -OutFile Apps\Old_Calculator_for_Windows_10.exe
-EXIT /B
-
-:Sublime_Text
-CD "%DESKTOP%"
-ECHO  ^=^> Sublime Text Downloading.....
-powershell.exe -Command wget %DL_REPO%/Sublime_Text.exe -OutFile Apps\Sublime_Text.exe
-EXIT /B
-
-:uTorrent_Repack
-CD "%DESKTOP%"
-ECHO  ^=^> uTorrent Repack Downloading.....
-powershell.exe -Command wget %DL_REPO%/uTorrent_Repack.exe -OutFile Apps\uTorrent_Repack.exe
-EXIT /B
-
-:qBittorrent
-CD "%DESKTOP%"
-ECHO  ^=^> qBittorrent Downloading.....
-powershell.exe -Command wget %DL_REPO%/qBittorrent.exe -OutFile Apps\qBittorrent.exe
+CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"
+SET "File_Name=!DNL_OPT:%Pattern%=%Replace%!"
+ECHO  ^=^> %DNL_OPT% Downloading.....
+powershell.exe -Command wget %DL_REPO%/Tuts/%File_Name%.zip -OutFile Apps\%File_Name%.mkv
 EXIT /B
 
 GOTO %Menu_Address%
-
 
 
 ::::::::::::::::::::::::::::::

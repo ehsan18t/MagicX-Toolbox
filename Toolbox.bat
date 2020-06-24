@@ -890,28 +890,21 @@ ECHO 				^|^| MagicX Toolbox Updater ^|^|
 ECHO 				============================
 ECHO.
 COLOR 03
-CD /D %~dp0
 ECHO  [1;33m^=^> Checking For New Update.....
-powershell.exe -nologo -noprofile -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/ToolBox_Update.zip -OutFile Update.zip >NUL 2>&1
-powershell.exe -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('Update.zip', 'Update'); }" >NUL 2>&1
-IF EXIST "%CD%\Update\%Current_Version%.bat" GOTO NoUpdate
-IF NOT EXIST "%CD%\Update\*.bat" CALL :Network_Error
-SET "Current_Dir=%CD%"
-CD Update
-FOR %%F IN (*.bat) DO (
- SET "Toolbox_NEW=%%F"
- GOTO ExitScan
+powershell.exe -nologo -noprofile -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/Toolbox_Update_Info.bat -OutFile Toolbox_Update_Info.bat >NUL 2>&1
+IF NOT EXIST "Toolbox_Update_Info.bat" CALL :Network_Error
+IF EXIST "Toolbox_Update_Info.bat" (
+    CALL Toolbox_Update_Info.bat
+    DEL Toolbox_Update_Info.bat
 )
-:ExitScan
-CD %Current_Dir%
-SET "Toolbox_NEW=%Toolbox_NEW:~0,-4%"
-IF "%Toolbox_NEW%" GTR "%Current_Version%" (
+IF "%Update_Version%" GTR "%Current_Version%" (
     GOTO Update
-) ELSE IF "%Toolbox_NEW%" LEQ "%Current_Version%" (
+) ELSE IF "%Update_Version%" LEQ "%Current_Version%" (
     GOTO NoUpdate
 ) ELSE (
     CALL :Network_Error
 )
+EXIT
 
 
 :Update
@@ -921,8 +914,13 @@ ECHO.
 ECHO 				===========================
 ECHO 				^|^| New Update Available! ^|^|
 ECHO 				===========================
-IF EXIST "%CD%\Update\PreUpdater.bat" COPY /Y "%CD%\Update\PreUpdater.bat" "%CD%\PreUpdater.bat" && CALL "%CD%\PreUpdater.bat" >NUL 2>&1
 CALL :TWO_ECHO
+ECHO  ^=^> Updates Downloading. Please Wait...
+CD /D %~dp0
+powershell.exe -nologo -noprofile -Command wget %DNL_LINK%/%Update_FileName% -OutFile %Update_FileName% >NUL 2>&1
+powershell.exe -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('%Update_FileName%', 'Update'); }" >NUL 2>&1
+IF NOT EXIST "%CD%\Update\*.bat" CALL :Network_Error
+IF EXIST "%CD%\Update\PreUpdater.bat" COPY /Y "%CD%\Update\PreUpdater.bat" "%CD%\PreUpdater.bat" && CALL "%CD%\PreUpdater.bat" >NUL 2>&1
 ECHO  ^=^> Update Process will Start in 5s. Please Don't Close App While it Updating. 
 TIMEOUT /t 5 >NUL 2>&1
 CLS
@@ -932,8 +930,6 @@ EXIT
 :NoUpdate
 SET Menu_Name=Home
 SET Menu_Address=Main_Menu
-RMDIR /S /Q "%CD%\Update"
-DEL "%CD%\Update.zip"
 CLS
 COLOR 0A
 ECHO.

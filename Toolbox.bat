@@ -1078,6 +1078,7 @@ EXIT /B
 
 :CNTXT_Menu_Fig
 SETLOCAL EnableExtensions
+SETLOCAL EnableDelayedExpansion
 SET /a "OPT_AMOUNT+=1"
 SET "x=0"
 
@@ -1105,6 +1106,7 @@ ECHO.
 
 :Prompt
 ECHO.%Inp_Error_Message%
+SET "Inp_Error_Message="
 ECHO --^> Your can Choose Multiple Options (E.G: 1,2,7 or 1 2 7)
 ECHO [1;37m
 SET /p "Input= %INP_MSG%"
@@ -1127,8 +1129,8 @@ GOTO End_Tasks
 :CNTXT_Inp_Validate
 SET "Next=%2"
 IF not DEFINED CNTXT[%1] (
-    SET "Inp_Error_Message= INVALID INPUT: %1!"
-    GOTO CNTXT_Menu
+    SET "Inp_Error_Message= [1;31mINVALID INPUT: %1![1;33m"
+    GOTO Prompt
 )
 IF DEFINED Next SHIFT & GOTO CNTXT_Inp_Validate
 GOTO :EOF

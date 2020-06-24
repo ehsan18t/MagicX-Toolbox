@@ -1,20 +1,19 @@
 @ECHO OFF
-SET _rand=(%RANDOM%*6/32768)
 ::mode con:cols=78 lines=28
 SET Current_Version=1.0
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400
+SET /a "_rand=(%RANDOM%*6/32768)"
 
 :Main_Menu
 CLS
 COLOR 0E
-
 CALL :Header
-
-CALL :TWO_ECHO
-ECHO  ^=^> Author: Ahsan Khan (@Ahsan400)
-ECHO  ^=^> Target: Windows 10 20H1
-ECHO  ^=^> TG Group: https:\\t.me\MagicXMod
-ECHO  ^=^> Website: MagicXMod.github.io
+ECHO                  [1;31m--------------------------------------
+ECHO                  ^|[1;33m  Author: [1;36mAhsan Khan (@Ahsan400)[1;33m    [1;31m^|
+ECHO                  ^|[1;33m  Target: [1;36mWindows 10 20H1[1;33m           [1;31m^|
+ECHO                  ^|[1;33m  TG Group: [1;34mhttps:\\t.me\MagicXMod[1;33m  [1;31m^|
+ECHO                  ^|[1;33m  Website: [1;34mMagicXMod.github.io[1;33m      [1;31m^|
+ECHO                  --------------------------------------[1;33m
 CALL :TWO_ECHO
 ECHO  ***********************
 ECHO  ***	Main Menu    ***
@@ -1155,10 +1154,12 @@ ENDLOCAL
 EXIT /B
 
 :Header
-ECHO.
-ECHO [1;3%_rand%m			=========================
-ECHO 			^|^| MagicX Toolbox v%Current_Version% ^|^|
-ECHO 			=========================[1;33m
+ECHO  [1;3%_rand%m  __  __             _     __  __  _____           _ _               
+ECHO   ^|  \/  ^| __ _  __ _(_) ___\ \/ / ^|_   _^|__   ___ ^| ^| ^|__   _____  __
+ECHO   ^| ^|\/^| ^|/ _` ^|/ _` ^| ^|/ __^|\  /    ^| ^|/ _ \ / _ \^| ^| '_ \ / _ \ \/ /
+ECHO   ^| ^|  ^| ^| (_^| ^| (_^| ^| ^| (__ /  \    ^| ^| (_) ^| (_) ^| ^| ^|_) ^| (_) ^>  ^< 
+ECHO   ^|_^|  ^|_^|\__,_^|\__, ^|_^|\___/_/\_\   ^|_^|\___/ \___/^|_^|_.__/ \___/_/\_\
+ECHO                 ^|___/         [1;33m
 ECHO.
 EXIT /B
 

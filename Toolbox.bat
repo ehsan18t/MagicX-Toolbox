@@ -991,14 +991,15 @@ IF DEFINED CNTXT[%x%] (
     CALL ECHO   %x%. %%CNTXT[%x%]%%
     GOTO CNTXT_MenuLoop
 )
-ECHO.
 ECHO  [1;36m H. Main Menu[1;33m
 ECHO.
+ECHO --^> Your can Choose Multiple Options (E.G: 1,2,7 or 1 2 7)
 
 :Prompt
-ECHO.%Inp_Error_Message%
-SET "Inp_Error_Message="
-ECHO --^> Your can Choose Multiple Options (E.G: 1,2,7 or 1 2 7)
+IF DEFINED Inp_Error_Message (
+    ECHO.%Inp_Error_Message%
+    SET "Inp_Error_Message="
+)
 ECHO [1;37m
 SET /p "Input= %INP_MSG%"
 ECHO [1;33m

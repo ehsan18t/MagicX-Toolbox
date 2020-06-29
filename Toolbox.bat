@@ -121,6 +121,7 @@ Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell" /
 CAll :END_LINE
 
 :en_old_net
+CALL :Check_SetACL
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" /v "ReplaceVan" /t REG_DWORD /d "2" /f
@@ -129,6 +130,7 @@ SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Set
 CAll :END_LINE
 
 :ds_old_net
+CALL :Check_SetACL
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" /v "ReplaceVan" /t REG_DWORD /d "0" /f
@@ -438,6 +440,7 @@ Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "Hub
 EXIT /B
 
 :add_network_nav_pan
+CALL :Check_SetACL
 ECHO  -^> Adding Network to Explorer Navigation Pane...
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
@@ -636,6 +639,7 @@ Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "HubMod
 EXIT /B
 
 :rmv_network_nav_pan
+CALL :Check_SetACL
 ECHO  -^> Removing Network from Explorer Navigation Pane
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
@@ -1076,4 +1080,33 @@ EXIT /B
 :TWO_ECHO
 ECHO.
 ECHO.
+EXIT /B
+
+
+:Check_SetACL
+IF NOT EXIST "%WinDir%\system32\SetACL.exe" (
+    ECHO  [1;37m
+    CHOICE /C:NY /N /M "--> Necessary lib not found! Want to download it (547KB)? [Y/N] "
+    IF ERRORLEVEL 2 CALL :DNL_SetACL
+    IF ERRORLEVEL 1 GOTO %Menu_Address%
+)
+EXIT /B
+
+:Check_NirCMD
+IF NOT EXIST "%WinDir%\system32\nircmd.exe" (
+    ECHO  [1;37m
+    CHOICE /C:NY /N /M "--> Necessary lib not found! Want to download it (115KB)? [Y/N] "
+    IF ERRORLEVEL 2 CALL :DNL_NirCMD
+    IF ERRORLEVEL 1 GOTO %Menu_Address%
+)
+EXIT /B
+
+:DNL_SetACL
+ECHO --^> Necessary lib Downloading... [1;33m
+powershell.exe -nologo -noprofile -Command wget https://raw.githubusercontent.com/Ahsan400/MagicX_Mod_Files/master/Windows_10/Libs/SetACL.exe -OutFile %WinDir%\system32\SetACL.exe >NUL 2>&1
+EXIT /B
+
+:DNL_NirCMD
+ECHO --^> Necessary lib Downloading... [1;33m
+powershell.exe -nologo -noprofile -Command wget https://raw.githubusercontent.com/Ahsan400/MagicX_Mod_Files/master/Windows_10/Libs/nircmd.exe -OutFile %WinDir%\system32\nircmd.exe >NUL 2>&1
 EXIT /B

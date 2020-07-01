@@ -30,7 +30,7 @@ ECHO [1;37m
 CHOICE /C:12345URX /N /M "Enter your choice: "
 ECHO [1;33m
 IF ERRORLEVEL 8 GOTO Exit
-IF ERRORLEVEL 7 GOTO Report_Bugs
+IF ERRORLEVEL 7 CALL EXPLORER "https:\\t.me\MagicXMod" & GOTO Main_Menu
 IF ERRORLEVEL 6 GOTO Check_Update
 IF ERRORLEVEL 5 GOTO Downloads
 IF ERRORLEVEL 4 GOTO Windows_Update
@@ -854,30 +854,6 @@ ECHO Enabling Windows Update....
 sc config wuauserv start= demand
 net start wuauserv >NUL 2>&1
 CALL :END_LINE
-
-
-
-::::::::::::::::::::::::::
-::						::
-::		Report Bug		::
-::						::
-::::::::::::::::::::::::::
-:Report_Bugs
-CLS
-COLOR 0E
-
-CALL :Header
-
-CALL :TWO_ECHO
-ECHO  ^=^> Facebook: @Ahsan400
-ECHO  ^=^> Telegram: @Ahsan400
-ECHO  ^=^> Email: help.ahsan@gmail.com
-ECHO  ^=^> TG Group: https:\\t.me\MagicXMod
-CALL :TWO_ECHO
-ECHO  ^=^> Send me BUG details with ScreenShot through any option here.
-ECHO  [Any Key] Main Menu
-PAUSE >NUL 2>&1
-GOTO Main_Menu
 
 
 

@@ -983,7 +983,11 @@ IF DEFINED Inp_Error_Message (
 ECHO [1;37m
 SET /p "Input= %INP_MSG%"
 ECHO [1;33m
-IF NOT DEFINED Input GOTO Prompt
+IF NOT DEFINED Input (
+    SET "Inp_Error_Message=[1;31m EMPTY INPUT! [1;33m"
+    GOTO Prompt
+)
+
 SET "Input=%Input:"=%"
 SET "Input=%Input:^=%"
 SET "Input=%Input:<=%"
@@ -1001,7 +1005,7 @@ GOTO End_Tasks
 :CNTXT_Inp_Validate
 SET "Next=%2"
 IF not DEFINED CNTXT[%1] (
-    SET "Inp_Error_Message= [1;31mINVALID INPUT: %1![1;33m"
+    SET "Inp_Error_Message=[1;31m INVALID INPUT: %1! [1;33m"
     GOTO Prompt
 )
 IF DEFINED Next SHIFT & GOTO CNTXT_Inp_Validate

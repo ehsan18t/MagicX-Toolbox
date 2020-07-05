@@ -843,17 +843,23 @@ CALL :END_LINE
 
 
 :ds_Windows_Update
-ECHO Disabling Windows Update....
+ECHO -^> Disabling Windows Update....
+Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "AUOptions" /t REG_DWORD /d "1" /f
+Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" /t REG_DWORD /d "1" /f >NUL 2>&1
+Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v "SetDisableUXWUAccess" /t REG_DWORD /d "1" /f >NUL 2>&1
 net stop wuauserv >NUL 2>&1
 sc config wuauserv start= disabled
 net stop wuauserv >NUL 2>&1
-CALL :END_LINE
+CALL :END_LINE_RSRT
 
 :en_Windows_Update
-ECHO Enabling Windows Update....
+ECHO -^> Enabling Windows Update....
+Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "AUOptions" /t REG_DWORD /d "2" /f
+Reg.exe delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" /f >NUL 2>&1
+Reg.exe delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v "SetDisableUXWUAccess" /f >NUL 2>&1
 sc config wuauserv start= demand
 net start wuauserv >NUL 2>&1
-CALL :END_LINE
+CALL :END_LINE_RSRT
 
 
 

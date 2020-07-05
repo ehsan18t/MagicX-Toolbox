@@ -787,7 +787,7 @@ CD "%DESKTOP%"
 CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"
 SET "File_Name=!DNL_OPT:%Pattern%=%Replace%!"
 ECHO  ^=^> %DNL_OPT% Downloading.....
-powershell.exe -Command wget %DL_REPO%/Tuts/%File_Name%.zip -OutFile Apps\%File_Name%.mkv
+powershell.exe -Command wget %DL_REPO%/Tuts/%File_Name%.mkv -OutFile Apps\%File_Name%.mkv
 EXIT /B
 
 GOTO %Menu_Address%

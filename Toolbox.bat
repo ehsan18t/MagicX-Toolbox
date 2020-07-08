@@ -761,25 +761,25 @@ CALL :END_LINE_DNL
 :Download_Start_Apps_exe
 SET "FILE_CAT=Apps"
 SET "FILE_EXT=exe"
-CALL :DL_MEC
+CALL :DL_MEC_NEW
 EXIT /B
 
 :Download_Start_Apps_zip
 SET "FILE_CAT=Apps"
 SET "FILE_EXT=zip"
-CALL :DL_MEC
+CALL :DL_MEC_NEW
 EXIT /B
 
 :Download_Start_Mods
 SET "FILE_CAT=Mods"
 SET "FILE_EXT=zip"
-CALL :DL_MEC
+CALL :DL_MEC_NEW
 EXIT /B
 
 :Download_Start_Tuts
 SET "FILE_CAT=Tuts"
 SET "FILE_EXT=mkv"
-CALL :DL_MEC
+CALL :DL_MEC_NEW
 EXIT /B
 
 GOTO %Menu_Address%
@@ -1087,4 +1087,40 @@ CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"
 SET "File_Name=!DNL_OPT:%Pattern%=%Replace%!"
 ECHO [1;33m ^=^> %DNL_OPT% Downloading..... [1;32m
 PowerShell -Command wget %DL_REPO%/%FILE_CAT%/%File_Name%.%FILE_EXT% -OutFile Apps\%File_Name%.%FILE_EXT%
+EXIT /B
+
+:DL_MEC_NEW
+CD "%DESKTOP%"
+CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"
+SET "File_Name=!DNL_OPT:%Pattern%=%Replace%!"
+ECHO [1;33m ^=^> %DNL_OPT% Downloading..... [1;32m
+PowerShell -Command ^
+$ProgressPreference = 'SilentlyContinue';^
+$dlLink = \"%DL_REPO%/%FILE_CAT%/%File_Name%.%FILE_EXT%\"; $dlLocation = \"Apps\%File_Name%.%FILE_EXT%\";^
+function downloadFile($url, $targetFile)^
+{^
+    $uri = New-Object \"System.Uri\" \"$url\";^
+    $request = [System.Net.HttpWebRequest]::Create($uri);^
+    $request.set_Timeout(15000);^
+    $response = $request.GetResponse();^
+    $totalLength = [System.Math]::Floor($response.get_ContentLength()/1024);^
+    $responseStream = $response.GetResponseStream();^
+    $targetStream = New-Object -TypeName System.IO.FileStream -ArgumentList $targetFile, Create;^
+    $buffer = new-object byte[] 10KB;^
+    $count = $responseStream.Read($buffer,0,$buffer.length);^
+    $downloadedBytes = $count;^
+    while ($count -gt 0)^
+    {^
+        [System.Console]::CursorLeft = 0;^
+        [System.Console]::Write(\"  >>   Downloaded {0}K of {1}K ({2}%%) <<   \", [System.Math]::Floor($downloadedBytes/1024), $totalLength, [System.Math]::Floor((($downloadedBytes/1024)/$totalLength)*100));^
+        $targetStream.Write($buffer, 0, $count);^
+        $count = $responseStream.Read($buffer,0,$buffer.length);^
+        $downloadedBytes = $downloadedBytes + $count;^
+    }^
+    $targetStream.Flush();^
+    $targetStream.Close();^
+    $targetStream.Dispose();^
+    $responseStream.Dispose();^
+}^
+downloadFile $dlLink $dlLocation;
 EXIT /B

@@ -759,35 +759,27 @@ CALL :END_LINE_DNL
 
 
 :Download_Start_Apps_exe
-CD "%DESKTOP%"
-CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"
-SET "File_Name=!DNL_OPT:%Pattern%=%Replace%!"
-ECHO  ^=^> %DNL_OPT% Downloading.....
-powershell.exe -Command wget %DL_REPO%/Apps/%File_Name%.exe -OutFile Apps\%File_Name%.exe
+SET "FILE_CAT=Apps"
+SET "FILE_EXT=exe"
+CALL :DL_MEC
 EXIT /B
 
 :Download_Start_Apps_zip
-CD "%DESKTOP%"
-CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"
-SET "File_Name=!DNL_OPT:%Pattern%=%Replace%!"
-ECHO  ^=^> %DNL_OPT% Downloading.....
-powershell.exe -Command wget %DL_REPO%/Apps/%File_Name%.zip -OutFile Apps\%File_Name%.zip
+SET "FILE_CAT=Apps"
+SET "FILE_EXT=zip"
+CALL :DL_MEC
 EXIT /B
 
 :Download_Start_Mods
-CD "%DESKTOP%"
-CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"
-SET "File_Name=!DNL_OPT:%Pattern%=%Replace%!"
-ECHO  ^=^> %DNL_OPT% Downloading.....
-powershell.exe -Command wget %DL_REPO%/Mods/%File_Name%.zip -OutFile Apps\%File_Name%.zip
+SET "FILE_CAT=Mods"
+SET "FILE_EXT=zip"
+CALL :DL_MEC
 EXIT /B
 
 :Download_Start_Tuts
-CD "%DESKTOP%"
-CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"
-SET "File_Name=!DNL_OPT:%Pattern%=%Replace%!"
-ECHO  ^=^> %DNL_OPT% Downloading.....
-powershell.exe -Command wget %DL_REPO%/Tuts/%File_Name%.mkv -OutFile Apps\%File_Name%.mkv
+SET "FILE_CAT=Tuts"
+SET "FILE_EXT=mkv"
+CALL :DL_MEC
 EXIT /B
 
 GOTO %Menu_Address%
@@ -925,15 +917,15 @@ EXIT /B
 
 :END_LINE_RSRT
 ECHO.
-ECHO  ^=^> Please Restart Windows to Apply This Tweak
-ECHO [1;36m ^=^> Press Any Key To Go %Menu_Name%[1;33m
+ECHO [1;36m ^=^> Please Restart Windows to Apply This Tweak
+ECHO  ^=^> Press Any Key To Go %Menu_Name%[1;33m
 PAUSE >NUL 2>&1
 GOTO %Menu_Address%
 EXIT /B
 
 :END_LINE_DNL
 ECHO.
-ECHO  ^=^> DOWNLOAD COMPLETE
+ECHO [1;37m ^=^> DOWNLOAD COMPLETE
 ECHO  ^=^> Check "Apps" folder in Desktop
 ECHO.
 ECHO [1;36m ^=^> Press Any Key To Enter Options[1;33m
@@ -1087,4 +1079,12 @@ EXIT /B
 :DNL_NirCMD
 ECHO --^> Necessary lib Downloading... [1;33m
 powershell.exe -nologo -noprofile -Command wget https://raw.githubusercontent.com/Ahsan400/MagicX_Mod_Files/master/Windows_10/Libs/nircmd.exe -OutFile %WinDir%\system32\nircmd.exe >NUL 2>&1
+EXIT /B
+
+:DL_MEC
+CD "%DESKTOP%"
+CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"
+SET "File_Name=!DNL_OPT:%Pattern%=%Replace%!"
+ECHO [1;33m ^=^> %DNL_OPT% Downloading..... [1;32m
+PowerShell -Command wget %DL_REPO%/%FILE_CAT%/%File_Name%.%FILE_EXT% -OutFile Apps\%File_Name%.%FILE_EXT%
 EXIT /B

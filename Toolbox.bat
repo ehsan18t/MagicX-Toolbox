@@ -1,6 +1,6 @@
 @ECHO OFF
 ::mode con:cols=78 lines=28
-SET Current_Version=1.0
+SET Current_Version=1.5
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400
 SET /a "_rand=(%RANDOM%*6/32768)"
 

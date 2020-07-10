@@ -3,10 +3,12 @@
 SET Current_Version=1.5
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400
 SET /a "_rand=(%RANDOM%*6/32768)"
+CALL :Check_AU >NUL 2>&1
 
 :Main_Menu
 CLS
 COLOR 0E
+SET Menu_Address=Main_Menu
 CALL :Header
 ECHO                  [1;31m--------------------------------------
 ECHO                  ^|[1;33m  Author: [1;36mAhsan Khan (@Ahsan400)[1;33m    [1;31m^|
@@ -1023,6 +1025,13 @@ ECHO   ^| ^|  ^| ^| (_^| ^| (_^| ^| ^| (__ /  \    ^| ^| (_) ^| (_) ^| ^| ^|_) ^
 ECHO   ^|_^|  ^|_^|\__,_^|\__, ^|_^|\___/_/\_\   ^|_^|\___/ \___/^|_^|_.__/ \___/_/\_\
 ECHO                 ^|___/         [1;33m
 ECHO.
+IF EXIST "%WinDir%\Toolbox\UpdateAvailable.yes" (
+    DEL "%WinDir%\Toolbox\UpdateAvailable.yes"
+    ECHO  [1;32m
+    CHOICE /C:NY /N /M "--> Toolbox New Update Available. Wanna Update Now? [Y/N] "
+    IF ERRORLEVEL 2 GOTO Update
+    IF ERRORLEVEL 1 GOTO %Menu_Address%
+)
 EXIT /B
 
 :Network_Error
@@ -1140,4 +1149,9 @@ function downloadFile($url, $targetFile)^
     $responseStream.Dispose();^
 }^
 downloadFile $dlLink $dlLocation;
+EXIT /B
+
+:Check_AU
+ECHO SET "Current_Version=%Current_Version%">"%WinDir%\Toolbox\Current_Version.bat"
+CSCRIPT /B /Nologo "%WinDir%\Toolbox\CheckAU.vbs"
 EXIT /B

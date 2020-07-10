@@ -372,6 +372,7 @@ EXIT /B
 
 :add_sec_del
 ECHO [1;33m -^> Adding Secure Delete... [1;32m
+CALL :Check_SecDel
 Reg.exe add "HKCR\*\shell\Z007AAO" /ve /t REG_SZ /d "Secure Delete" /f
 Reg.exe add "HKCR\*\shell\Z007AAO" /v "NoWorkingDirectory" /t REG_SZ /d "" /f
 Reg.exe add "HKCR\*\shell\Z007AAO" /v "Position" /t REG_SZ /d "bottom" /f
@@ -387,6 +388,7 @@ EXIT /B
 
 :add_sec_cln_rec
 ECHO [1;33m -^> Adding Secure Clean to Recycle Bin... [1;32m
+CALL :Check_SecDel
 Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /ve /t REG_SZ /d "Secure Clean" /f
 Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /v "NoWorkingDirectory" /t REG_SZ /d "" /f
 Reg.exe add "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /v "CommandStateHandler" /t REG_SZ /d "{c9298eef-69dd-4cdd-b153-bdbc38486781}" /f
@@ -1071,6 +1073,15 @@ IF NOT EXIST "%WinDir%\system32\nircmd.exe" (
 )
 EXIT /B
 
+:Check_SecDel
+IF NOT EXIST "%WinDir%\system32\sdelete.exe" (
+    ECHO  [1;37m
+    CHOICE /C:NY /N /M "--> Necessary lib not found! Want to download it (241KB)? [Y/N] "
+    IF ERRORLEVEL 2 CALL :DNL_SecDel
+    IF ERRORLEVEL 1 GOTO %Menu_Address%
+)
+EXIT /B
+
 :DNL_SetACL
 ECHO --^> Necessary lib Downloading... [1;33m
 powershell.exe -nologo -noprofile -Command wget https://raw.githubusercontent.com/Ahsan400/MagicX_Mod_Files/master/Windows_10/Libs/SetACL.exe -OutFile %WinDir%\system32\SetACL.exe >NUL 2>&1
@@ -1079,6 +1090,11 @@ EXIT /B
 :DNL_NirCMD
 ECHO --^> Necessary lib Downloading... [1;33m
 powershell.exe -nologo -noprofile -Command wget https://raw.githubusercontent.com/Ahsan400/MagicX_Mod_Files/master/Windows_10/Libs/nircmd.exe -OutFile %WinDir%\system32\nircmd.exe >NUL 2>&1
+EXIT /B
+
+:DNL_SecDel
+ECHO --^> Necessary lib Downloading... [1;33m
+powershell.exe -nologo -noprofile -Command wget https://raw.githubusercontent.com/Ahsan400/MagicX_Mod_Files/master/Windows_10/Libs/sdelete.exe -OutFile %WinDir%\system32\sdelete.exe >NUL 2>&1
 EXIT /B
 
 :DL_MEC

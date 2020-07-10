@@ -888,6 +888,7 @@ ECHO  ^=^> Updates Downloading. Please Wait...
 CD /D %~dp0
 powershell.exe -nologo -noprofile -Command wget %DNL_LINK%/%Update_FileName% -OutFile %Update_FileName% >NUL 2>&1
 powershell.exe -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('%Update_FileName%', 'Update'); }" >NUL 2>&1
+IF EXIST "%CD%\%Update_FileName%" DEL %Update_FileName%
 IF NOT EXIST "%CD%\Update\*.bat" CALL :Network_Error
 IF EXIST "%CD%\Update\PreUpdater.bat" COPY /Y "%CD%\Update\PreUpdater.bat" "%CD%\PreUpdater.bat" && CALL "%CD%\PreUpdater.bat" >NUL 2>&1
 ECHO  ^=^> Update Process will Start in 5s. Please Don't Close App While it Updating. 

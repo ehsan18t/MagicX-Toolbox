@@ -8,5 +8,5 @@ DEL "%Current_Dir%\Toolbox.bat"
 COPY "%Current_Dir%\Update\Toolbox.bat" "%Current_Dir%\Toolbox.bat"
 CD "%Current_Dir%"
 RMDIR /S /Q "%Current_Dir%\Update"
-CLS
-CALL "%Current_Dir%\Toolbox.bat"
+WScript "%WinDir%\Toolbox\Start.vbs"
+EXIT

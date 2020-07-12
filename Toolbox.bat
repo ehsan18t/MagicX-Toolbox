@@ -995,6 +995,7 @@ GOTO End_Tasks
 SET "Next=%2"
 IF NOT DEFINED CNTXT[%1] (
     SET "Inp_Error_Message=[1;31m INVALID INPUT: %1! [1;33m"
+    SET "Input="
     GOTO Prompt
 )
 IF DEFINED Next SHIFT & GOTO CNTXT_Inp_Validate

@@ -666,27 +666,47 @@ COLOR 0E
 SET Menu_Name=System Menu
 SET Menu_Address=System_Menu
 CALL :Header
+ECHO  ============
+ECHO  ^|^| Enable ^|^|
+ECHO  ============
 ECHO  1. Enable Large System Cache (Only for 8GB+ RAM Users)
-ECHO  2. Disable Large System Cache 
-ECHO  3. Enable Large Icon Cache (4MB)
-ECHO  4. Enable Large Icon Cache (8MB)
-ECHO  5. Disable Large Icon Cache (Default=500KB)
-ECHO  6. Enable Hibernation (Recommended)
-ECHO  7. Disable Hibernation
-ECHO  8. HELP (Description of All Above Tweaks)
+ECHO  2. Enable Hibernation (Recommended)
+ECHO  3. Enable Startup Delay (Recommended for HDD)
+ECHO  4. Enable Web/Being Search in Windows Search
+ECHO  5. Enable Thumbnails
+ECHO  6. Enable Large Icon Cache (4MB)
+ECHO  7. Enable Large Icon Cache (8MB)
+ECHO.
+ECHO  =============
+ECHO  ^|^| Disable ^|^|
+ECHO  =============
+ECHO  A. Disable Large System Cache 
+ECHO  B. Disable Hibernation
+ECHO  C. Disable Startup Delay (Recommended for SSD)
+ECHO  D. Disable Web/Being Search in Windows Search
+ECHO  E. Disable Thumbnails
+ECHO  F. Disable Large Icon Cache (Default=500KB)
+ECHO  G. HELP (Description of All Above Tweaks)
+ECHO.
 ECHO [1;36m H. Main Menu [1;33m
 
 ECHO [1;37m
-CHOICE /C:12345678H /N /M "Enter your choice: "
+CHOICE /C:1234567ABCDEFGH /N /M "Enter your choice: "
 ECHO [1;33m
-IF ERRORLEVEL 9 GOTO Main_Menu
-IF ERRORLEVEL 8 GOTO sys_help
-IF ERRORLEVEL 7 GOTO ds_hibernate
-IF ERRORLEVEL 6 GOTO en_hibernate
-IF ERRORLEVEL 5 GOTO ds_large_icn_cache
-IF ERRORLEVEL 4 GOTO en_large_icn_cache_8mb
-IF ERRORLEVEL 3 GOTO en_large_icn_cache_4mb
-IF ERRORLEVEL 2 GOTO ds_large_sys_cache
+IF ERRORLEVEL 15 GOTO Main_Menu
+IF ERRORLEVEL 14 GOTO sys_help
+IF ERRORLEVEL 13 GOTO ds_large_icn_cache
+IF ERRORLEVEL 12 GOTO ds_thumb
+IF ERRORLEVEL 11 GOTO ds_web_search
+IF ERRORLEVEL 10 GOTO ds_strtup_delay
+IF ERRORLEVEL 9 GOTO ds_hibernate
+IF ERRORLEVEL 8 GOTO ds_large_sys_cache
+IF ERRORLEVEL 7 GOTO en_large_icn_cache_8mb
+IF ERRORLEVEL 6 GOTO en_large_icn_cache_4mb
+IF ERRORLEVEL 5 GOTO en_thumb
+IF ERRORLEVEL 4 GOTO en_web_search
+IF ERRORLEVEL 3 GOTO en_strtup_delay
+IF ERRORLEVEL 2 GOTO en_hibernate
 IF ERRORLEVEL 1 GOTO en_large_sys_cache
 
 
@@ -719,6 +739,34 @@ CAll :END_LINE_RSRT
 powercfg.exe /h on
 ECHO  SUCCESS: Hibernation Disabled
 CAll :END_LINE_RSRT
+
+:en_strtup_delay
+Reg.exe delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Serialize" /f
+CALL :END_LINE_RSRT
+
+:ds_strtup_delay
+Reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Serialize" /v "StartupDelayInMSec" /t REG_DWORD /d "0" /f
+CALL :END_LINE_RSRT
+
+:en_web_search
+Reg.exe delete "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v "DisableSearchBoxSuggestions" /f >NUL 2>&1
+Reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\Explorer" /v "DisableSearchBoxSuggestions" /f
+CALL :END_LINE_RSRT
+
+:ds_web_search
+Reg.exe add "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v "DisableSearchBoxSuggestions" /t REG_DWORD /d "1" /f >NUL 2>&1
+Reg.exe add "HKLM\Software\Policies\Microsoft\Windows\Explorer" /v "DisableSearchBoxSuggestions" /t REG_DWORD /d "1" /f
+CALL :END_LINE_RSRT
+
+:en_thumb
+Reg.exe delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "DisableThumbnails" /f /f >NUL 2>&1
+Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "DisableThumbnails" /f
+CALL :END_LINE_RSRT
+
+:ds_thumb
+Reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "DisableThumbnails" /t REG_DWORD /d "1" /f /f >NUL 2>&1
+Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "DisableThumbnails" /t REG_DWORD /d "1" /f
+CALL :END_LINE_RSRT
 
 :sys_help
 ECHO  ^=^> "Large System Cache" Make system faster but uses more RAM.

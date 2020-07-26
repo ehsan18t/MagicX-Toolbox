@@ -753,11 +753,13 @@ CALL :END_LINE_RSRT
 :en_web_search
 REG DELETE "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v "DisableSearchBoxSuggestions" /f >NUL 2>&1
 REG DELETE "HKLM\Software\Policies\Microsoft\Windows\Explorer" /v "DisableSearchBoxSuggestions" /f
+CALL :RSTRT_WIN_EX
 CALL :END_LINE_RSRT
 
 :ds_web_search
 REG ADD "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v "DisableSearchBoxSuggestions" /t REG_DWORD /d "1" /f >NUL 2>&1
 REG ADD "HKLM\Software\Policies\Microsoft\Windows\Explorer" /v "DisableSearchBoxSuggestions" /t REG_DWORD /d "1" /f
+CALL :RSTRT_WIN_EX
 CALL :END_LINE_RSRT
 
 :en_thumb
@@ -1145,7 +1147,7 @@ EXIT /B
 
 :END_LINE_RSRT
 ECHO.
-ECHO [1;36m ^=^> Please Restart Windows to Apply This Tweak
+ECHO [1;36m ^=^> Please Restart Windows to Apply This Tweak Properly
 ECHO  ^=^> Press Any Key To Go %Menu_Name%[1;33m
 PAUSE >NUL 2>&1
 GOTO %Menu_Address%

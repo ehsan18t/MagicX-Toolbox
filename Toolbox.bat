@@ -1135,8 +1135,8 @@ ECHO 				^|^| You Are Using The Latest Update ^|^|
 ECHO 				=====================================
 CALL :END_LINE
 
-
-Exit
+:Exit
+EXIT
 
 :END_LINE
 ECHO.

@@ -1255,7 +1255,7 @@ IF EXIST "%WinDir%\Toolbox\UpdateAvailable.yes" (
     DEL "%WinDir%\Toolbox\UpdateAvailable.yes"
     ECHO  [1;32m
     CHOICE /C:NY /N /M "--> Toolbox New Update Available. Wanna Update Now? [Y/N] "
-    IF ERRORLEVEL 2 GOTO Update
+    IF ERRORLEVEL 2 GOTO Check_Update
     IF ERRORLEVEL 1 GOTO %Menu_Address%
 )
 EXIT /B

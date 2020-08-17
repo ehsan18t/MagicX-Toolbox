@@ -2,6 +2,7 @@
 CD /d %~dp0
 SET Current_Dir=%CD%
 IF NOT EXIST "%CD%\Update" exit
+IF EXIST "%CD%\Update\PreUpdater.bat" DEL "%CD%\Update\PreUpdater.bat" >NUL 2>&1
 CD "%CD%\Update"
 COPY "*.bat" "Toolbox.bat"
 DEL "%Current_Dir%\Toolbox.bat"

@@ -1,6 +1,6 @@
 @ECHO OFF
 ::mode con:cols=78 lines=28
-SET Current_Version=1.5
+SET Current_Version=2.0.1
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400
 SET /a "_rand=(%RANDOM%*6/32768)"
 CALL :Check_AU >NUL 2>&1

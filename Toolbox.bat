@@ -1183,7 +1183,7 @@ SET "x=0"
 
 :CNTXT_MenuLoop
 SET /a "x+=1"
-IF DEFINED CNTXT[%x%] (
+IF NOT "%x%"=="%OPT_AMOUNT%" (
     CALL ECHO   %x%. %%CNTXT[%x%]%%
     GOTO CNTXT_MenuLoop
 )

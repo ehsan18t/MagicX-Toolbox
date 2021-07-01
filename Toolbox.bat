@@ -2,6 +2,17 @@
 ::mode con:cols=78 lines=28
 SET Current_Version=2.0.1
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400
+
+FLTMC >NUL 2>&1 || (
+	ECHO SET UAC = CreateObject^("Shell.Application"^) > "%TEMP%\GetAdmin.vbs"
+	ECHO UAC.ShellExecute "%~FS0", "", "", "runas", 1 >> "%TEMP%\GetAdmin.vbs"
+	CMD /U /C TYPE "%TEMP%\GetAdmin.vbs">"%TEMP%\GetAdminUnicode.vbs"
+	CSCRIPT /NOLOGO "%TEMP%\GetAdminUnicode.vbs"
+	DEL /F /Q "%TEMP%\GetAdmin.vbs" >NUL 2>&1
+	DEL /F /Q "%TEMP%\GetAdminUnicode.vbs" >NUL 2>&1
+	EXIT
+)
+
 SET /a "_rand=(%RANDOM%*6/32768)"
 
 :Main_Menu
@@ -1124,7 +1135,7 @@ IF EXIST "%CD%\Update\PreUpdater.bat" CALL "%CD%\Update\PreUpdater.bat" && DEL "
 ECHO  ^=^> Update Process will Start in 5s. Please Don't Close App While it Updating. 
 TIMEOUT /t 5 >NUL 2>&1
 CLS
-CSCRIPT /B /Nologo "%CD%\Updater.vbs"
+START /B CMD /C CALL "%CD%\Updater.bat" >NUL 2>&1
 EXIT
 
 :NoUpdate

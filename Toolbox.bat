@@ -2,6 +2,7 @@
 @REM mode con:cols=78 lines=28
 SET Current_Version=2.0.1
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400
+CALL :Check_AU >NUL 2>&1
 
 FLTMC >NUL 2>&1 || (
 	ECHO SET UAC = CreateObject^("Shell.Application"^) > "%TEMP%\GetAdmin.vbs"
@@ -1141,7 +1142,7 @@ IF EXIST "%CD%\Update\PreUpdater.bat" CALL "%CD%\Update\PreUpdater.bat" && DEL "
 ECHO  ^=^> Update Process will Start in 5s. Please Don't Close App While it Updating. 
 TIMEOUT /t 5 >NUL 2>&1
 CLS
-START /B CMD /C CALL "%CD%\Updater.bat" >NUL 2>&1
+START /MIN /K CMD /C CALL "%CD%\Updater.bat" >NUL 2>&1
 EXIT
 
 :NoUpdate
@@ -1278,7 +1279,6 @@ IF EXIST "%TEMP%\MagicXToolbox_psbdgtx\UpdateAvailable.yes" (
     IF ERRORLEVEL 2 GOTO Check_Update
     IF ERRORLEVEL 1 GOTO %Menu_Address%
 )
-CALL :Check_AU >NUL 2>&1
 EXIT /B
 
 :Network_Error
@@ -1392,5 +1392,5 @@ EXIT /B
 :Check_AU
 MD "%TEMP%\MagicXToolbox_psbdgtx"
 ECHO SET "Current_Version=%Current_Version%">"%TEMP%\MagicXToolbox_psbdgtx\Current_Version.bat"
-START /B CMD /C CALL "%WinDir%\Toolbox\CheckAU.bat" >NUL 2>&1
+START /MIN /K CMD /C CALL "%WinDir%\Toolbox\CheckAU.bat" >NUL 2>&1
 EXIT /B

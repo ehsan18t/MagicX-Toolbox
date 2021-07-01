@@ -1,5 +1,5 @@
 @ECHO OFF
-::mode con:cols=78 lines=28
+@REM mode con:cols=78 lines=28
 SET Current_Version=2.0.1
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400
 
@@ -52,11 +52,11 @@ IF ERRORLEVEL 1 GOTO Appearance
 
 
 
-::::::::::::::::::::::::::
-::						::
-::		Appearance		::
-::						::
-::::::::::::::::::::::::::
+@REM ::::::::::::::::::::::::::
+@REM ::            			 ::
+@REM ::		 Appearance		 ::
+@REM ::						 ::
+@REM ::::::::::::::::::::::::::
 :Appearance
 CLS
 COLOR 0E
@@ -137,7 +137,8 @@ REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell" /v "U
 CAll :END_LINE
 
 :en_old_net
-CALL :Check_SetACL
+SET "Lib_ID=1"
+CALL :Check_Lib
 ECHO [1;33m -^> Enabling Old Network Flyout UI... [1;32m
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
@@ -147,7 +148,8 @@ SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Set
 CAll :END_LINE
 
 :ds_old_net
-CALL :Check_SetACL
+SET "Lib_ID=1"
+CALL :Check_Lib
 ECHO [1;33m -^> Disabling Old Network Flyout UI... [1;32m
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
@@ -167,11 +169,11 @@ REG DELETE "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v "Enable
 CAll :END_LINE
 
 
-::::::::::::::::::::::::::::::
-::							::
-::		Context Menu		::
-::							::
-::::::::::::::::::::::::::::::
+@REM ::::::::::::::::::::::::::::::
+@REM ::							 ::
+@REM ::		 Context Menu		 ::
+@REM ::							 ::
+@REM ::::::::::::::::::::::::::::::
 :Context_Menu
 CLS
 SET Menu_Name=Context Menu
@@ -385,7 +387,8 @@ REG ADD "HKLM\SOFTWARE\Classes\Folder\ShellEx\ContextMenuHandlers\Library Locati
 EXIT /B
 
 :add_sec_del
-CALL :Check_SecDel
+SET "Lib_ID=2"
+CALL :Check_Lib
 ECHO [1;33m -^> Adding Secure Delete... [1;32m
 REG ADD "HKCR\*\shell\Z007AAO" /ve /t REG_SZ /d "Secure Delete" /f
 REG ADD "HKCR\*\shell\Z007AAO" /v "NoWorkingDirectory" /t REG_SZ /d "" /f
@@ -401,7 +404,8 @@ REG ADD "HKCR\Directory\shell\Z007AAO\command" /ve /t REG_SZ /d "sdelete -p 3 -s
 EXIT /B
 
 :add_sec_cln_rec
-CALL :Check_SecDel
+SET "Lib_ID=2"
+CALL :Check_Lib
 ECHO [1;33m -^> Adding Secure Clean to Recycle Bin... [1;32m
 REG ADD "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /ve /t REG_SZ /d "Secure Clean" /f
 REG ADD "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /v "NoWorkingDirectory" /t REG_SZ /d "" /f
@@ -457,7 +461,8 @@ REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "HubMode
 EXIT /B
 
 :add_network_nav_pan
-CALL :Check_SetACL
+SET "Lib_ID=1"
+CALL :Check_Lib
 ECHO [1;33m -^> Adding Network to Explorer Navigation Pane... [1;32m
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
@@ -655,7 +660,8 @@ REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "HubMode" /
 EXIT /B
 
 :rmv_network_nav_pan
-CALL :Check_SetACL
+SET "Lib_ID=1"
+CALL :Check_Lib
 ECHO [1;33m -^> Removing Network from Explorer Navigation Pane... [1;32m
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
@@ -667,11 +673,11 @@ EXIT /B
 
 
 
-::::::::::::::::::::::
-::					::
-::		System		::
-::					::
-::::::::::::::::::::::
+@REM ::::::::::::::::::::::
+@REM ::					 ::
+@REM ::		 System		 ::
+@REM ::					 ::
+@REM ::::::::::::::::::::::
 :System_Menu
 CLS
 COLOR 0E
@@ -799,11 +805,11 @@ CALL :END_LINE
 
 
 
-::::::::::::::::::::::::::
-::						::
-::		Download		::
-::						::
-::::::::::::::::::::::::::
+@REM ::::::::::::::::::::::::::
+@REM ::						 ::
+@REM ::		 Download		 ::
+@REM ::						 ::
+@REM ::::::::::::::::::::::::::
 :Downloads
 SET Menu_Name=Downloads Center
 SET Menu_Address=Downloads_Menu
@@ -855,11 +861,11 @@ EXIT /B
 GOTO %Menu_Address%
 
 
-::::::::::::::::::::::::::::::
-::							::
-::		Windows Update		::
-::							::
-::::::::::::::::::::::::::::::
+@REM ::::::::::::::::::::::::::::::
+@REM ::							 ::
+@REM ::		 Windows Update		 ::
+@REM ::							 ::
+@REM ::::::::::::::::::::::::::::::
 :Windows_Update
 CLS
 COLOR 0E
@@ -1087,11 +1093,11 @@ CALL :END_LINE_RSRT
 
 
 
-::::::::::::::::::::::::::::::
-::							::
-::		Check Updates		::
-::							::
-::::::::::::::::::::::::::::::
+@REM ::::::::::::::::::::::::::::::
+@REM ::							 ::
+@REM ::		 Check Updates		 ::
+@REM ::							 ::
+@REM ::::::::::::::::::::::::::::::
 :Check_Update
 CLS
 ECHO.
@@ -1306,55 +1312,40 @@ TASKKILL /im explorer.exe /f
 START explorer.exe
 EXIT /B
 
-:Check_SetACL
-IF NOT EXIST "%WinDir%\system32\SetACL.exe" (
+:Lib_List
+IF "%Lib_ID%"=="1" (
+    SET "Lib_Name=SetACL"
+    SET "Lib_Size=547KB"
+    SET "Lib_Link=https://raw.githubusercontent.com/Ahsan400/MagicX_Mod_Files/master/Windows_10/Libs/SetACL.exe"
+    EXIT /B
+)
+IF "%Lib_ID%"=="2" (
+    SET "Lib_Name=SDelete"
+    SET "Lib_Size=241KB"
+    SET "Lib_Link=https://raw.githubusercontent.com/Ahsan400/MagicX_Mod_Files/master/Windows_10/Libs/sdelete.exe"
+    EXIT /B
+)
+IF "%Lib_ID%"=="3" (
+    SET "Lib_Name=NirCMD"
+    SET "Lib_Size=115KB"
+    SET "Lib_Link=https://raw.githubusercontent.com/Ahsan400/MagicX_Mod_Files/master/Windows_10/Libs/nircmd.exe"
+    EXIT /B
+)
+EXIT /B
+
+:Check_Lib
+CALL :Lib_List
+IF NOT EXIST "%WinDir%\system32\%Lib_Name%.exe" (
+    SET "Download_Name=%Lib_Name%"
+    SET "Download_Link=%Lib_Link%"
+    SET "Download_Location=%WinDir%\system32\%Lib_Name%.exe"
     ECHO  [1;37m
-    CHOICE /C:NY /N /M "--> Necessary lib not found! Want to download it (547KB)? [Y/N] "
-    IF ERRORLEVEL 2 CALL :DNL_SetACL
+    CHOICE /C:NY /N /M "--> %Lib_Name% not found! Want to download it (%Lib_Size%)? [Y/N] "
+    IF ERRORLEVEL 2 CALL :Any_Downloader
     IF ERRORLEVEL 1 GOTO %Menu_Address%
 )
 EXIT /B
 
-:Check_NirCMD
-IF NOT EXIST "%WinDir%\system32\nircmd.exe" (
-    ECHO  [1;37m
-    CHOICE /C:NY /N /M "--> Necessary lib not found! Want to download it (115KB)? [Y/N] "
-    IF ERRORLEVEL 2 CALL :DNL_NirCMD
-    IF ERRORLEVEL 1 GOTO %Menu_Address%
-)
-EXIT /B
-
-:Check_SecDel
-IF NOT EXIST "%WinDir%\system32\sdelete.exe" (
-    ECHO  [1;37m
-    CHOICE /C:NY /N /M "--> Necessary lib not found! Want to download it (241KB)? [Y/N] "
-    IF ERRORLEVEL 2 CALL :DNL_SecDel
-    IF ERRORLEVEL 1 GOTO %Menu_Address%
-)
-EXIT /B
-
-:DNL_SetACL
-ECHO --^> Necessary lib Downloading... [1;33m
-powershell.exe -nologo -noprofile -Command wget https://raw.githubusercontent.com/Ahsan400/MagicX_Mod_Files/master/Windows_10/Libs/SetACL.exe -OutFile %WinDir%\system32\SetACL.exe >NUL 2>&1
-EXIT /B
-
-:DNL_NirCMD
-ECHO --^> Necessary lib Downloading... [1;33m
-powershell.exe -nologo -noprofile -Command wget https://raw.githubusercontent.com/Ahsan400/MagicX_Mod_Files/master/Windows_10/Libs/nircmd.exe -OutFile %WinDir%\system32\nircmd.exe >NUL 2>&1
-EXIT /B
-
-:DNL_SecDel
-ECHO --^> Necessary lib Downloading... [1;33m
-powershell.exe -nologo -noprofile -Command wget https://raw.githubusercontent.com/Ahsan400/MagicX_Mod_Files/master/Windows_10/Libs/sdelete.exe -OutFile %WinDir%\system32\sdelete.exe >NUL 2>&1
-EXIT /B
-
-:DL_MEC
-CD "%DESKTOP%"
-CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"
-SET "File_Name=!DNL_OPT:%Pattern%=%Replace%!"
-ECHO [1;33m ^=^> %DNL_OPT% Downloading..... [1;32m
-PowerShell -Command wget %DL_REPO%/%FILE_CAT%/%File_Name%.%FILE_EXT% -OutFile Apps\%File_Name%.%FILE_EXT%
-EXIT /B
 
 :Apps_DOWNLOADER
 CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"

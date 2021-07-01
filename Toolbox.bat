@@ -3,7 +3,6 @@
 SET Current_Version=2.0.1
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400
 SET /a "_rand=(%RANDOM%*6/32768)"
-CALL :Check_AU >NUL 2>&1
 
 :Main_Menu
 CLS
@@ -1255,13 +1254,14 @@ ECHO   ^| ^|  ^| ^| (_^| ^| (_^| ^| ^| (__ /  \    ^| ^| (_) ^| (_) ^| ^| ^|_) ^
 ECHO   ^|_^|  ^|_^|\__,_^|\__, ^|_^|\___/_/\_\   ^|_^|\___/ \___/^|_^|_.__/ \___/_/\_\
 ECHO                 ^|___/         [1;33m
 ECHO.
-IF EXIST "%WinDir%\Toolbox\UpdateAvailable.yes" (
-    DEL "%WinDir%\Toolbox\UpdateAvailable.yes"
+IF EXIST "%TEMP%\MagicXToolbox_psbdgtx\UpdateAvailable.yes" (
+    DEL "%TEMP%\MagicXToolbox_psbdgtx\UpdateAvailable.yes"
     ECHO  [1;32m
     CHOICE /C:NY /N /M "--> Toolbox New Update Available. Wanna Update Now? [Y/N] "
     IF ERRORLEVEL 2 GOTO Check_Update
     IF ERRORLEVEL 1 GOTO %Menu_Address%
 )
+CALL :Check_AU >NUL 2>&1
 EXIT /B
 
 :Network_Error
@@ -1382,6 +1382,7 @@ downloadFile $dlLink $dlLocation;
 EXIT /B
 
 :Check_AU
-ECHO SET "Current_Version=%Current_Version%">"%WinDir%\Toolbox\Current_Version.bat"
-CSCRIPT /B /Nologo "%WinDir%\Toolbox\CheckAU.vbs"
+MD "%TEMP%\MagicXToolbox_psbdgtx"
+ECHO SET "Current_Version=%Current_Version%">"%TEMP%\MagicXToolbox_psbdgtx\Current_Version.bat"
+START /B CMD /C CALL "%WinDir%\Toolbox\CheckAU.bat" >NUL 2>&1
 EXIT /B

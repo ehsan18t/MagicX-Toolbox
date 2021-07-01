@@ -831,25 +831,25 @@ CALL :END_LINE_DNL
 :Download_Start_Apps_exe
 SET "FILE_CAT=Apps"
 SET "FILE_EXT=exe"
-CALL :DL_MEC_NEW
+CALL :Apps_DOWNLOADER
 EXIT /B
 
 :Download_Start_Apps_zip
 SET "FILE_CAT=Apps"
 SET "FILE_EXT=zip"
-CALL :DL_MEC_NEW
+CALL :Apps_DOWNLOADER
 EXIT /B
 
 :Download_Start_Mods
 SET "FILE_CAT=Mods"
 SET "FILE_EXT=zip"
-CALL :DL_MEC_NEW
+CALL :Apps_DOWNLOADER
 EXIT /B
 
 :Download_Start_Tuts
 SET "FILE_CAT=Tuts"
 SET "FILE_EXT=mkv"
-CALL :DL_MEC_NEW
+CALL :Apps_DOWNLOADER
 EXIT /B
 
 GOTO %Menu_Address%
@@ -1356,14 +1356,18 @@ ECHO [1;33m ^=^> %DNL_OPT% Downloading..... [1;32m
 PowerShell -Command wget %DL_REPO%/%FILE_CAT%/%File_Name%.%FILE_EXT% -OutFile Apps\%File_Name%.%FILE_EXT%
 EXIT /B
 
-:DL_MEC_NEW
-CD "%DESKTOP%"
+:Apps_DOWNLOADER
 CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"
 SET "File_Name=!DNL_OPT:%Pattern%=%Replace%!"
-ECHO [1;33m ^=^> %DNL_OPT% Downloading..... [1;32m
+SET "Download_Name=%DNL_OPT%"
+SET "Download_Link=%DL_REPO%/%FILE_CAT%/%File_Name%.%FILE_EXT%"
+SET "Download_Location=%DESKTOP%\Apps\%File_Name%.%FILE_EXT%"
+:Any_Downloader
+ECHO [1;33m ^=^> %Download_Name% Downloading..... [1;32m
 PowerShell -Command ^
 $ProgressPreference = 'SilentlyContinue';^
-$dlLink = \"%DL_REPO%/%FILE_CAT%/%File_Name%.%FILE_EXT%\"; $dlLocation = \"Apps\%File_Name%.%FILE_EXT%\";^
+$dlLink = \"%Download_Link%\";^
+$dlLocation = \"%Download_Location%\";^
 function downloadFile($url, $targetFile)^
 {^
     $uri = New-Object \"System.Uri\" \"$url\";^
@@ -1390,6 +1394,8 @@ function downloadFile($url, $targetFile)^
     $responseStream.Dispose();^
 }^
 downloadFile $dlLink $dlLocation;
+
+ECHO.
 EXIT /B
 
 :Check_AU

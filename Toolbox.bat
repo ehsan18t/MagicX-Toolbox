@@ -72,6 +72,7 @@ ECHO  2. Enable Action Center
 ECHO  3. Enable Old Battery Flyout UI
 ECHO  4. Enable Old Network Flyout UI
 ECHO  5. Enable Old Volume Control Flyout UI
+ECHO  6. Enable Taskbar
 ECHO.
 ECHO  =============
 ECHO  ^|^| Disable ^|^|
@@ -81,13 +82,16 @@ ECHO  B. Disable Action Center
 ECHO  C. Disable Old Battery Flyout UI
 ECHO  D. Disable Old Network Flyout UI
 ECHO  E. Disable Old Volume Control Flyout UI
+ECHO  E. Disable Taskbar (Hide)
 ECHO.
 ECHO [1;36m H. Main Menu [1;33m
 
 ECHO [1;37m
 CHOICE /C:12345ABCDEH /N /M "Enter your choice: "
 ECHO [1;33m
-IF ERRORLEVEL 11 GOTO Main_Menu
+IF ERRORLEVEL 13 GOTO Main_Menu
+IF ERRORLEVEL 12 GOTO en_taskbar
+IF ERRORLEVEL 11 GOTO ds_taskbar
 IF ERRORLEVEL 10 GOTO ds_old_vol_ctrl
 IF ERRORLEVEL 9 GOTO ds_old_net
 IF ERRORLEVEL 8 GOTO ds_old_battery
@@ -167,6 +171,20 @@ CAll :END_LINE
 :ds_old_vol_ctrl
 ECHO [1;33m -^> Disabling Old Volume Control Flyout UI... [1;32m
 REG DELETE "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v "EnableMtcUvc" /f
+CAll :END_LINE
+
+:en_taskbar
+SET "Lib_ID=3"
+CALL :Check_Lib
+ECHO [1;33m -^> Enabling Taskbar... [1;32m
+nircmd.exe win trans class Shell_TrayWnd 255
+CAll :END_LINE
+
+:ds_taskbar
+SET "Lib_ID=3"
+CALL :Check_Lib
+ECHO [1;33m -^> Disabling Taskbar... [1;32m
+nircmd.exe win trans class Shell_TrayWnd 256
 CAll :END_LINE
 
 

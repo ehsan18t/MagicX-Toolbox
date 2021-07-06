@@ -915,25 +915,54 @@ IF %ERRORLEVEL% EQU 0 (
     )
 )
 
+SET "Update_Enable_Status_A="
+SET "Update_Enable_Status_B="
+SET "Update_Enable_Status_C="
+
+SET "REG_KEY=HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
+SET "REG_DATA=AUOptions"
+SET "REG_VALUE="
+
+
+CALL :Check_REG_Value
+IF "%REG_VALUE%" EQU "0x2" (
+    SET "Update_Enable_Status_A=%APPLIED%"
+)
+IF "%REG_VALUE%" EQU "0x3" (
+    SET "Update_Enable_Status_B=%APPLIED%"
+)
+IF "%REG_VALUE%" EQU "0x4" (
+    SET "Update_Enable_Status_c=%APPLIED%"
+)
+
 CALL :Header
 ECHO.
-ECHO  ^=^> Please Apply "After Update Tweaks" After Install Windows Update.
-ECHO  ^=^> Because After You Update Windwos It Can Change all the Tweaks I Made.
-ECHO  ^=^> That Might Make System Slower and MS Will Collect Data/Log From Your PC.
+ECHO  -------------------------------------------------------------------------------
+ECHO  ^|       Please apply %C_Cyan%After Update Tweaks%C_DEFAULT% after install %C_Green%Windows Update%C_DEFAULT%.        ^|
+ECHO  ^|  Because after you update windows it can ^change all the %C_Red%Tweaks%C_DEFAULT% I've added.  ^|
+ECHO  -------------------------------------------------------------------------------
 CALL :TWO_ECHO
+ECHO  %C_Cyan%^<%C_Red%General Settings%C_Cyan%^>%C_DEFAULT%
 ECHO  1. After Update Tweaks
 ECHO  2. Disable Windows Update %Update_Disable_Status%
 ECHO  3. Enable Windows Update %Update_Enable_Status%
+ECHO.
+ECHO  %C_Cyan%^<%C_Red%Advanced Settings%C_Cyan%^>%C_DEFAULT%
+ECHO  A. Check ^& Notify ^If Updates Available %Update_Enable_Status_A%
+ECHO  B. Check ^& Download ^If Updates Available %Update_Enable_Status_B%
+ECHO  C. Automatically Download and Install Updates %Update_Enable_Status_C%
+ECHO.
 ECHO %C_Cyan% H. Main Menu %C_DEFAULT%
 ECHO.
-
-CHOICE /C:123H /N /M "Enter your choice: "
+CHOICE /C:123ABCH /N /M "Enter your choice: "
 ECHO.
-IF ERRORLEVEL 4 GOTO Main_Menu
+IF ERRORLEVEL 7 GOTO Main_Menu
+IF ERRORLEVEL 6 GOTO Download_and_Install
+IF ERRORLEVEL 5 GOTO Check_and_Download
+IF ERRORLEVEL 4 GOTO Notify_Only
 IF ERRORLEVEL 3 GOTO en_Windows_Update
 IF ERRORLEVEL 2 GOTO ds_Windows_Update
 IF ERRORLEVEL 1 GOTO after_update_tweaks
-
 
 
 
@@ -955,6 +984,21 @@ REG DELETE "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v "SetDisab
 sc config wuauserv start= demand
 net start wuauserv >NUL 2>&1
 CALL :END_LINE_RSRT
+
+:Notify_Only
+ECHO %C_DEFAULT% -^> Enabling Check ^& Notify ^If Updates Available... %C_Green% 
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "AUOptions" /t REG_DWORD /d "2" /f
+CALL :END_LINE
+
+:Check_and_Download
+ECHO %C_DEFAULT% -^> Enabling Check ^& Download ^If Updates Available... %C_Green% 
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "AUOptions" /t REG_DWORD /d "3" /f
+CALL :END_LINE
+
+:Download_and_Install
+ECHO %C_DEFAULT% -^> Automatically Download and Install Updates... %C_Green% 
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "AUOptions" /t REG_DWORD /d "4" /f
+CALL :END_LINE
 
 
 
@@ -1445,4 +1489,14 @@ EXIT /B
 :Check_Service_Disabled
 SET "IS_SERVICE_DISABLED="
 FOR /F "TOKENS=4" %%A IN ('"SC QC "%Service_Name%" | FINDSTR /I "DISABLED""') DO (SET "IS_SERVICE_DISABLED=true" && EXIT /B)
+EXIT /B
+
+:Check_REG_Value
+@REM REG_TYPE is not being used right now that's why I kept it disable.
+@REM SET "REG_TYPE="
+REG QUERY "%REG_KEY%" /v "%REG_DATA%" >NUL 2>&1
+IF %ERRORLEVEL% EQU 0 (
+	@REM FOR /F "TOKENS=2" %%A IN ('REG QUERY "%REG_KEY%" /v "%REG_DATA%"') DO (SET "REG_TYPE=%%A")
+	FOR /F "TOKENS=3" %%A IN ('REG QUERY "%REG_KEY%" /v "%REG_DATA%"') DO (SET "REG_VALUE=%%A")
+)
 EXIT /B

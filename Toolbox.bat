@@ -23,6 +23,9 @@ SET "C_Violate=[1;35m"
 SET "C_Cyan=[1;36m"
 SET "C_DEFAULT=%C_Yellow%"
 
+@REM Other Global Variables
+SET "APPLIED=%C_Green%(APPLIED)%C_DEFAULT%"
+
 SET /a "_rand=(%RANDOM%*6/32768)"
 
 :Main_Menu
@@ -30,12 +33,12 @@ CLS
 COLOR 0E
 SET Menu_Address=Main_Menu
 CALL :Header
-ECHO                  [1;31m--------------------------------------
-ECHO                  ^|[1;33m  Author: [1;36mAhsan Khan (@Ahsan400)[1;33m    [1;31m^|
-ECHO                  ^|[1;33m  Target: [1;36mWindows 10 20H1^/19H2 [1;33m     [1;31m^|
-ECHO                  ^|[1;33m  TG Group: [1;34mhttps:\\t.me\MagicXMod[1;33m  [1;31m^|
-ECHO                  ^|[1;33m  Website: [1;34mMagicXMod.github.io[1;33m      [1;31m^|
-ECHO                  --------------------------------------[1;33m
+ECHO                  %C_Red%--------------------------------------
+ECHO                  ^|%C_DEFAULT%  Author: %C_Cyan%Ahsan Khan (@Ahsan400)%C_DEFAULT%    %C_Red%^|
+ECHO                  ^|%C_DEFAULT%  Target: %C_Cyan%Windows 10 20H1^/19H2 %C_DEFAULT%     %C_Red%^|
+ECHO                  ^|%C_DEFAULT%  TG Group: %C_Blue%https:\\t.me\MagicXMod%C_DEFAULT%  %C_Red%^|
+ECHO                  ^|%C_DEFAULT%  Website: %C_Blue%MagicXMod.github.io%C_DEFAULT%      %C_Red%^|
+ECHO                  --------------------------------------%C_DEFAULT%
 CALL :TWO_ECHO
 ECHO  ***********************
 ECHO  ***	Main Menu    ***
@@ -50,7 +53,7 @@ ECHO  R. Report BUGS
 ECHO  X. Exit
 ECHO [1;37m
 CHOICE /C:12345URX /N /M "Enter your choice: "
-ECHO [1;33m
+ECHO %C_DEFAULT%
 IF ERRORLEVEL 8 GOTO Exit
 IF ERRORLEVEL 7 CALL EXPLORER "https:\\t.me\MagicXMod" & GOTO Main_Menu
 IF ERRORLEVEL 6 GOTO Check_Update
@@ -93,11 +96,11 @@ ECHO  D. Disable Old Network Flyout UI
 ECHO  E. Disable Old Volume Control Flyout UI
 ECHO  F. Disable Taskbar (Hide)
 ECHO.
-ECHO [1;36m H. Main Menu [1;33m
+ECHO %C_Cyan% H. Main Menu %C_DEFAULT%
 
 ECHO [1;37m
 CHOICE /C:123456ABCDEFH /N /M "Enter your choice: "
-ECHO [1;33m
+ECHO %C_DEFAULT%
 IF ERRORLEVEL 13 GOTO Main_Menu
 IF ERRORLEVEL 12 GOTO ds_taskbar
 IF ERRORLEVEL 11 GOTO ds_old_vol_ctrl
@@ -114,46 +117,46 @@ IF ERRORLEVEL 1 GOTO en_arw_shtct
 
 
 :ds_arw_shtct
-ECHO [1;33m -^> Disabling Arrow Icon From Shortcut... [1;32m
+ECHO %C_DEFAULT% -^> Disabling Arrow Icon From Shortcut... %C_Green%
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /v "29" /t REG_SZ /d "%%systemroot%%\Blank.ico,0" /f
 CALL :RSTRT_WIN_EX
 CAll :END_LINE
 
 :en_arw_shtct
-ECHO [1;33m -^> Enabling Arrow Icon From Shortcut... [1;32m
+ECHO %C_DEFAULT% -^> Enabling Arrow Icon From Shortcut... %C_Green%
 REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /v "29" /f
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /f
 CALL :RSTRT_WIN_EX
 CAll :END_LINE
 
 :en_act_cent
-ECHO [1;33m -^> Enabling Action Center... [1;32m
+ECHO %C_DEFAULT% -^> Enabling Action Center... %C_Green%
 REG DELETE "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /f
 REG DELETE "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /f
 CALL :RSTRT_WIN_EX
 CAll :END_LINE
 
 :ds_act_cent
-ECHO [1;33m -^> Disabling Action Center... [1;32m
+ECHO %C_DEFAULT% -^> Disabling Action Center... %C_Green%
 REG ADD "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "1" /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "1" /f
 CALL :RSTRT_WIN_EX
 CAll :END_LINE
 
 :en_old_battery
-ECHO [1;33m -^> Enabling Old Battery Flyout UI... [1;32m
+ECHO %C_DEFAULT% -^> Enabling Old Battery Flyout UI... %C_Green%
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell" /v "UseWin32BatteryFlyout" /t REG_DWORD /d "1" /f
 CAll :END_LINE
 
 :ds_old_battery
-ECHO [1;33m -^> Disabling Old Battery Flyout UI... [1;32m
+ECHO %C_DEFAULT% -^> Disabling Old Battery Flyout UI... %C_Green%
 REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell" /v "UseWin32BatteryFlyout" /f
 CAll :END_LINE
 
 :en_old_net
 SET "Lib_ID=1"
 CALL :Check_Lib
-ECHO [1;33m -^> Enabling Old Network Flyout UI... [1;32m
+ECHO %C_DEFAULT% -^> Enabling Old Network Flyout UI... %C_Green%
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" /v "ReplaceVan" /t REG_DWORD /d "2" /f
@@ -164,7 +167,7 @@ CAll :END_LINE
 :ds_old_net
 SET "Lib_ID=1"
 CALL :Check_Lib
-ECHO [1;33m -^> Disabling Old Network Flyout UI... [1;32m
+ECHO %C_DEFAULT% -^> Disabling Old Network Flyout UI... %C_Green%
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
 SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network" /v "ReplaceVan" /t REG_DWORD /d "0" /f
@@ -173,26 +176,26 @@ SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Set
 CAll :END_LINE
 
 :en_old_vol_ctrl
-ECHO [1;33m -^> Enabling Old Volume Control Flyout UI... [1;32m
+ECHO %C_DEFAULT% -^> Enabling Old Volume Control Flyout UI... %C_Green%
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v "EnableMtcUvc" /t REG_DWORD /d "0" /f
 CAll :END_LINE
 
 :ds_old_vol_ctrl
-ECHO [1;33m -^> Disabling Old Volume Control Flyout UI... [1;32m
+ECHO %C_DEFAULT% -^> Disabling Old Volume Control Flyout UI... %C_Green%
 REG DELETE "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v "EnableMtcUvc" /f
 CAll :END_LINE
 
 :en_taskbar
 SET "Lib_ID=3"
 CALL :Check_Lib
-ECHO [1;33m -^> Enabling Taskbar... [1;32m
+ECHO %C_DEFAULT% -^> Enabling Taskbar... %C_Green%
 nircmd.exe win trans class Shell_TrayWnd 255
 CAll :END_LINE
 
 :ds_taskbar
 SET "Lib_ID=3"
 CALL :Check_Lib
-ECHO [1;33m -^> Disabling Taskbar... [1;32m
+ECHO %C_DEFAULT% -^> Disabling Taskbar... %C_Green%
 nircmd.exe win trans class Shell_TrayWnd 256
 CAll :END_LINE
 
@@ -210,11 +213,11 @@ COLOR 0E
 CALL :Header
 ECHO  1. Add Something To Context Menu
 ECHO  2. Remove Something From Context Menu
-ECHO [1;36m H. Main Menu [1;33m
+ECHO %C_Cyan% H. Main Menu %C_DEFAULT%
 
 ECHO [1;37m
 CHOICE /C:12H /N /M "Enter your choice: "
-ECHO [1;33m
+ECHO %C_DEFAULT%
 IF ERRORLEVEL 3 GOTO Main_Menu
 IF ERRORLEVEL 2 GOTO CNTXT_REM
 IF ERRORLEVEL 1 GOTO CNTXT_ADD
@@ -267,7 +270,7 @@ CALL :END_LINE
 
 
 :add_print
-ECHO [1;33m -^> Adding Print... [1;32m
+ECHO %C_DEFAULT% -^> Adding Print... %C_Green%
 REG DELETE "HKCR\SystemFileAssociations\image\shell\print" /v "ProgrammaticAccessOnly" /f
 REG DELETE "HKCR\batfile\shell\print" /v "ProgrammaticAccessOnly" /f
 REG DELETE "HKCR\cmdfile\shell\print" /v "ProgrammaticAccessOnly" /f
@@ -290,7 +293,7 @@ REG DELETE "HKCR\WSFFile\Shell\Print" /v "ProgrammaticAccessOnly" /f
 EXIT /B
 
 :add_bit_locker
-ECHO [1;33m -^> Adding BitLocker Options... [1;32m
+ECHO %C_DEFAULT% -^> Adding BitLocker Options... %C_Green%
 REG DELETE "HKCR\Drive\shell\change-passphrase" /v "LegacyDisable" /f
 REG DELETE "HKCR\Drive\shell\manage-bde" /v "LegacyDisable" /f
 REG DELETE "HKCR\Drive\shell\resume-bde" /v "LegacyDisable" /f
@@ -316,7 +319,7 @@ REG ADD "HKCR\Drive\shell\decrypt-bde\command" /ve /t REG_EXPAND_SZ /d "wscript.
 EXIT /B
 
 :add_scan_defneder
-ECHO [1;33m -^> Adding Scan With Windows Defender... [1;32m
+ECHO %C_DEFAULT% -^> Adding Scan With Windows Defender... %C_Green%
 REG ADD "HKCR\*\shellex\ContextMenuHandlers\EPP" /ve /t REG_SZ /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
 REG ADD "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}\InprocServer32" /ve /t REG_SZ /d "%SystemDrive%\Program Files\Windows Defender\shellext.dll" /f
 REG ADD "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}\InprocServer32" /v "ThreadingModel" /t REG_SZ /d "Apartment" /f
@@ -326,7 +329,7 @@ REG ADD "HKCR\Drive\shellex\ContextMenuHandlers\EPP" /ve /t REG_SZ /d "{09A47860
 EXIT /B
 
 :add_personalize_classic
-ECHO [1;33m -^> Adding Personalize Classic... [1;32m
+ECHO %C_DEFAULT% -^> Adding Personalize Classic... %C_Green%
 REG ADD "HKCR\DesktopBackground\Shell\ClassicPersonalize" /v "Icon" /t REG_SZ /d "themecpl.dll" /f
 REG ADD "HKCR\DesktopBackground\Shell\ClassicPersonalize" /v "MUIVerb" /t REG_SZ /d "Personalize (Classic)" /f
 REG ADD "HKCR\DesktopBackground\Shell\ClassicPersonalize" /v "Position" /t REG_SZ /d "Bottom" /f
@@ -373,7 +376,7 @@ REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\Na
 EXIT /B
 
 :add_pin_to_Quik
-ECHO [1;33m -^> Adding Pin to Quick Access... [1;32m
+ECHO %C_DEFAULT% -^> Adding Pin to Quick Access... %C_Green%
 REG DELETE "HKCR\Folder\shell\pintohome" /f
 REG ADD "HKCR\Folder\shell\pintohome" /v "AppliesTo" /t REG_SZ /d "System.ParsingName:<>\"::{679f85cb-0220-4080-b29b-5540cc05aab6}\" AND System.ParsingName:<>\"::{645FF040-5081-101B-9F08-00AA002F954E}\" AND System.IsFolder:=System.StructuredQueryType.Boolean#True" /f
 REG ADD "HKCR\Folder\shell\pintohome" /v "MUIVerb" /t REG_SZ /d "@shell32.dll,-51377" /f
@@ -385,7 +388,7 @@ REG ADD "HKLM\SOFTWARE\Classes\Folder\shell\pintohome\command" /v "DelegateExecu
 EXIT /B
 
 :add_pin_to_strt
-ECHO [1;33m -^> Adding Pin to Start... [1;32m
+ECHO %C_DEFAULT% -^> Adding Pin to Start... %C_Green%
 REG ADD "HKCR\Folder\shellex\ContextMenuHandlers\PintoStartScreen" /ve /t REG_SZ /d "{470C0EBD-5D73-4d58-9CED-E91E22E23282}" /f
 REG ADD "HKCR\exefile\shellex\ContextMenuHandlers\PintoStartScreen" /ve /t REG_SZ /d "{470C0EBD-5D73-4d58-9CED-E91E22E23282}" /f
 REG ADD "HKCR\Microsoft.Website\ShellEx\ContextMenuHandlers\PintoStartScreen" /ve /t REG_SZ /d "{470C0EBD-5D73-4d58-9CED-E91E22E23282}" /f
@@ -393,7 +396,7 @@ REG ADD "HKCR\mscfile\shellex\ContextMenuHandlers\PintoStartScreen" /ve /t REG_S
 EXIT /B
 
 :add_give_access
-ECHO [1;33m -^> Adding Give Access... [1;32m
+ECHO %C_DEFAULT% -^> Adding Give Access... %C_Green%
 REG ADD "HKCR\*\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f >NUL 2>&1
 REG ADD "HKCR\Directory\Background\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
 REG ADD "HKCR\Directory\shellex\ContextMenuHandlers\Sharing" /ve /t REG_SZ /d "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}" /f
@@ -409,7 +412,7 @@ REG ADD "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v "forceguest" /t REG_DWORD
 EXIT /B
 
 :add_inc_lib
-ECHO [1;33m -^> Adding Include in Library... [1;32m
+ECHO %C_DEFAULT% -^> Adding Include in Library... %C_Green%
 REG ADD "HKCR\Folder\ShellEx\ContextMenuHandlers\Library Location" /ve /t REG_SZ /d "{3dad6c5d-2167-4cae-9914-f99e41c12cfa}" /f
 REG ADD "HKLM\SOFTWARE\Classes\Folder\ShellEx\ContextMenuHandlers\Library Location" /ve /t REG_SZ /d "{3dad6c5d-2167-4cae-9914-f99e41c12cfa}" /f
 EXIT /B
@@ -417,7 +420,7 @@ EXIT /B
 :add_sec_del
 SET "Lib_ID=2"
 CALL :Check_Lib
-ECHO [1;33m -^> Adding Secure Delete... [1;32m
+ECHO %C_DEFAULT% -^> Adding Secure Delete... %C_Green%
 REG ADD "HKCR\*\shell\Z007AAO" /ve /t REG_SZ /d "Secure Delete" /f
 REG ADD "HKCR\*\shell\Z007AAO" /v "NoWorkingDirectory" /t REG_SZ /d "" /f
 REG ADD "HKCR\*\shell\Z007AAO" /v "Position" /t REG_SZ /d "bottom" /f
@@ -434,7 +437,7 @@ EXIT /B
 :add_sec_cln_rec
 SET "Lib_ID=2"
 CALL :Check_Lib
-ECHO [1;33m -^> Adding Secure Clean to Recycle Bin... [1;32m
+ECHO %C_DEFAULT% -^> Adding Secure Clean to Recycle Bin... %C_Green%
 REG ADD "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /ve /t REG_SZ /d "Secure Clean" /f
 REG ADD "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /v "NoWorkingDirectory" /t REG_SZ /d "" /f
 REG ADD "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /v "CommandStateHandler" /t REG_SZ /d "{c9298eef-69dd-4cdd-b153-bdbc38486781}" /f
@@ -444,12 +447,12 @@ REG ADD "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean\com
 EXIT /B
 
 :add_opn_as_port
-ECHO [1;33m -^> Adding Open as Portable Devices... [1;32m
+ECHO %C_DEFAULT% -^> Adding Open as Portable Devices... %C_Green%
 REG ADD "HKLM\SOFTWARE\Classes\Drive\shellex\ContextMenuHandlers\{D6791A63-E7E2-4fee-BF52-5DED8E86E9B8}" /v "{D6791A63-E7E2-4fee-BF52-5DED8E86E9B8}" /t REG_SZ /d "Portable Devices Menu" /f
 EXIT /B
 
 :add_rstr_prev_ver
-ECHO [1;33m -^> Adding Restore Previous Versions... [1;32m
+ECHO %C_DEFAULT% -^> Adding Restore Previous Versions... %C_Green%
 REG ADD "HKCR\AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
 REG ADD "HKCR\CLSID\{450D8FBA-AD25-11D0-98A8-0800361B1103}\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
 REG ADD "HKCR\Directory\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
@@ -467,31 +470,31 @@ REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Bloc
 EXIT /B
 
 :add_brn_dsk_img
-ECHO [1;33m -^> Adding Burn Disc Image... [1;32m
+ECHO %C_DEFAULT% -^> Adding Burn Disc Image... %C_Green%
 REG ADD "HKCR\Windows.IsoFile\shell\burn" /v "MUIVerb" /t REG_EXPAND_SZ /d "@%%SystemRoot%%\System32\isoburn.exe,-351" /f
 REG ADD "HKCR\Windows.IsoFile\shell\burn\command" /ve /t REG_EXPAND_SZ /d "%%SystemRoot%%\System32\isoburn.exe \"%%1\"" /f
 EXIT /B
 
 :add_cast_dev
-ECHO [1;33m -^> Adding Cast to Device... [1;32m
+ECHO %C_DEFAULT% -^> Adding Cast to Device... %C_Green%
 REG Delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" /V {7AD84985-87B4-4a16-BE58-8B72A5B390F7} /F
 CALL :RSTRT_WIN_EX
 EXIT /B
 
 :add_share
-ECHO [1;33m -^> Adding Share... [1;32m
+ECHO %C_DEFAULT% -^> Adding Share... %C_Green%
 REG ADD "HKCR\*\shellex\ContextMenuHandlers\ModernSharing" /ve /t REG_SZ /d "{e2bf9676-5f8f-435c-97eb-11607a5bedf7}" /f
 EXIT /B
 
 :add_quik_acces_nav_pan
-ECHO [1;33m -^> Adding Quick Access to Explorer Navigation Pane... [1;32m
+ECHO %C_DEFAULT% -^> Adding Quick Access to Explorer Navigation Pane... %C_Green%
 REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "HubMode" /f
 EXIT /B
 
 :add_network_nav_pan
 SET "Lib_ID=1"
 CALL :Check_Lib
-ECHO [1;33m -^> Adding Network to Explorer Navigation Pane... [1;32m
+ECHO %C_DEFAULT% -^> Adding Network to Explorer Navigation Pane... %C_Green%
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
 REG ADD "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" /v "Attributes" /t REG_DWORD /d "2953052260" /f
@@ -549,7 +552,7 @@ CALL :END_LINE
 
 
 :rmv_print
-ECHO [1;33m -^> Removing Print... [1;32m
+ECHO %C_DEFAULT% -^> Removing Print... %C_Green%
 REG ADD "HKCR\SystemFileAssociations\image\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
 REG ADD "HKCR\batfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
 REG ADD "HKCR\cmdfile\shell\print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
@@ -572,7 +575,7 @@ REG ADD "HKCR\WSFFile\Shell\Print" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /
 EXIT /B
 
 :rmv_bit_locker
-ECHO [1;33m -^> Removing BitLocker Options... [1;32m
+ECHO %C_DEFAULT% -^> Removing BitLocker Options... %C_Green%
 REG DELETE "HKCR\Drive\shell\suspend-bde" /f
 REG DELETE "HKCR\Drive\shell\decrypt-bde" /f
 REG DELETE "HKCR\Drive\shell\lock-bde" /f
@@ -586,7 +589,7 @@ REG ADD "HKCR\Drive\shell\unlock-bde" /v "LegacyDisable" /t REG_SZ /d "" /f
 EXIT /B
 
 :rmv_scan_defender
-ECHO [1;33m -^> Removing Scan With Windows Defender... [1;32m
+ECHO %C_DEFAULT% -^> Removing Scan With Windows Defender... %C_Green%
 REG DELETE "HKCR\*\shellex\ContextMenuHandlers\EPP" /f
 REG DELETE "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
 REG DELETE "HKCR\Directory\shellex\ContextMenuHandlers\EPP" /f
@@ -594,20 +597,20 @@ REG DELETE "HKCR\Drive\shellex\ContextMenuHandlers\EPP" /f
 EXIT /B
 
 :rmv_personalize_classic
-ECHO [1;33m -^> Removing Personalize Classic... [1;32m
+ECHO %C_DEFAULT% -^> Removing Personalize Classic... %C_Green%
 REG DELETE "HKCR\CLSID\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}" /f
 REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\NameSpace\{580722ff-16a7-44c1-bf74-7e1acd00f4f9}" /f
 REG DELETE "HKCR\DesktopBackground\Shell\ClassicPersonalize" /f
 EXIT /B
 
 :rmv_pin_to_Quik
-ECHO [1;33m -^> Removing Pin to Quick Access... [1;32m
+ECHO %C_DEFAULT% -^> Removing Pin to Quick Access... %C_Green%
 REG DELETE "HKLM\SOFTWARE\Classes\Folder\shell\pintohome" /f
 REG DELETE "HKCR\Folder\shell\pintohome" /f >NUL 2>&1
 EXIT /B
 
 :rmv_pin_to_Strt
-ECHO [1;33m -^> Removing Pin to Start... [1;32m
+ECHO %C_DEFAULT% -^> Removing Pin to Start... %C_Green%
 REG DELETE "HKCR\Folder\shellex\ContextMenuHandlers\PintoStartScreen" /f
 REG DELETE "HKCR\exefile\shellex\ContextMenuHandlers\PintoStartScreen" /f
 REG DELETE "HKCR\Microsoft.Website\ShellEx\ContextMenuHandlers\PintoStartScreen" /f
@@ -615,7 +618,7 @@ REG DELETE "HKCR\mscfile\shellex\ContextMenuHandlers\PintoStartScreen" /f
 EXIT /B
 
 :rmv_give_access
-ECHO [1;33m -^> Removing Give Access... [1;32m
+ECHO %C_DEFAULT% -^> Removing Give Access... %C_Green%
 REG DELETE "HKCR\*\shellex\ContextMenuHandlers\Sharing" /f
 REG DELETE "HKCR\Directory\Background\shellex\ContextMenuHandlers\Sharing" /f
 REG DELETE "HKCR\Directory\shellex\ContextMenuHandlers\Sharing" /f
@@ -628,29 +631,29 @@ REG DELETE "HKCR\UserLibraryFolder\shellex\ContextMenuHandlers\Sharing" /f
 EXIT /B
 
 :rmv_inc_lib
-ECHO [1;33m -^> Removing Include in Library... [1;32m
+ECHO %C_DEFAULT% -^> Removing Include in Library... %C_Green%
 REG DELETE "HKCR\Folder\ShellEx\ContextMenuHandlers\Library Location" /f
 REG DELETE "HKLM\SOFTWARE\Classes\Folder\ShellEx\ContextMenuHandlers\Library Location" /f
 EXIT /B
 
 :rmv_sec_del
-ECHO [1;33m -^> Removing Secure Delete... [1;32m
+ECHO %C_DEFAULT% -^> Removing Secure Delete... %C_Green%
 REG DELETE "HKCR\*\shell\Z007AAO" /f
 REG DELETE "HKCR\Directory\shell\Z007AAO" /f
 EXIT /B
 
 :rmv_sec_cln_rec
-ECHO [1;33m -^> Removing Secure Clean from Recycle Bin... [1;32m
+ECHO %C_DEFAULT% -^> Removing Secure Clean from Recycle Bin... %C_Green%
 REG DELETE "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\SecureClean" /f
 EXIT /B
 
 :rmv_opn_as_port
-ECHO [1;33m -^> Removing Open as Portable Devices... [1;32m
+ECHO %C_DEFAULT% -^> Removing Open as Portable Devices... %C_Green%
 REG DELETE "HKLM\SOFTWARE\Classes\Drive\shellex\ContextMenuHandlers\{D6791A63-E7E2-4fee-BF52-5DED8E86E9B8}" /f
 EXIT /B
 
 :rmv_rstr_prev_ver
-ECHO [1;33m -^> Removing Restore Previous Versions... [1;32m
+ECHO %C_DEFAULT% -^> Removing Restore Previous Versions... %C_Green%
 REG DELETE "HKCR\AllFilesystemObjects\shellex\PropertySheetHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
 REG DELETE "HKCR\CLSID\{450D8FBA-AD25-11D0-98A8-0800361B1103}\shellex\PropertySheetHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
 REG DELETE "HKCR\Directory\shellex\PropertySheetHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" /f
@@ -667,30 +670,30 @@ REG DELETE "HKCU\Software\Policies\Microsoft\PreviousVersions" /v "DisableLocalP
 EXIT /B
 
 :rmv_brn_dsk_img
-ECHO [1;33m -^> Removing Burn Disc Image... [1;32m
+ECHO %C_DEFAULT% -^> Removing Burn Disc Image... %C_Green%
 REG DELETE "HKCR\Windows.IsoFile\shell\burn" /f
 EXIT /B
 
 :rmv_cast_dev
-ECHO [1;33m -^> Removing Cast to Device... [1;32m
+ECHO %C_DEFAULT% -^> Removing Cast to Device... %C_Green%
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" /V {7AD84985-87B4-4a16-BE58-8B72A5B390F7} /T REG_SZ /D "Play to Menu" /F
 CALL :RSTRT_WIN_EX
 EXIT /B
 
 :rmv_share
-ECHO [1;33m -^> Removing Share... [1;32m
+ECHO %C_DEFAULT% -^> Removing Share... %C_Green%
 REG DELETE "HKCR\*\shellex\ContextMenuHandlers\ModernSharing" /f
 EXIT /B
 
 :rmv_quik_acces_nav_pan
-ECHO [1;33m -^> Removing Quick Access from Explorer Navigation Pane... [1;32m
+ECHO %C_DEFAULT% -^> Removing Quick Access from Explorer Navigation Pane... %C_Green%
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "HubMode" /t REG_DWORD /d "1" /f
 EXIT /B
 
 :rmv_network_nav_pan
 SET "Lib_ID=1"
 CALL :Check_Lib
-ECHO [1;33m -^> Removing Network from Explorer Navigation Pane... [1;32m
+ECHO %C_DEFAULT% -^> Removing Network from Explorer Navigation Pane... %C_Green%
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn setowner -ownr "n:Administrators" >NUL 2>&1
 SetACL.exe -on "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" -ot reg -actn ace -ace "n:Administrators;p:full" >NUL 2>&1
 REG ADD "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" /v "Attributes" /t REG_DWORD /d "2954100836" /f
@@ -734,11 +737,11 @@ ECHO  E. Disable Thumbnails
 ECHO  F. Disable Large Icon Cache (Default=500KB)
 ECHO  G. HELP (Description of All Above Tweaks)
 ECHO.
-ECHO [1;36m H. Main Menu [1;33m
+ECHO %C_Cyan% H. Main Menu %C_DEFAULT%
 
 ECHO [1;37m
 CHOICE /C:1234567ABCDEFGH /N /M "Enter your choice: "
-ECHO [1;33m
+ECHO %C_DEFAULT%
 IF ERRORLEVEL 15 GOTO Main_Menu
 IF ERRORLEVEL 14 GOTO sys_help
 IF ERRORLEVEL 13 GOTO ds_large_icn_cache
@@ -842,7 +845,7 @@ CALL :END_LINE
 SET Menu_Name=Downloads Center
 SET Menu_Address=Downloads_Menu
 SET "DESKTOP=%UserProfile%\Desktop"
-ECHO  ^=^> [1;36mFetching Downloads Info......[1;33m
+ECHO  ^=^> %C_Cyan%Fetching Downloads Info......%C_DEFAULT%
 powershell.exe -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/Windows_10/Downloads_Info.bat -OutFile Downloads_Info.bat >NUL 2>&1
 IF NOT EXIST "Downloads_Info.bat" CALL :Network_Error
 CALL Downloads_Info.bat
@@ -901,13 +904,13 @@ SET Menu_Name=Windows Update Menu
 SET Menu_Address=Windows_Update
 
 SET "Update_Disable_Status="
-SET "Update_Enable_Status=%C_Green%(APPLIED)%C_DEFAULT%"
+SET "Update_Enable_Status=%APPLIED%"
 REG QUERY "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" >NUL 2>&1
 IF %ERRORLEVEL% EQU 0 (
     SET "Service_Name=wuauserv"
     CALL :Check_Service_Disabled
     IF DEFINED IS_SERVICE_DISABLED (
-        SET "Update_Disable_Status=%C_Green%(APPLIED)%C_DEFAULT%"
+        SET "Update_Disable_Status=%APPLIED%"
         SET "Update_Enable_Status="
     )
 )
@@ -921,7 +924,7 @@ CALL :TWO_ECHO
 ECHO  1. After Update Tweaks
 ECHO  2. Disable Windows Update %Update_Disable_Status%
 ECHO  3. Enable Windows Update %Update_Enable_Status%
-ECHO [1;36m H. Main Menu [1;33m
+ECHO %C_Cyan% H. Main Menu %C_DEFAULT%
 ECHO.
 
 CHOICE /C:123H /N /M "Enter your choice: "
@@ -935,7 +938,7 @@ IF ERRORLEVEL 1 GOTO after_update_tweaks
 
 
 :ds_Windows_Update
-ECHO [1;33m -^> Disabling Windows Update.... [1;32m
+ECHO %C_DEFAULT% -^> Disabling Windows Update.... %C_Green%
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "AUOptions" /t REG_DWORD /d "1" /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" /t REG_DWORD /d "1" /f >NUL 2>&1
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v "SetDisableUXWUAccess" /t REG_DWORD /d "1" /f >NUL 2>&1
@@ -945,7 +948,7 @@ net stop wuauserv >NUL 2>&1
 CALL :END_LINE_RSRT
 
 :en_Windows_Update
-ECHO [1;33m -^> Enabling Windows Update.... [1;32m 
+ECHO %C_DEFAULT% -^> Enabling Windows Update.... %C_Green% 
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "AUOptions" /t REG_DWORD /d "2" /f
 REG DELETE "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" /f >NUL 2>&1
 REG DELETE "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v "SetDisableUXWUAccess" /f >NUL 2>&1
@@ -1151,7 +1154,7 @@ ECHO 				^|^| MagicX Toolbox Updater ^|^|
 ECHO 				============================
 ECHO.
 COLOR 03
-ECHO  [1;33m^=^> Checking For New Update.....
+ECHO  %C_DEFAULT%^=^> Checking For New Update.....
 powershell.exe -nologo -noprofile -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/Toolbox_Update_Info.bat -OutFile Toolbox_Update_Info.bat >NUL 2>&1
 IF NOT EXIST "Toolbox_Update_Info.bat" CALL :Network_Error
 IF EXIST "Toolbox_Update_Info.bat" (
@@ -1205,15 +1208,15 @@ EXIT
 
 :END_LINE
 ECHO.
-ECHO [1;36m ^=^> Press Any Key To Go %Menu_Name%[1;33m
+ECHO %C_Cyan% ^=^> Press Any Key To Go %Menu_Name%%C_DEFAULT%
 PAUSE >NUL 2>&1
 GOTO %Menu_Address%
 EXIT /B
 
 :END_LINE_RSRT
 ECHO.
-ECHO [1;36m ^=^> Please Restart Windows to Apply This Tweak Properly
-ECHO  ^=^> Press Any Key To Go %Menu_Name%[1;33m
+ECHO %C_Cyan% ^=^> Please Restart Windows to Apply This Tweak Properly
+ECHO  ^=^> Press Any Key To Go %Menu_Name%%C_DEFAULT%
 PAUSE >NUL 2>&1
 GOTO %Menu_Address%
 EXIT /B
@@ -1223,7 +1226,7 @@ ECHO.
 ECHO [1;37m ^=^> DOWNLOAD COMPLETE
 ECHO  ^=^> Check "Apps" folder in Desktop
 ECHO.
-ECHO [1;36m ^=^> Press Any Key To Enter Options[1;33m
+ECHO %C_Cyan% ^=^> Press Any Key To Enter Options%C_DEFAULT%
 PAUSE >NUL 2>&1
 GOTO %Menu_Address%
 EXIT /B
@@ -1252,7 +1255,7 @@ IF NOT "%x%"=="%OPT_AMOUNT%" (
     CALL ECHO   %x%. %%CNTXT[%x%]%%
     GOTO CNTXT_MenuLoop
 )
-ECHO  [1;36m H. Main Menu [1;33m
+ECHO  %C_Cyan% H. Main Menu %C_DEFAULT%
 ECHO.
 ECHO --^> You can choose Multiple Options (E.G: 1,2,7 or 1 2 7)
 
@@ -1263,9 +1266,9 @@ IF DEFINED Inp_Error_Message (
 )
 ECHO [1;37m
 SET /p "Input= %INP_MSG%"
-ECHO [1;33m
+ECHO %C_DEFAULT%
 IF NOT DEFINED Input (
-    SET "Inp_Error_Message=[1;31m EMPTY INPUT! [1;33m"
+    SET "Inp_Error_Message=%C_Red% EMPTY INPUT! %C_DEFAULT%"
     GOTO Prompt
 )
 SET "Input=%Input:"=%"
@@ -1284,7 +1287,7 @@ GOTO End_Tasks
 :CNTXT_Inp_Validate
 SET "Next=%2"
 IF NOT DEFINED CNTXT[%1] (
-    SET "Inp_Error_Message=[1;31m INVALID INPUT: %1! [1;33m"
+    SET "Inp_Error_Message=%C_Red% INVALID INPUT: %1! %C_DEFAULT%"
     SET "Input="
     GOTO Prompt
 )
@@ -1314,11 +1317,11 @@ ECHO   ^|  \/  ^| __ _  __ _(_) ___\ \/ / ^|_   _^|__   ___ ^| ^| ^|__   _____  
 ECHO   ^| ^|\/^| ^|/ _` ^|/ _` ^| ^|/ __^|\  /    ^| ^|/ _ \ / _ \^| ^| '_ \ / _ \ \/ /
 ECHO   ^| ^|  ^| ^| (_^| ^| (_^| ^| ^| (__ /  \    ^| ^| (_) ^| (_) ^| ^| ^|_) ^| (_) ^>  ^< 
 ECHO   ^|_^|  ^|_^|\__,_^|\__, ^|_^|\___/_/\_\   ^|_^|\___/ \___/^|_^|_.__/ \___/_/\_\
-ECHO                 ^|___/         [1;33m
+ECHO                 ^|___/         %C_DEFAULT%
 ECHO.
 IF EXIST "%TEMP%\MagicXToolbox_psbdgtx\UpdateAvailable.yes" (
     DEL "%TEMP%\MagicXToolbox_psbdgtx\UpdateAvailable.yes"
-    ECHO  [1;32m
+    ECHO  %C_Green%
     CHOICE /C:NY /N /M "--> Toolbox New Update Available. Wanna Update Now? [Y/N] "
     IF ERRORLEVEL 2 GOTO Check_Update
     IF ERRORLEVEL 1 GOTO %Menu_Address%
@@ -1351,7 +1354,7 @@ EXIT /B
 
 
 :RSTRT_WIN_EX
-ECHO [1;33m -^> Restarting Windows Explorer.... [1;32m
+ECHO %C_DEFAULT% -^> Restarting Windows Explorer.... %C_Green%
 TASKKILL /im explorer.exe /f
 START explorer.exe
 EXIT /B
@@ -1398,7 +1401,7 @@ SET "Download_Name=%DNL_OPT%"
 SET "Download_Link=%DL_REPO%/%FILE_CAT%/%File_Name%.%FILE_EXT%"
 SET "Download_Location=%DESKTOP%\Apps\%File_Name%.%FILE_EXT%"
 :Any_Downloader
-ECHO [1;33m ^=^> %Download_Name% Downloading..... [1;32m
+ECHO %C_DEFAULT% ^=^> %Download_Name% Downloading..... %C_Green%
 PowerShell -Command ^
 $ProgressPreference = 'SilentlyContinue';^
 $dlLink = \"%Download_Link%\";^

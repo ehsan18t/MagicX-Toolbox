@@ -785,24 +785,24 @@ CALL :Header
 ECHO  ============
 ECHO  ^|^| Enable ^|^|
 ECHO  ============
-ECHO  1. Enable Large System Cache (Only for 8GB+ RAM Users)
-ECHO  2. Enable Hibernation (Recommended)
-ECHO  3. Enable Startup Delay (Recommended for HDD)
+ECHO  1. Enable Large System Cache %C_Cyan%(Only for %C_Red%8GB+%C_Cyan% RAM Users)%C_DEFAULT%
+ECHO  2. Enable Hibernation %C_Cyan%(Recommended)%C_DEFAULT%
+ECHO  3. Enable Startup Delay %C_Cyan%(Recommended for %C_Red%HDD%C_Cyan%)%C_DEFAULT%
 ECHO  4. Enable Web/Being Search in Windows Search
 ECHO  5. Enable Thumbnails
-ECHO  6. Enable Large Icon Cache (4MB)
-ECHO  7. Enable Large Icon Cache (8MB)
+ECHO  6. Enable Large Icon Cache %C_Cyan%(4MB)%C_DEFAULT%
+ECHO  7. Enable Large Icon Cache %C_Red%(8MB)%C_DEFAULT%
 ECHO.
 ECHO  =============
 ECHO  ^|^| Disable ^|^|
 ECHO  =============
 ECHO  A. Disable Large System Cache 
 ECHO  B. Disable Hibernation
-ECHO  C. Disable Startup Delay (Recommended for SSD)
+ECHO  C. Disable Startup Delay %C_Cyan%(Recommended for %C_Red%SSD%C_Cyan%)%C_DEFAULT%
 ECHO  D. Disable Web/Being Search in Windows Search
 ECHO  E. Disable Thumbnails
-ECHO  F. Disable Large Icon Cache (Default=500KB)
-ECHO  G. HELP (Description of All Above Tweaks)
+ECHO  F. Disable Large Icon Cache %C_Cyan%(Default=%C_Green%500KB%C_Cyan%)%C_DEFAULT%
+ECHO  G. HELP %C_Cyan%(Description of All Above Tweaks)%C_DEFAULT%
 ECHO.
 ECHO %C_Cyan% H. Main Menu %C_DEFAULT%
 
@@ -891,14 +891,14 @@ REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "D
 CALL :END_LINE_RSRT
 
 :sys_help
-ECHO  ^=^> "Large System Cache" Make system faster but uses more RAM.
-ECHO        Thats why use it only if you have 8GB or more RAM.
+ECHO  ^=^> %C_Red%Large System Cache%C_DEFAULT% Make system faster but uses more RAM.
+ECHO     Thats why use it only if you have 8GB or more RAM.
 ECHO.
-ECHO  ^=^> "Large Icon Cache" Help system and system icons load faster.
-ECHO        Use the one works best for you.
+ECHO  ^=^> %C_Red%Large Icon Cache%C_DEFAULT% Help system and system icons load faster.
+ECHO     Use the one works best for you.
 ECHO.
-ECHO  ^=^> "Hibernation" uses 3GB~6GB of space(HDD/SSD) for fastboot/sleep mode.
-ECHO        However if you disable this option PC boot time will be incresed.
+ECHO  ^=^> %C_Red%Hibernation%C_DEFAULT% uses 3GB~6GB of space(HDD/SSD) for fastboot/sleep mode.
+ECHO     However if you disable this option PC boot time will be incresed.
 CALL :END_LINE
 
 

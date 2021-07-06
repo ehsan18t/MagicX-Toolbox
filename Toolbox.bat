@@ -24,7 +24,7 @@ SET "C_Cyan=[1;36m"
 SET "C_DEFAULT=%C_Yellow%"
 
 @REM Other Global Variables
-SET "APPLIED=%C_Green%(APPLIED)%C_DEFAULT%"
+SET "APPLIED=%C_Green%^<APPLIED^>%C_DEFAULT%"
 
 SET /a "_rand=(%RANDOM%*6/32768)"
 
@@ -70,30 +70,97 @@ IF ERRORLEVEL 1 GOTO Appearance
 @REM ::		 Appearance		 ::
 @REM ::						 ::
 @REM ::::::::::::::::::::::::::
+
 :Appearance
 CLS
 COLOR 0E
 SET Menu_Name=Appearance Menu
 SET Menu_Address=Appearance
+
+
+@REM Creating some variables for checking status
+SET "enable_arrow_icon_status=%APPLIED%"
+SET "enable_action_center_status=%APPLIED%"
+SET "enable_old_battery_status="
+SET "enable_old_network_status="
+SET "enable_old_vol_status="
+
+SET "disable_arrow_icon_status="
+SET "disable_action_center_status="
+SET "disable_old_battery_status=%APPLIED%"
+SET "disable_old_network_status=%APPLIED%"
+SET "disable_old_vol_status=%APPLIED%"
+
+@REM Enable/Disable Arrow Icon In Shortcut
+SET "REG_KEY=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons"
+SET "REG_DATA=29"
+SET "REG_VALUE="
+CALL :Check_REG_Value
+IF "%REG_VALUE%" EQU "%%systemroot%%\Blank.ico,0" (
+    SET "enable_arrow_icon_status="
+    SET "disable_arrow_icon_status=%APPLIED%"
+)
+
+@REM Enable/Disable Action Center
+SET "REG_KEY=HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer"
+SET "REG_DATA=DisableNotificationCenter"
+SET "REG_VALUE="
+CALL :Check_REG_Value
+IF "%REG_VALUE%" EQU "0x1" (
+    SET "enable_action_center_status="
+    SET "disable_action_center_status=%APPLIED%"
+)
+
+@REM Enable/Disable Old Battery Flyout UI
+SET "REG_KEY=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell"
+SET "REG_DATA=UseWin32BatteryFlyout"
+SET "REG_VALUE="
+CALL :Check_REG_Value
+IF "%REG_VALUE%" EQU "0x1" (
+    SET "enable_old_battery_status=%APPLIED%"
+    SET "disable_old_battery_status="
+)
+
+@REM Enable/Disable Old Network Flyout UI
+SET "REG_KEY=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network"
+SET "REG_DATA=ReplaceVan"
+SET "REG_VALUE="
+CALL :Check_REG_Value
+IF "%REG_VALUE%" EQU "0x2" (
+    SET "enable_old_network_status=%APPLIED%"
+    SET "disable_old_network_status="
+)
+
+@REM Enable/Disable Old Volume Control Flyout UI
+SET "REG_KEY=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC"
+SET "REG_DATA=EnableMtcUvc"
+SET "REG_VALUE="
+CALL :Check_REG_Value
+IF "%REG_VALUE%" EQU "0x0" (
+    SET "enable_old_vol_status=%APPLIED%"
+    SET "disable_old_vol_status="
+)
+
+
 CALL :Header
 ECHO  ============
 ECHO  ^|^| Enable ^|^|
 ECHO  ============
-ECHO  1. Enable Arrow Icon In Shortcut
-ECHO  2. Enable Action Center 
-ECHO  3. Enable Old Battery Flyout UI
-ECHO  4. Enable Old Network Flyout UI
-ECHO  5. Enable Old Volume Control Flyout UI
+ECHO  1. Enable Arrow Icon In Shortcut %enable_arrow_icon_status%
+ECHO  2. Enable Action Center %enable_action_center_status%
+ECHO  3. Enable Old Battery Flyout UI %enable_old_battery_status%
+ECHO  4. Enable Old Network Flyout UI %enable_old_network_status%
+ECHO  5. Enable Old Volume Control Flyout UI %enable_old_vol_status%
 ECHO  6. Enable Taskbar
 ECHO.
 ECHO  =============
 ECHO  ^|^| Disable ^|^|
 ECHO  =============
-ECHO  A. Disable Arrow Icon From Shortcut
-ECHO  B. Disable Action Center 
-ECHO  C. Disable Old Battery Flyout UI
-ECHO  D. Disable Old Network Flyout UI
-ECHO  E. Disable Old Volume Control Flyout UI
+ECHO  A. Disable Arrow Icon From Shortcut %disable_arrow_icon_status%
+ECHO  B. Disable Action Center %disable_action_center_status%
+ECHO  C. Disable Old Battery Flyout UI %disable_old_battery_status%
+ECHO  D. Disable Old Network Flyout UI %disable_old_network_status%
+ECHO  E. Disable Old Volume Control Flyout UI %disable_old_vol_status%
 ECHO  F. Disable Taskbar (Hide)
 ECHO.
 ECHO %C_Cyan% H. Main Menu %C_DEFAULT%

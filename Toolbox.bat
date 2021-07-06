@@ -82,21 +82,21 @@ ECHO  B. Disable Action Center
 ECHO  C. Disable Old Battery Flyout UI
 ECHO  D. Disable Old Network Flyout UI
 ECHO  E. Disable Old Volume Control Flyout UI
-ECHO  E. Disable Taskbar (Hide)
+ECHO  F. Disable Taskbar (Hide)
 ECHO.
 ECHO [1;36m H. Main Menu [1;33m
 
 ECHO [1;37m
-CHOICE /C:12345ABCDEH /N /M "Enter your choice: "
+CHOICE /C:123456ABCDEFH /N /M "Enter your choice: "
 ECHO [1;33m
 IF ERRORLEVEL 13 GOTO Main_Menu
-IF ERRORLEVEL 12 GOTO en_taskbar
-IF ERRORLEVEL 11 GOTO ds_taskbar
-IF ERRORLEVEL 10 GOTO ds_old_vol_ctrl
-IF ERRORLEVEL 9 GOTO ds_old_net
-IF ERRORLEVEL 8 GOTO ds_old_battery
-IF ERRORLEVEL 7 GOTO ds_act_cent
-IF ERRORLEVEL 6 GOTO ds_arw_shtct
+IF ERRORLEVEL 12 GOTO ds_taskbar
+IF ERRORLEVEL 11 GOTO ds_old_vol_ctrl
+IF ERRORLEVEL 10 GOTO ds_old_net
+IF ERRORLEVEL 9 GOTO ds_old_battery
+IF ERRORLEVEL 8 GOTO ds_act_cent
+IF ERRORLEVEL 7 GOTO ds_arw_shtct
+IF ERRORLEVEL 6 GOTO en_taskbar
 IF ERRORLEVEL 5 GOTO en_old_vol_ctrl
 IF ERRORLEVEL 4 GOTO en_old_net
 IF ERRORLEVEL 3 GOTO en_old_battery

@@ -14,6 +14,15 @@ FLTMC >NUL 2>&1 || (
 	EXIT
 )
 
+@REM Global Color Variables
+SET "C_Red=[1;31m"
+SET "C_Green=[1;32m"
+SET "C_Yellow=[1;33m"
+SET "C_Blue=[1;34m"
+SET "C_Violate=[1;35m"
+SET "C_Cyan=[1;36m"
+SET "C_DEFAULT=%C_Yellow%"
+
 SET /a "_rand=(%RANDOM%*6/32768)"
 
 :Main_Menu
@@ -890,6 +899,19 @@ CLS
 COLOR 0E
 SET Menu_Name=Windows Update Menu
 SET Menu_Address=Windows_Update
+
+SET "Update_Disable_Status="
+SET "Update_Enable_Status=%C_Green%(APPLIED)%C_DEFAULT%"
+REG QUERY "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" >NUL 2>&1
+IF %ERRORLEVEL% EQU 0 (
+    SET "Service_Name=wuauserv"
+    CALL :Check_Service_Disabled
+    IF DEFINED IS_SERVICE_DISABLED (
+        SET "Update_Disable_Status=%C_Green%(APPLIED)%C_DEFAULT%"
+        SET "Update_Enable_Status="
+    )
+)
+
 CALL :Header
 ECHO.
 ECHO  ^=^> Please Apply "After Update Tweaks" After Install Windows Update.
@@ -897,8 +919,8 @@ ECHO  ^=^> Because After You Update Windwos It Can Change all the Tweaks I Made.
 ECHO  ^=^> That Might Make System Slower and MS Will Collect Data/Log From Your PC.
 CALL :TWO_ECHO
 ECHO  1. After Update Tweaks
-ECHO  2. Disable Windows Update
-ECHO  3. Enable Windows Update
+ECHO  2. Disable Windows Update %Update_Disable_Status%
+ECHO  3. Enable Windows Update %Update_Enable_Status%
 ECHO [1;36m H. Main Menu [1;33m
 ECHO.
 
@@ -908,6 +930,29 @@ IF ERRORLEVEL 4 GOTO Main_Menu
 IF ERRORLEVEL 3 GOTO en_Windows_Update
 IF ERRORLEVEL 2 GOTO ds_Windows_Update
 IF ERRORLEVEL 1 GOTO after_update_tweaks
+
+
+
+
+:ds_Windows_Update
+ECHO [1;33m -^> Disabling Windows Update.... [1;32m
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "AUOptions" /t REG_DWORD /d "1" /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" /t REG_DWORD /d "1" /f >NUL 2>&1
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v "SetDisableUXWUAccess" /t REG_DWORD /d "1" /f >NUL 2>&1
+net stop wuauserv >NUL 2>&1
+sc config wuauserv start= disabled
+net stop wuauserv >NUL 2>&1
+CALL :END_LINE_RSRT
+
+:en_Windows_Update
+ECHO [1;33m -^> Enabling Windows Update.... [1;32m 
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "AUOptions" /t REG_DWORD /d "2" /f
+REG DELETE "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" /f >NUL 2>&1
+REG DELETE "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v "SetDisableUXWUAccess" /f >NUL 2>&1
+sc config wuauserv start= demand
+net start wuauserv >NUL 2>&1
+CALL :END_LINE_RSRT
+
 
 
 :after_update_tweaks
@@ -1090,25 +1135,6 @@ ECHO --^> "Do This For All Current Items Check box By Default" Enabled
 REG ADD "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager" /v "ConfirmationCheckBoxDoForAll" /t REG_DWORD /d "1" /f >NUL 2>&1
 CALL :END_LINE
 
-
-:ds_Windows_Update
-ECHO [1;33m -^> Disabling Windows Update.... [1;32m
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "AUOptions" /t REG_DWORD /d "1" /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" /t REG_DWORD /d "1" /f >NUL 2>&1
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v "SetDisableUXWUAccess" /t REG_DWORD /d "1" /f >NUL 2>&1
-net stop wuauserv >NUL 2>&1
-sc config wuauserv start= disabled
-net stop wuauserv >NUL 2>&1
-CALL :END_LINE_RSRT
-
-:en_Windows_Update
-ECHO [1;33m -^> Enabling Windows Update.... [1;32m 
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "AUOptions" /t REG_DWORD /d "2" /f
-REG DELETE "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" /f >NUL 2>&1
-REG DELETE "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v "SetDisableUXWUAccess" /f >NUL 2>&1
-sc config wuauserv start= demand
-net start wuauserv >NUL 2>&1
-CALL :END_LINE_RSRT
 
 
 
@@ -1411,4 +1437,9 @@ EXIT /B
 MD "%TEMP%\MagicXToolbox_psbdgtx"
 ECHO SET "Current_Version=%Current_Version%">"%TEMP%\MagicXToolbox_psbdgtx\Current_Version.bat"
 START /MIN /K CMD /C CALL "%WinDir%\Toolbox\CheckAU.bat" >NUL 2>&1
+EXIT /B
+
+:Check_Service_Disabled
+SET "IS_SERVICE_DISABLED="
+FOR /F "TOKENS=4" %%A IN ('"SC QC "%Service_Name%" | FINDSTR /I "DISABLED""') DO (SET "IS_SERVICE_DISABLED=true" && EXIT /B)
 EXIT /B

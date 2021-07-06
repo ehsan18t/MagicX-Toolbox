@@ -1,4 +1,5 @@
 @ECHO OFF
+@CHCP 65001>NUL
 @REM mode con:cols=78 lines=28
 SET Current_Version=2.0.1
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400

@@ -25,7 +25,8 @@ SET "C_Cyan=[1;36m"
 SET "C_DEFAULT=%C_Yellow%"
 
 @REM Other Global Variables
-SET "APPLIED=%C_Green%^<APPLIED^>%C_DEFAULT%"
+SET "APPLIED=%C_Green%■%C_DEFAULT%"
+SET "NOT_APPLIED=%C_Red%■%C_DEFAULT%"
 
 SET /a "_rand=(%RANDOM%*6/32768)"
 
@@ -82,12 +83,12 @@ SET Menu_Address=Appearance
 @REM Creating some variables for checking status
 SET "enable_arrow_icon_status=%APPLIED%"
 SET "enable_action_center_status=%APPLIED%"
-SET "enable_old_battery_status="
-SET "enable_old_network_status="
-SET "enable_old_vol_status="
+SET "enable_old_battery_status=%NOT_APPLIED%"
+SET "enable_old_network_status=%NOT_APPLIED%"
+SET "enable_old_vol_status=%NOT_APPLIED%"
 
-SET "disable_arrow_icon_status="
-SET "disable_action_center_status="
+SET "disable_arrow_icon_status=%NOT_APPLIED%"
+SET "disable_action_center_status=%NOT_APPLIED%"
 SET "disable_old_battery_status=%APPLIED%"
 SET "disable_old_network_status=%APPLIED%"
 SET "disable_old_vol_status=%APPLIED%"
@@ -98,7 +99,7 @@ SET "REG_DATA=29"
 SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "%%systemroot%%\Blank.ico,0" (
-    SET "enable_arrow_icon_status="
+    SET "enable_arrow_icon_status=%NOT_APPLIED%"
     SET "disable_arrow_icon_status=%APPLIED%"
 )
 
@@ -108,7 +109,7 @@ SET "REG_DATA=DisableNotificationCenter"
 SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x1" (
-    SET "enable_action_center_status="
+    SET "enable_action_center_status=%NOT_APPLIED%"
     SET "disable_action_center_status=%APPLIED%"
 )
 
@@ -119,7 +120,7 @@ SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x1" (
     SET "enable_old_battery_status=%APPLIED%"
-    SET "disable_old_battery_status="
+    SET "disable_old_battery_status=%NOT_APPLIED%"
 )
 
 @REM Enable/Disable Old Network Flyout UI
@@ -129,7 +130,7 @@ SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x2" (
     SET "enable_old_network_status=%APPLIED%"
-    SET "disable_old_network_status="
+    SET "disable_old_network_status=%NOT_APPLIED%"
 )
 
 @REM Enable/Disable Old Volume Control Flyout UI
@@ -139,7 +140,7 @@ SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x0" (
     SET "enable_old_vol_status=%APPLIED%"
-    SET "disable_old_vol_status="
+    SET "disable_old_vol_status=%NOT_APPLIED%"
 )
 
 
@@ -147,21 +148,21 @@ CALL :Header
 ECHO  ============
 ECHO  ^|^| Enable ^|^|
 ECHO  ============
-ECHO  1. Enable Arrow Icon In Shortcut %enable_arrow_icon_status%
-ECHO  2. Enable Action Center %enable_action_center_status%
-ECHO  3. Enable Old Battery Flyout UI %enable_old_battery_status%
-ECHO  4. Enable Old Network Flyout UI %enable_old_network_status%
-ECHO  5. Enable Old Volume Control Flyout UI %enable_old_vol_status%
+ECHO  1. %enable_arrow_icon_status% Enable Arrow Icon In Shortcut
+ECHO  2. %enable_action_center_status% Enable Action Center
+ECHO  3. %enable_old_battery_status% Enable Old Battery Flyout UI
+ECHO  4. %enable_old_network_status% Enable Old Network Flyout UI
+ECHO  5. %enable_old_vol_status% Enable Old Volume Control Flyout UI
 ECHO  6. Enable Taskbar
 ECHO.
 ECHO  =============
 ECHO  ^|^| Disable ^|^|
 ECHO  =============
-ECHO  A. Disable Arrow Icon From Shortcut %disable_arrow_icon_status%
-ECHO  B. Disable Action Center %disable_action_center_status%
-ECHO  C. Disable Old Battery Flyout UI %disable_old_battery_status%
-ECHO  D. Disable Old Network Flyout UI %disable_old_network_status%
-ECHO  E. Disable Old Volume Control Flyout UI %disable_old_vol_status%
+ECHO  A. %disable_arrow_icon_status% Disable Arrow Icon From Shortcut
+ECHO  B. %disable_action_center_status% Disable Action Center
+ECHO  C. %disable_old_battery_status% Disable Old Battery Flyout UI
+ECHO  D. %disable_old_network_status% Disable Old Network Flyout UI
+ECHO  E. %disable_old_vol_status% Disable Old Volume Control Flyout UI
 ECHO  F. Disable Taskbar (Hide)
 ECHO.
 ECHO %C_Cyan% H. Main Menu %C_DEFAULT%
@@ -784,20 +785,20 @@ SET Menu_Name=System Menu
 SET Menu_Address=System_Menu
 
 @REM Variables for Status Checking
-SET "enable_large_system_cache_status="
-SET "enable_hibernation_status="
+SET "enable_large_system_cache_status=%NOT_APPLIED%"
+SET "enable_hibernation_status=%NOT_APPLIED%"
 SET "enable_startup_delay_status=%APPLIED%"
 SET "enable_being_search_status=%APPLIED%"
 SET "enable_thumbnails_status=%APPLIED%"
 
 SET "disable_large_system_cache_status=%APPLIED%"
 SET "disable_hibernation_status=%APPLIED%"
-SET "disable_startup_delay_status="
-SET "disable_being_search_status="
-SET "disable_thumbnails_status="
+SET "disable_startup_delay_status=%NOT_APPLIED%"
+SET "disable_being_search_status=%NOT_APPLIED%"
+SET "disable_thumbnails_status=%NOT_APPLIED%"
 
-SET "large_icon_cache_4mb_status="
-SET "large_icon_cache_8mb_status="
+SET "large_icon_cache_4mb_status=%NOT_APPLIED%"
+SET "large_icon_cache_8mb_status=%NOT_APPLIED%"
 SET "large_icon_cache_500kb_status=%APPLIED%"
 
 
@@ -808,13 +809,13 @@ SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x1" (
     SET "enable_large_system_cache_status=%APPLIED%"
-    SET "disable_large_system_cache_status="
+    SET "disable_large_system_cache_status=%NOT_APPLIED%"
 )
 
 @REM Enable/Disable Hibernation
 IF EXIST "%SystemDrive%\hiberfil.sys" (
     SET "enable_hibernation_status=%APPLIED%"
-    SET "disable_hibernation_status="
+    SET "disable_hibernation_status=%NOT_APPLIED%"
 )
 
 @REM Enable/Disable Startup Delay
@@ -824,7 +825,7 @@ SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x0" (
     SET "disable_startup_delay_status=%APPLIED%"
-    SET "enable_startup_delay_status="
+    SET "enable_startup_delay_status=%NOT_APPLIED%"
 )
 
 @REM Enable/Disable Web/Being Search in Windows Search
@@ -834,7 +835,7 @@ SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x0" (
     SET "disable_being_search_status=%APPLIED%"
-    SET "enable_being_search_status="
+    SET "enable_being_search_status=%NOT_APPLIED%"
 )
 
 @REM Enable/Disable Thumbnails
@@ -844,7 +845,7 @@ SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x1" (
     SET "disable_thumbnails_status=%APPLIED%"
-    SET "enable_thumbnails_status="
+    SET "enable_thumbnails_status=%NOT_APPLIED%"
 )
 
 @REM Enable/Disable Large Icon Cache
@@ -859,36 +860,36 @@ IF %ERRORLEVEL% EQU 0 (
 
 IF "%REG_VALUE%" EQU "4096" (
     SET "large_icon_cache_4mb_status=%APPLIED%"
-    SET "large_icon_cache_8mb_status="
-    SET "large_icon_cache_500kb_status="
+    SET "large_icon_cache_8mb_status=%NOT_APPLIED%"
+    SET "large_icon_cache_500kb_status=%NOT_APPLIED%"
 )
 IF "%REG_VALUE%" EQU "8192" (
-    SET "large_icon_cache_4mb_status="
+    SET "large_icon_cache_4mb_status=%NOT_APPLIED%"
     SET "large_icon_cache_8mb_status=%APPLIED%"
-    SET "large_icon_cache_500kb_status="
+    SET "large_icon_cache_500kb_status=%NOT_APPLIED%"
 )
 
 CALL :Header
 ECHO  ============
 ECHO  ^|^| Enable ^|^|
 ECHO  ============
-ECHO  1. Enable Large System Cache %C_Cyan%(Only for %C_Red%8GB+%C_Cyan% RAM Users)%C_DEFAULT% %enable_large_system_cache_status%
-ECHO  2. Enable Hibernation %C_Cyan%(Recommended)%C_DEFAULT% %enable_hibernation_status%
-ECHO  3. Enable Startup Delay %C_Cyan%(Recommended for %C_Red%HDD%C_Cyan%)%C_DEFAULT% %enable_startup_delay_status%
-ECHO  4. Enable Web/Being Search in Windows Search %enable_being_search_status%
-ECHO  5. Enable Thumbnails %enable_thumbnails_status%
-ECHO  6. Enable Large Icon Cache %C_Cyan%(4MB)%C_DEFAULT% %large_icon_cache_4mb_status%
-ECHO  7. Enable Large Icon Cache %C_Red%(8MB)%C_DEFAULT% %large_icon_cache_8mb_status%
+ECHO  1. %enable_large_system_cache_status% Enable Large System Cache %C_Cyan%(Only for %C_Red%8GB+%C_Cyan% RAM Users)%C_DEFAULT%
+ECHO  2. %enable_hibernation_status% Enable Hibernation %C_Cyan%(Recommended)%C_DEFAULT%
+ECHO  3. %enable_startup_delay_status% Enable Startup Delay %C_Cyan%(Recommended for %C_Red%HDD%C_Cyan%)%C_DEFAULT%
+ECHO  4. %enable_being_search_status% Enable Web/Being Search in Windows Search
+ECHO  5. %enable_thumbnails_status% Enable Thumbnails
+ECHO  6. %large_icon_cache_4mb_status% Enable Large Icon Cache %C_Cyan%(4MB)%C_DEFAULT%
+ECHO  7. %large_icon_cache_8mb_status% Enable Large Icon Cache %C_Red%(8MB)%C_DEFAULT%
 ECHO.
 ECHO  =============
 ECHO  ^|^| Disable ^|^|
 ECHO  =============
-ECHO  A. Disable Large System Cache %disable_large_system_cache_status%
-ECHO  B. Disable Hibernation %disable_hibernation_status%
-ECHO  C. Disable Startup Delay %C_Cyan%(Recommended for %C_Red%SSD%C_Cyan%)%C_DEFAULT% %disable_startup_delay_status%
-ECHO  D. Disable Web/Being Search in Windows Search %disable_being_search_status%
-ECHO  E. Disable Thumbnails %disable_thumbnails_status%
-ECHO  F. Disable Large Icon Cache %C_Cyan%(Default=%C_Green%500KB%C_Cyan%)%C_DEFAULT% %large_icon_cache_500kb_status%
+ECHO  A. %disable_large_system_cache_status% Disable Large System Cache
+ECHO  B. %disable_hibernation_status% Disable Hibernation
+ECHO  C. %disable_startup_delay_status% Disable Startup Delay %C_Cyan%(Recommended for %C_Red%SSD%C_Cyan%)%C_DEFAULT%
+ECHO  D. %disable_being_search_status% Disable Web/Being Search in Windows Search
+ECHO  E. %disable_thumbnails_status% Disable Thumbnails
+ECHO  F. %large_icon_cache_500kb_status% Disable Large Icon Cache %C_Cyan%(Default=%C_Green%500KB%C_Cyan%)%C_DEFAULT%
 ECHO  G. HELP %C_Cyan%(Description of All Above Tweaks)%C_DEFAULT%
 ECHO.
 ECHO %C_Cyan% H. Main Menu %C_DEFAULT%
@@ -1057,7 +1058,7 @@ COLOR 0E
 SET Menu_Name=Windows Update Menu
 SET Menu_Address=Windows_Update
 
-SET "Update_Disable_Status="
+SET "Update_Disable_Status=%NOT_APPLIED%"
 SET "Update_Enable_Status=%APPLIED%"
 REG QUERY "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" >NUL 2>&1
 IF %ERRORLEVEL% EQU 0 (
@@ -1065,13 +1066,13 @@ IF %ERRORLEVEL% EQU 0 (
     CALL :Check_Service_Disabled
     IF DEFINED IS_SERVICE_DISABLED (
         SET "Update_Disable_Status=%APPLIED%"
-        SET "Update_Enable_Status="
+        SET "Update_Enable_Status=%NOT_APPLIED%"
     )
 )
 
-SET "Update_Enable_Status_A="
-SET "Update_Enable_Status_B="
-SET "Update_Enable_Status_C="
+SET "Update_Enable_Status_A=%NOT_APPLIED%"
+SET "Update_Enable_Status_B=%NOT_APPLIED%"
+SET "Update_Enable_Status_C=%NOT_APPLIED%"
 
 SET "REG_KEY=HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
 SET "REG_DATA=AUOptions"
@@ -1098,13 +1099,13 @@ ECHO  --------------------------------------------------------------------------
 CALL :TWO_ECHO
 ECHO  %C_Cyan%^<%C_Red%General Settings%C_Cyan%^>%C_DEFAULT%
 ECHO  1. After Update Tweaks
-ECHO  2. Disable Windows Update %Update_Disable_Status%
-ECHO  3. Enable Windows Update %Update_Enable_Status%
+ECHO  2. %Update_Disable_Status% Disable Windows Update
+ECHO  3. %Update_Enable_Status% Enable Windows Update
 ECHO.
 ECHO  %C_Cyan%^<%C_Red%Advanced Settings%C_Cyan%^>%C_DEFAULT%
-ECHO  A. Check ^& Notify ^If Updates Available %Update_Enable_Status_A%
-ECHO  B. Check ^& Download ^If Updates Available %Update_Enable_Status_B%
-ECHO  C. Automatically Download and Install Updates %Update_Enable_Status_C%
+ECHO  A. %Update_Enable_Status_A% Check ^& Notify ^If Updates Available
+ECHO  B. %Update_Enable_Status_B% Check ^& Download ^If Updates Available
+ECHO  C. %Update_Enable_Status_C% Automatically Download and Install Updates
 ECHO.
 ECHO %C_Cyan% H. Main Menu %C_DEFAULT%
 ECHO.

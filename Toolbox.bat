@@ -781,27 +781,113 @@ CLS
 COLOR 0E
 SET Menu_Name=System Menu
 SET Menu_Address=System_Menu
+
+@REM Variables for Status Checking
+SET "enable_large_system_cache_status="
+SET "enable_hibernation_status="
+SET "enable_startup_delay_status=%APPLIED%"
+SET "enable_being_search_status=%APPLIED%"
+SET "enable_thumbnails_status=%APPLIED%"
+
+SET "disable_large_system_cache_status=%APPLIED%"
+SET "disable_hibernation_status=%APPLIED%"
+SET "disable_startup_delay_status="
+SET "disable_being_search_status="
+SET "disable_thumbnails_status="
+
+SET "large_icon_cache_4mb_status="
+SET "large_icon_cache_8mb_status="
+SET "large_icon_cache_500kb_status=%APPLIED%"
+
+
+@REM Enable/Disable Large System Cache
+SET "REG_KEY=HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"
+SET "REG_DATA=LargeSystemCache"
+SET "REG_VALUE="
+CALL :Check_REG_Value
+IF "%REG_VALUE%" EQU "0x1" (
+    SET "enable_large_system_cache_status=%APPLIED%"
+    SET "disable_large_system_cache_status="
+)
+
+@REM Enable/Disable Hibernation
+IF EXIST "%SystemDrive%\hiberfil.sys" (
+    SET "enable_hibernation_status=%APPLIED%"
+    SET "disable_hibernation_status="
+)
+
+@REM Enable/Disable Startup Delay
+SET "REG_KEY=HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Serialize"
+SET "REG_DATA=StartupDelayInMSec"
+SET "REG_VALUE="
+CALL :Check_REG_Value
+IF "%REG_VALUE%" EQU "0x0" (
+    SET "disable_startup_delay_status=%APPLIED%"
+    SET "enable_startup_delay_status="
+)
+
+@REM Enable/Disable Web/Being Search in Windows Search
+SET "REG_KEY=HKCU\Software\Microsoft\Windows\CurrentVersion\Search"
+SET "REG_DATA=BingSearchEnable"
+SET "REG_VALUE="
+CALL :Check_REG_Value
+IF "%REG_VALUE%" EQU "0x0" (
+    SET "disable_being_search_status=%APPLIED%"
+    SET "enable_being_search_status="
+)
+
+@REM Enable/Disable Thumbnails
+SET "REG_KEY=HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer"
+SET "REG_DATA=DisableThumbnails"
+SET "REG_VALUE="
+CALL :Check_REG_Value
+IF "%REG_VALUE%" EQU "0x1" (
+    SET "disable_thumbnails_status=%APPLIED%"
+    SET "enable_thumbnails_status="
+)
+
+@REM Enable/Disable Large Icon Cache
+SET "REG_KEY=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+SET "REG_DATA=Max Cached Icons"
+SET "REG_VALUE="
+@REM Because of space in REG_DATA Token is different here...
+REG QUERY "%REG_KEY%" /v "%REG_DATA%" >NUL 2>&1
+IF %ERRORLEVEL% EQU 0 (
+	FOR /F "TOKENS=5" %%A IN ('REG QUERY "%REG_KEY%" /v "%REG_DATA%"') DO (SET "REG_VALUE=%%A")
+)
+
+IF "%REG_VALUE%" EQU "4096" (
+    SET "large_icon_cache_4mb_status=%APPLIED%"
+    SET "large_icon_cache_8mb_status="
+    SET "large_icon_cache_500kb_status="
+)
+IF "%REG_VALUE%" EQU "8192" (
+    SET "large_icon_cache_4mb_status="
+    SET "large_icon_cache_8mb_status=%APPLIED%"
+    SET "large_icon_cache_500kb_status="
+)
+
 CALL :Header
 ECHO  ============
 ECHO  ^|^| Enable ^|^|
 ECHO  ============
-ECHO  1. Enable Large System Cache %C_Cyan%(Only for %C_Red%8GB+%C_Cyan% RAM Users)%C_DEFAULT%
-ECHO  2. Enable Hibernation %C_Cyan%(Recommended)%C_DEFAULT%
-ECHO  3. Enable Startup Delay %C_Cyan%(Recommended for %C_Red%HDD%C_Cyan%)%C_DEFAULT%
-ECHO  4. Enable Web/Being Search in Windows Search
-ECHO  5. Enable Thumbnails
-ECHO  6. Enable Large Icon Cache %C_Cyan%(4MB)%C_DEFAULT%
-ECHO  7. Enable Large Icon Cache %C_Red%(8MB)%C_DEFAULT%
+ECHO  1. Enable Large System Cache %C_Cyan%(Only for %C_Red%8GB+%C_Cyan% RAM Users)%C_DEFAULT% %enable_large_system_cache_status%
+ECHO  2. Enable Hibernation %C_Cyan%(Recommended)%C_DEFAULT% %enable_hibernation_status%
+ECHO  3. Enable Startup Delay %C_Cyan%(Recommended for %C_Red%HDD%C_Cyan%)%C_DEFAULT% %enable_startup_delay_status%
+ECHO  4. Enable Web/Being Search in Windows Search %enable_being_search_status%
+ECHO  5. Enable Thumbnails %enable_thumbnails_status%
+ECHO  6. Enable Large Icon Cache %C_Cyan%(4MB)%C_DEFAULT% %large_icon_cache_4mb_status%
+ECHO  7. Enable Large Icon Cache %C_Red%(8MB)%C_DEFAULT% %large_icon_cache_8mb_status%
 ECHO.
 ECHO  =============
 ECHO  ^|^| Disable ^|^|
 ECHO  =============
-ECHO  A. Disable Large System Cache 
-ECHO  B. Disable Hibernation
-ECHO  C. Disable Startup Delay %C_Cyan%(Recommended for %C_Red%SSD%C_Cyan%)%C_DEFAULT%
-ECHO  D. Disable Web/Being Search in Windows Search
-ECHO  E. Disable Thumbnails
-ECHO  F. Disable Large Icon Cache %C_Cyan%(Default=%C_Green%500KB%C_Cyan%)%C_DEFAULT%
+ECHO  A. Disable Large System Cache %disable_large_system_cache_status%
+ECHO  B. Disable Hibernation %disable_hibernation_status%
+ECHO  C. Disable Startup Delay %C_Cyan%(Recommended for %C_Red%SSD%C_Cyan%)%C_DEFAULT% %disable_startup_delay_status%
+ECHO  D. Disable Web/Being Search in Windows Search %disable_being_search_status%
+ECHO  E. Disable Thumbnails %disable_thumbnails_status%
+ECHO  F. Disable Large Icon Cache %C_Cyan%(Default=%C_Green%500KB%C_Cyan%)%C_DEFAULT% %large_icon_cache_500kb_status%
 ECHO  G. HELP %C_Cyan%(Description of All Above Tweaks)%C_DEFAULT%
 ECHO.
 ECHO %C_Cyan% H. Main Menu %C_DEFAULT%
@@ -847,12 +933,12 @@ REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "Max Cac
 CAll :END_LINE_RSRT
 
 :en_hibernate
-powercfg.exe /h off
+POWERCFG /H OFF
 ECHO  SUCCESS: Hibernation Enabled
 CAll :END_LINE_RSRT
 
 :ds_hibernate
-powercfg.exe /h on
+POWERCFG /H ON
 ECHO  SUCCESS: Hibernation Disabled
 CAll :END_LINE_RSRT
 

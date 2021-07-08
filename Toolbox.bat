@@ -3,6 +3,10 @@
 @REM mode con:cols=78 lines=28
 SET Current_Version=2.0.1
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400
+
+@REM Global PATH Variables
+SET "AU_Temp_Path=%TEMP%\MagicXToolbox_psbdgtx"
+
 CALL :Check_AU >NUL 2>&1
 
 FLTMC >NUL 2>&1 || (
@@ -27,6 +31,8 @@ SET "C_DEFAULT=%C_Yellow%"
 @REM Other Global Variables
 SET "APPLIED=%C_Green%■%C_DEFAULT%"
 SET "NOT_APPLIED=%C_Red%■%C_DEFAULT%"
+SET "Bullet_Point1=%C_Yellow%■%C_DEFAULT%"
+SET "Bullet_Point2=%C_Violate%■%C_DEFAULT%"
 
 SET /a "_rand=(%RANDOM%*6/32768)"
 
@@ -1518,10 +1524,11 @@ ECHO   ^| ^|  ^| ^| (_^| ^| (_^| ^| ^| (__ /  \    ^| ^| (_) ^| (_) ^| ^| ^|_) ^
 ECHO   ^|_^|  ^|_^|\__,_^|\__, ^|_^|\___/_/\_\   ^|_^|\___/ \___/^|_^|_.__/ \___/_/\_\
 ECHO                 ^|___/         %C_DEFAULT%
 ECHO.
-IF EXIST "%TEMP%\MagicXToolbox_psbdgtx\UpdateAvailable.yes" (
-    DEL "%TEMP%\MagicXToolbox_psbdgtx\UpdateAvailable.yes"
-    ECHO  %C_Green%
-    CHOICE /C:NY /N /M "--> Toolbox New Update Available. Wanna Update Now? [Y/N] "
+IF EXIST "%AU_Temp_Path%\UpdateAvailable.yes" (
+    CALL "%AU_Temp_Path%\Changelogs\Changelogs.bat"
+    RMDIR /S /Q "%AU_Temp_Path%"
+    ECHO  %C_Cyan%
+    CHOICE /C:NY /N /M "--> Want to Update Now? [Y/N] "
     IF ERRORLEVEL 2 GOTO Check_Update
     IF ERRORLEVEL 1 GOTO %Menu_Address%
 )
@@ -1636,8 +1643,8 @@ ECHO.
 EXIT /B
 
 :Check_AU
-MD "%TEMP%\MagicXToolbox_psbdgtx"
-ECHO SET "Current_Version=%Current_Version%">"%TEMP%\MagicXToolbox_psbdgtx\Current_Version.bat"
+MD "%AU_Temp_Path%"
+ECHO SET "Current_Version=%Current_Version%">"%AU_Temp_Path%\Current_Version.bat"
 START /MIN CMD /C CALL "%WinDir%\Toolbox\CheckAU.bat" >NUL 2>&1
 EXIT /B
 

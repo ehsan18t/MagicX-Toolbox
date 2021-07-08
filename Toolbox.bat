@@ -1638,7 +1638,7 @@ EXIT /B
 :Check_AU
 MD "%TEMP%\MagicXToolbox_psbdgtx"
 ECHO SET "Current_Version=%Current_Version%">"%TEMP%\MagicXToolbox_psbdgtx\Current_Version.bat"
-START /MIN /K CMD /C CALL "%WinDir%\Toolbox\CheckAU.bat" >NUL 2>&1
+START /MIN CMD /C CALL "%WinDir%\Toolbox\CheckAU.bat" >NUL 2>&1
 EXIT /B
 
 :Check_Service_Disabled

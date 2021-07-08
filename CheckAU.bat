@@ -11,7 +11,7 @@ IF EXIST "%Check_Update_Dir%\Toolbox_Update_Info.bat" (
     DEL "%Check_Update_Dir%\Toolbox_Update_Info.bat"
 )
 
-IF DEFINED Update_Version IF DEFINED Check_Update IF "%Update_Version%" GTR "%Current_Version%" (
+IF DEFINED Current_Version IF DEFINED Update_Version IF "%Update_Version%" GTR "%Current_Version%" (
     ECHO Dummy File > "%Check_Update_Dir%\UpdateAvailable.yes"
     EXIT
 )

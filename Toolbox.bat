@@ -1,5 +1,5 @@
 @ECHO OFF
-@CHCP 65001>NUL
+@REM @CHCP 65001>NUL
 @REM mode con:cols=78 lines=28
 SET Current_Version=2.0.1
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400
@@ -29,10 +29,11 @@ SET "C_Cyan=[1;36m"
 SET "C_DEFAULT=%C_Yellow%"
 
 @REM Other Global Variables
-SET "APPLIED=%C_Green%■%C_DEFAULT%"
-SET "NOT_APPLIED=%C_Red%■%C_DEFAULT%"
-SET "Bullet_Point1=%C_Yellow%■%C_DEFAULT%"
-SET "Bullet_Point2=%C_Violate%■%C_DEFAULT%"
+@REM Unicode Symbols ■
+SET "APPLIED=%C_Green%@%C_DEFAULT%"
+SET "NOT_APPLIED=%C_Red%@%C_DEFAULT%"
+SET "Bullet_Point1=%C_Yellow%@%C_DEFAULT%"
+SET "Bullet_Point2=%C_Violate%@%C_DEFAULT%"
 
 SET /a "_rand=(%RANDOM%*6/32768)"
 

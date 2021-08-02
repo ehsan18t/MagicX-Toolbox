@@ -16,7 +16,7 @@ FLTMC >NUL 2>&1 || (
 	ECHO SET UAC = CreateObject^("Shell.Application"^) > "%TEMP%\GetAdmin.vbs"
 	ECHO UAC.ShellExecute "%~FS0", "", "", "runas", 1 >> "%TEMP%\GetAdmin.vbs"
 	CMD /U /C TYPE "%TEMP%\GetAdmin.vbs">"%TEMP%\GetAdminUnicode.vbs"
-	CSCRIPT /NOLOGO "%TEMP%\GetAdminUnicode.vbs"
+	CSCRIPT //NOLOGO "%TEMP%\GetAdminUnicode.vbs"
 	DEL /F /Q "%TEMP%\GetAdmin.vbs" >NUL 2>&1
 	DEL /F /Q "%TEMP%\GetAdminUnicode.vbs" >NUL 2>&1
 	EXIT
@@ -33,10 +33,11 @@ SET "C_DEFAULT=%C_Yellow%"
 
 @REM Other Global Variables
 @REM Unicode Symbols ■
-SET "APPLIED=%C_Green%@%C_DEFAULT%"
-SET "NOT_APPLIED=%C_Red%@%C_DEFAULT%"
-SET "Bullet_Point1=%C_Yellow%@%C_DEFAULT%"
-SET "Bullet_Point2=%C_Violate%@%C_DEFAULT%"
+SET "Status_Symbol=@"
+SET "APPLIED=%C_Green%%Status_Symbol%%C_DEFAULT%"
+SET "NOT_APPLIED=%C_Red%%Status_Symbol%%C_DEFAULT%"
+SET "Bullet_Point1=%C_Yellow%%Status_Symbol%%C_DEFAULT%"
+SET "Bullet_Point2=%C_Violate%%Status_Symbol%%C_DEFAULT%"
 
 SET /a "_rand=(%RANDOM%*6/32768)"
 
@@ -47,7 +48,7 @@ SET Menu_Address=Main_Menu
 CALL :Header
 ECHO                  %C_Red%--------------------------------------
 ECHO                  ^|%C_DEFAULT%  Author: %C_Cyan%Ahsan Khan (@Ahsan400)%C_DEFAULT%    %C_Red%^|
-ECHO                  ^|%C_DEFAULT%  Target: %C_Cyan%Windows 10 20H1^/19H2 %C_DEFAULT%     %C_Red%^|
+ECHO                  ^|%C_DEFAULT%  Target: %C_Cyan%Windows 10 19H2-21H1 %C_DEFAULT%     %C_Red%^|
 ECHO                  ^|%C_DEFAULT%  TG Group: %C_Blue%https:\\t.me\MagicXMod%C_DEFAULT%  %C_Red%^|
 ECHO                  ^|%C_DEFAULT%  Website: %C_Blue%MagicXMod.github.io%C_DEFAULT%      %C_Red%^|
 ECHO                  --------------------------------------%C_DEFAULT%
@@ -1388,15 +1389,14 @@ ECHO 				^|^| New Update Available! ^|^|
 ECHO 				===========================
 CALL :TWO_ECHO
 ECHO  ^=^> Updates Downloading. Please Wait...
-powershell.exe -nologo -noprofile -Command wget %DNL_LINK%/%Update_FileName% -OutFile %Update_FileName% >NUL 2>&1
-powershell.exe -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('%Update_FileName%', 'Update'); }" >NUL 2>&1
-ECHO  ^=^> Update Process will Start in 5s. Please Don't Close App While it Updating. 
 CD %Current_Dir%
+PowerShell -nologo -noprofile -Command wget %DNL_LINK%/%Update_FileName% -OutFile %Update_FileName% >NUL 2>&1
+PowerShell -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('%Update_FileName%', 'Update'); }" >NUL 2>&1
 IF EXIST "%Current_Dir%\%Update_FileName%" DEL %Update_FileName%
 IF NOT EXIST "%Update_Path%\*.bat" CALL :Network_Error
 IF EXIST "%Update_Path%\PreUpdater.bat" CALL "%Update_Path%\PreUpdater.bat" && DEL "%Update_Path%\PreUpdater.bat" >NUL 2>&1
+ECHO  ^=^> Update Process will ^Start in 5s. Please Don't Close App While it's Updating. 
 TIMEOUT /t 5 >NUL 2>&1
-CLS
 START /MIN /K CMD /C CALL "%Current_Dir%\Updater.bat" >NUL 2>&1
 EXIT
 

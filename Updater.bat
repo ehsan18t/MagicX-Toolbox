@@ -10,15 +10,13 @@ FLTMC >NUL 2>&1 || (
 	EXIT
 )
 
-CD /d %~dp0
-SET Current_Dir=%CD%
-IF NOT EXIST "%CD%\Update" exit
-IF EXIST "%CD%\Update\PreUpdater.bat" DEL "%CD%\Update\PreUpdater.bat" >NUL 2>&1
-CD "%CD%\Update"
-COPY "*.bat" "Toolbox.bat"
-DEL "%Current_Dir%\Toolbox.bat"
-COPY "%Current_Dir%\Update\Toolbox.bat" "%Current_Dir%\Toolbox.bat"
-CD "%Current_Dir%"
-RMDIR /S /Q "%Current_Dir%\Update"
-CMD /C "%SystemRoot%\Toolbox\Toolbox.bat"
+SET "Current_Dir=%~dp0"
+SET "Update_Path=%Current_Dir%\Update"
+
+IF NOT EXIST "%Update_Path%" EXIT
+IF EXIST "%Update_Path%\PreUpdater.bat" DEL "%Update_Path%\PreUpdater.bat" >NUL 2>&1
+
+COPY /Y "%Update_Path%\*.bat" "%Current_Dir%\*.bat"
+RMDIR /S /Q "%Update_Path%" >NUL 2>&1
+CMD /C "%Current_Dir%\Toolbox.bat"
 EXIT

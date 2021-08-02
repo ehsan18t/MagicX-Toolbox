@@ -5,7 +5,10 @@ SET Current_Version=2.0.1
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400
 
 @REM Global PATH Variables
+SET "Current_Dir=%~dp0"
+SET "DESKTOP=%UserProfile%\Desktop"
 SET "AU_Temp_Path=%TEMP%\MagicXToolbox_psbdgtx"
+SET "Update_Path=%Current_Dir%\Update"
 
 CALL :Check_AU >NUL 2>&1
 
@@ -1006,7 +1009,6 @@ CALL :END_LINE
 :Downloads
 SET Menu_Name=Downloads Center
 SET Menu_Address=Downloads_Menu
-SET "DESKTOP=%UserProfile%\Desktop"
 ECHO  ^=^> %C_Cyan%Fetching Downloads Info......%C_DEFAULT%
 powershell.exe -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/Windows_10/Downloads_Info.bat -OutFile Downloads_Info.bat >NUL 2>&1
 IF NOT EXIST "Downloads_Info.bat" CALL :Network_Error
@@ -1386,16 +1388,16 @@ ECHO 				^|^| New Update Available! ^|^|
 ECHO 				===========================
 CALL :TWO_ECHO
 ECHO  ^=^> Updates Downloading. Please Wait...
-CD /D %~dp0
 powershell.exe -nologo -noprofile -Command wget %DNL_LINK%/%Update_FileName% -OutFile %Update_FileName% >NUL 2>&1
 powershell.exe -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('%Update_FileName%', 'Update'); }" >NUL 2>&1
-IF EXIST "%CD%\%Update_FileName%" DEL %Update_FileName%
-IF NOT EXIST "%CD%\Update\*.bat" CALL :Network_Error
-IF EXIST "%CD%\Update\PreUpdater.bat" CALL "%CD%\Update\PreUpdater.bat" && DEL "%CD%\Update\PreUpdater.bat" >NUL 2>&1
 ECHO  ^=^> Update Process will Start in 5s. Please Don't Close App While it Updating. 
+CD %Current_Dir%
+IF EXIST "%Current_Dir%\%Update_FileName%" DEL %Update_FileName%
+IF NOT EXIST "%Update_Path%\*.bat" CALL :Network_Error
+IF EXIST "%Update_Path%\PreUpdater.bat" CALL "%Update_Path%\PreUpdater.bat" && DEL "%Update_Path%\PreUpdater.bat" >NUL 2>&1
 TIMEOUT /t 5 >NUL 2>&1
 CLS
-START /MIN /K CMD /C CALL "%CD%\Updater.bat" >NUL 2>&1
+START /MIN /K CMD /C CALL "%Current_Dir%\Updater.bat" >NUL 2>&1
 EXIT
 
 :NoUpdate
@@ -1646,7 +1648,7 @@ EXIT /B
 :Check_AU
 MD "%AU_Temp_Path%"
 ECHO SET "Current_Version=%Current_Version%">"%AU_Temp_Path%\Current_Version.bat"
-START /MIN CMD /C CALL "%WinDir%\Toolbox\CheckAU.bat" >NUL 2>&1
+START /MIN CMD /C CALL "%Current_Dir%\CheckAU.bat" >NUL 2>&1
 EXIT /B
 
 :Check_Service_Disabled

@@ -1013,7 +1013,10 @@ CALL :END_LINE
 SET Menu_Name=Downloads Center
 SET Menu_Address=Downloads_Menu
 ECHO  ^=^> %C_Cyan%Fetching Downloads Info......%C_DEFAULT%
-PowerShell -COMMAND WGET https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/Windows_10/Downloads_Info.bat -OutFile Downloads_Info.bat >NUL 2>&1
+SET "Download_Name=Downloads_Info"
+SET "Download_Link=https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/Windows_10/Downloads_Info.bat"
+SET "Download_Location=Downloads_Info.bat"
+CALL :Any_Downloader >NUL 2>&1
 IF NOT EXIST "Downloads_Info.bat" CALL :Network_Error
 CALL Downloads_Info.bat
 DEL Downloads_Info.bat
@@ -1366,7 +1369,10 @@ ECHO 				============================
 ECHO.
 COLOR 03
 ECHO  %C_DEFAULT%^=^> Checking For New Update.....
-PowerShell -NoLogo -NoProfile -COMMAND WGET https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/Toolbox_Update_Info.bat -OutFile Toolbox_Update_Info.bat >NUL 2>&1
+SET "Download_Name=Toolbox_Update_Info"
+SET "Download_Link=https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/Toolbox_Update_Info.bat"
+SET "Download_Location=Toolbox_Update_Info.bat"
+CALL :Any_Downloader >NUL 2>&1
 IF NOT EXIST "Toolbox_Update_Info.bat" CALL :Network_Error
 IF EXIST "Toolbox_Update_Info.bat" (
     CALL Toolbox_Update_Info.bat
@@ -1374,7 +1380,10 @@ IF EXIST "Toolbox_Update_Info.bat" (
 )
 IF "%Update_Version%" GTR "%Current_Version%" (
     IF NOT EXIST "%AU_Temp_Path%" MKDIR "%AU_Temp_Path%" >NUL 2>&1
-    PowerShell -NoLogo -NoProfile -COMMAND WGET https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/Changelogs.zip -OutFile "%AU_Temp_Path%\Changelogs.zip" >NUL 2>&1
+    SET "Download_Name=Changelogs"
+    SET "Download_Link=https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/Changelogs.zip"
+    SET "Download_Location=%AU_Temp_Path%\Changelogs.zip"
+    CALL :Any_Downloader >NUL 2>&1
     PowerShell -NoLogo -NoProfile -COMMAND "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('%AU_Temp_Path%\Changelogs.zip', '%AU_Temp_Path%\Changelogs'); }" >NUL 2>&1
     IF EXIST "%AU_Temp_Path%\Changelogs\Changelogs.bat" (
         ECHO Dummy File > "%AU_Temp_Path%\UpdateAvailable.yes"
@@ -1411,7 +1420,10 @@ ECHO 				===========================
 CALL :TWO_ECHO
 ECHO  ^=^> Updates Downloading. Please Wait...
 CD "%Current_Dir%"
-PowerShell -NoLogo -NoProfile -COMMAND WGET %DNL_LINK%/%Update_FileName% -OutFile %Update_FileName% >NUL 2>&1
+SET "Download_Name=%Update_FileName%"
+SET "Download_Link=%DNL_LINK%/%Update_FileName%"
+SET "Download_Location=%Update_FileName%"
+CALL :Any_Downloader >NUL 2>&1
 PowerShell -NoLogo -NoProfile -COMMAND "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('%Update_FileName%', 'Update'); }" >NUL 2>&1
 IF EXIST "%Current_Dir%\%Update_FileName%" DEL %Update_FileName% >NUL 2>&1
 IF NOT EXIST "%Update_Path%\*.bat" CALL :Network_Error

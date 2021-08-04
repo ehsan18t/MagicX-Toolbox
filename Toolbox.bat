@@ -10,7 +10,9 @@ SET "DESKTOP=%UserProfile%\Desktop"
 SET "AU_Temp_Path=%TEMP%\MagicXToolbox_psbdgtx"
 SET "Update_Path=%Current_Dir%\Update"
 
-CALL :Check_AU >NUL 2>&1
+IF NOT EXIST "%AU_Temp_Path%" (
+    CALL :Check_AU >NUL 2>&1
+)
 
 FLTMC >NUL 2>&1 || (
 	ECHO SET UAC = CreateObject^("Shell.Application"^) > "%TEMP%\GetAdmin.vbs"

@@ -1373,19 +1373,38 @@ IF EXIST "Toolbox_Update_Info.bat" (
     DEL Toolbox_Update_Info.bat
 )
 IF "%Update_Version%" GTR "%Current_Version%" (
-    GOTO Update
+    IF NOT EXIST "%AU_Temp_Path%" MKDIR "%AU_Temp_Path%" >NUL 2>&1
+    PowerShell -nologo -noprofile -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/Changelogs.zip -OutFile %AU_Temp_Path%\Changelogs.zip >NUL 2>&1
+    PowerShell -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('%AU_Temp_Path%\Changelogs.zip', '%AU_Temp_Path%\Changelogs'); }" >NUL 2>&1
+    IF EXIST "%AU_Temp_Path%\Changelogs\Changelogs.bat" (
+        ECHO Dummy File > "%AU_Temp_Path%\UpdateAvailable.yes" >NUL 2>&1
+        DEL "%AU_Temp_Path%\Changelogs.zip" >NUL 2>&1
+        SET "Show_Changelogs=true"
+        GOTO Update
+    )
 ) ELSE IF "%Update_Version%" LEQ "%Current_Version%" (
     GOTO NoUpdate
 ) ELSE (
     CALL :Network_Error
 )
-EXIT
+GOTO %Menu_Address%
 
 
 :Update
 CLS
 COLOR 0E
 ECHO.
+IF DEFINED Show_Changelogs (
+    IF EXIST "%AU_Temp_Path%\UpdateAvailable.yes" (
+        CALL "%AU_Temp_Path%\Changelogs\Changelogs.bat"
+        RMDIR /S /Q "%AU_Temp_Path%" >NUL 2>&1
+        SET "Show_Changelogs="
+        ECHO  %C_Cyan%
+        CHOICE /C:NY /N /M "--> Want to Update Now? [Y/N] "
+        IF ERRORLEVEL 2 GOTO Update
+        IF ERRORLEVEL 1 GOTO %Menu_Address%
+    )
+)
 ECHO 				===========================
 ECHO 				^|^| New Update Available! ^|^|
 ECHO 				===========================
@@ -1394,11 +1413,14 @@ ECHO  ^=^> Updates Downloading. Please Wait...
 CD %Current_Dir%
 PowerShell -nologo -noprofile -Command wget %DNL_LINK%/%Update_FileName% -OutFile %Update_FileName% >NUL 2>&1
 PowerShell -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('%Update_FileName%', 'Update'); }" >NUL 2>&1
-IF EXIST "%Current_Dir%\%Update_FileName%" DEL %Update_FileName%
+IF EXIST "%Current_Dir%\%Update_FileName%" DEL %Update_FileName% >NUL 2>&1
 IF NOT EXIST "%Update_Path%\*.bat" CALL :Network_Error
-IF EXIST "%Update_Path%\PreUpdater.bat" CALL "%Update_Path%\PreUpdater.bat" && DEL "%Update_Path%\PreUpdater.bat" >NUL 2>&1
-ECHO  ^=^> Update Process will ^Start in 5s. Please Don't Close App While it's Updating. 
+ECHO  ^=^> Update Process will ^Start in 5s. Please Don't Close App While it's Updating.
 TIMEOUT /t 5 >NUL 2>&1
+IF EXIST "%Update_Path%\PreUpdater.bat" (
+    CALL "%Update_Path%\PreUpdater.bat"  >NUL 2>&1
+    DEL "%Update_Path%\PreUpdater.bat" >NUL 2>&1
+)
 START /MIN CMD /C CALL "%Current_Dir%\Updater.bat" >NUL 2>&1
 EXIT
 

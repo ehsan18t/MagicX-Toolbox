@@ -1013,7 +1013,7 @@ CALL :END_LINE
 SET Menu_Name=Downloads Center
 SET Menu_Address=Downloads_Menu
 ECHO  ^=^> %C_Cyan%Fetching Downloads Info......%C_DEFAULT%
-powershell.exe -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/Windows_10/Downloads_Info.bat -OutFile Downloads_Info.bat >NUL 2>&1
+PowerShell -COMMAND WGET https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/Windows_10/Downloads_Info.bat -OutFile Downloads_Info.bat >NUL 2>&1
 IF NOT EXIST "Downloads_Info.bat" CALL :Network_Error
 CALL Downloads_Info.bat
 DEL Downloads_Info.bat
@@ -1138,9 +1138,9 @@ ECHO %C_DEFAULT% -^> Disabling Windows Update.... %C_Green%
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "AUOptions" /t REG_DWORD /d "1" /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" /t REG_DWORD /d "1" /f >NUL 2>&1
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v "SetDisableUXWUAccess" /t REG_DWORD /d "1" /f >NUL 2>&1
-net stop wuauserv >NUL 2>&1
-sc config wuauserv start= disabled
-net stop wuauserv >NUL 2>&1
+NET STOP wuauserv >NUL 2>&1
+SC CONFIG wuauserv start= disabled
+NET STOP wuauserv >NUL 2>&1
 CALL :END_LINE_RSRT
 
 :en_Windows_Update
@@ -1148,8 +1148,8 @@ ECHO %C_DEFAULT% -^> Enabling Windows Update.... %C_Green%
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "AUOptions" /t REG_DWORD /d "2" /f
 REG DELETE "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" /f >NUL 2>&1
 REG DELETE "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v "SetDisableUXWUAccess" /f >NUL 2>&1
-sc config wuauserv start= demand
-net start wuauserv >NUL 2>&1
+SC CONFIG wuauserv start= demand
+NET START wuauserv >NUL 2>&1
 CALL :END_LINE_RSRT
 
 :Notify_Only
@@ -1366,7 +1366,7 @@ ECHO 				============================
 ECHO.
 COLOR 03
 ECHO  %C_DEFAULT%^=^> Checking For New Update.....
-powershell.exe -nologo -noprofile -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/Toolbox_Update_Info.bat -OutFile Toolbox_Update_Info.bat >NUL 2>&1
+PowerShell -NoLogo -NoProfile -COMMAND WGET https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/Toolbox_Update_Info.bat -OutFile Toolbox_Update_Info.bat >NUL 2>&1
 IF NOT EXIST "Toolbox_Update_Info.bat" CALL :Network_Error
 IF EXIST "Toolbox_Update_Info.bat" (
     CALL Toolbox_Update_Info.bat
@@ -1374,8 +1374,8 @@ IF EXIST "Toolbox_Update_Info.bat" (
 )
 IF "%Update_Version%" GTR "%Current_Version%" (
     IF NOT EXIST "%AU_Temp_Path%" MKDIR "%AU_Temp_Path%" >NUL 2>&1
-    PowerShell -nologo -noprofile -Command wget https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/Changelogs.zip -OutFile %AU_Temp_Path%\Changelogs.zip >NUL 2>&1
-    PowerShell -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('%AU_Temp_Path%\Changelogs.zip', '%AU_Temp_Path%\Changelogs'); }" >NUL 2>&1
+    PowerShell -NoLogo -NoProfile -COMMAND WGET https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/Changelogs.zip -OutFile "%AU_Temp_Path%\Changelogs.zip" >NUL 2>&1
+    PowerShell -NoLogo -NoProfile -COMMAND "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('%AU_Temp_Path%\Changelogs.zip', '%AU_Temp_Path%\Changelogs'); }" >NUL 2>&1
     IF EXIST "%AU_Temp_Path%\Changelogs\Changelogs.bat" (
         ECHO Dummy File > "%AU_Temp_Path%\UpdateAvailable.yes" >NUL 2>&1
         DEL "%AU_Temp_Path%\Changelogs.zip" >NUL 2>&1
@@ -1410,15 +1410,15 @@ ECHO 				^|^| New Update Available! ^|^|
 ECHO 				===========================
 CALL :TWO_ECHO
 ECHO  ^=^> Updates Downloading. Please Wait...
-CD %Current_Dir%
-PowerShell -nologo -noprofile -Command wget %DNL_LINK%/%Update_FileName% -OutFile %Update_FileName% >NUL 2>&1
-PowerShell -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('%Update_FileName%', 'Update'); }" >NUL 2>&1
+CD "%Current_Dir%"
+PowerShell -NoLogo -NoProfile -COMMAND WGET %DNL_LINK%/%Update_FileName% -OutFile %Update_FileName% >NUL 2>&1
+PowerShell -NoLogo -NoProfile -COMMAND "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('%Update_FileName%', 'Update'); }" >NUL 2>&1
 IF EXIST "%Current_Dir%\%Update_FileName%" DEL %Update_FileName% >NUL 2>&1
 IF NOT EXIST "%Update_Path%\*.bat" CALL :Network_Error
 ECHO  ^=^> Update Process will ^Start in 5s. Please Don't Close App While it's Updating.
 TIMEOUT /t 5 >NUL 2>&1
 IF EXIST "%Update_Path%\PreUpdater.bat" (
-    CALL "%Update_Path%\PreUpdater.bat"  >NUL 2>&1
+    CALL "%Update_Path%\PreUpdater.bat" >NUL 2>&1
     DEL "%Update_Path%\PreUpdater.bat" >NUL 2>&1
 )
 START /MIN CMD /C CALL "%Current_Dir%\Updater.bat" >NUL 2>&1

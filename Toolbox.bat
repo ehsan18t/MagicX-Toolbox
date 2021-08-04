@@ -1532,7 +1532,7 @@ IF EXIST "%AU_Temp_Path%\UpdateAvailable.yes" (
     RMDIR /S /Q "%AU_Temp_Path%"
     ECHO  %C_Cyan%
     CHOICE /C:NY /N /M "--> Want to Update Now? [Y/N] "
-    IF ERRORLEVEL 2 GOTO Check_Update
+    IF ERRORLEVEL 2 GOTO Update
     IF ERRORLEVEL 1 GOTO %Menu_Address%
 )
 EXIT /B

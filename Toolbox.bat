@@ -1399,7 +1399,7 @@ IF NOT EXIST "%Update_Path%\*.bat" CALL :Network_Error
 IF EXIST "%Update_Path%\PreUpdater.bat" CALL "%Update_Path%\PreUpdater.bat" && DEL "%Update_Path%\PreUpdater.bat" >NUL 2>&1
 ECHO  ^=^> Update Process will ^Start in 5s. Please Don't Close App While it's Updating. 
 TIMEOUT /t 5 >NUL 2>&1
-START /MIN /K CMD /C CALL "%Current_Dir%\Updater.bat" >NUL 2>&1
+START /MIN CMD /C CALL "%Current_Dir%\Updater.bat" >NUL 2>&1
 EXIT
 
 :NoUpdate

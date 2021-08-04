@@ -1377,7 +1377,7 @@ IF "%Update_Version%" GTR "%Current_Version%" (
     PowerShell -NoLogo -NoProfile -COMMAND WGET https://github.com/Ahsan400/MagicX_Mod_Files/raw/master/MagicX_Toolbox/Updater/Changelogs.zip -OutFile "%AU_Temp_Path%\Changelogs.zip" >NUL 2>&1
     PowerShell -NoLogo -NoProfile -COMMAND "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('%AU_Temp_Path%\Changelogs.zip', '%AU_Temp_Path%\Changelogs'); }" >NUL 2>&1
     IF EXIST "%AU_Temp_Path%\Changelogs\Changelogs.bat" (
-        ECHO Dummy File > "%AU_Temp_Path%\UpdateAvailable.yes" >NUL 2>&1
+        ECHO Dummy File > "%AU_Temp_Path%\UpdateAvailable.yes"
         DEL "%AU_Temp_Path%\Changelogs.zip" >NUL 2>&1
         SET "Show_Changelogs=true"
         GOTO Update

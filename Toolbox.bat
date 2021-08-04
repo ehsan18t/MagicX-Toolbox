@@ -1403,7 +1403,7 @@ GOTO %Menu_Address%
 CLS
 COLOR 0E
 ECHO.
-IF DEFINED Show_Changelogs (
+IF "%Show_Changelogs%" EQU "true" (
     IF EXIST "%AU_Temp_Path%\UpdateAvailable.yes" (
         CALL "%AU_Temp_Path%\Changelogs\Changelogs.bat"
         RMDIR /S /Q "%AU_Temp_Path%" >NUL 2>&1

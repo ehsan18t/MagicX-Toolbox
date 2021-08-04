@@ -10,7 +10,7 @@ SET "DESKTOP=%UserProfile%\Desktop"
 SET "AU_Temp_Path=%TEMP%\MagicXToolbox_psbdgtx"
 SET "Update_Path=%Current_Dir%\Update"
 
-IF NOT EXIST "%AU_Temp_Path%" (
+IF NOT EXIST "%AU_Temp_Path%\UpdateAvailable.yes" (
     CALL :Check_AU >NUL 2>&1
 )
 

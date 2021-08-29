@@ -1564,6 +1564,7 @@ ECHO   ^|_^|  ^|_^|\__,_^|\__, ^|_^|\___/_/\_\   ^|_^|\___/ \___/^|_^|_.__/ \___
 ECHO                 ^|___/         %C_DEFAULT%
 ECHO.
 IF EXIST "%AU_Temp_Path%\UpdateAvailable.yes" (
+    CALL "%AU_Temp_Path%\Toolbox_Update_Info.bat"
     CALL "%AU_Temp_Path%\Changelogs\Changelogs.bat"
     RMDIR /S /Q "%AU_Temp_Path%"
     ECHO  %C_Cyan%

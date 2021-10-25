@@ -1022,7 +1022,6 @@ CALL Downloads_Info.bat
 DEL Downloads_Info.bat
 
 :Downloads_Menu
-IF NOT EXIST "%DESKTOP%\Apps" MD "%DESKTOP%\Apps"
 CLS
 COLOR 0E
 Set "Pattern= "
@@ -1641,6 +1640,7 @@ EXIT /B
 
 
 :Apps_DOWNLOADER
+IF NOT EXIST "%DESKTOP%\Apps" MKDIR "%DESKTOP%\Apps"
 CALL SET "DNL_OPT=%%CNTXT_OPT%1%%"
 SET "File_Name=!DNL_OPT:%Pattern%=%Replace%!"
 SET "Download_Name=%DNL_OPT%"

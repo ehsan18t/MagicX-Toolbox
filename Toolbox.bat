@@ -49,8 +49,8 @@ COLOR 0E
 SET Menu_Address=Main_Menu
 CALL :Header
 ECHO                  %C_Red%--------------------------------------
-ECHO                  ^|%C_DEFAULT%  Author: %C_Cyan%Ahsan Khan (@Ahsan400)%C_DEFAULT%    %C_Red%^|
-ECHO                  ^|%C_DEFAULT%  Target: %C_Cyan%Windows 10 19H2-21H1 %C_DEFAULT%     %C_Red%^|
+ECHO                  ^|%C_DEFAULT%  Author: %C_Cyan%Ehsan Khan (@ehsan18t)%C_DEFAULT%    %C_Red%^|
+ECHO                  ^|%C_DEFAULT%  Target: %C_Cyan%Windows 10 19H2-22H2 %C_DEFAULT%     %C_Red%^|
 ECHO                  ^|%C_DEFAULT%  TG Group: %C_Blue%https:\\t.me\MagicXMod%C_DEFAULT%  %C_Red%^|
 ECHO                  ^|%C_DEFAULT%  Website: %C_Blue%MagicXMod.github.io%C_DEFAULT%      %C_Red%^|
 ECHO                  --------------------------------------%C_DEFAULT%

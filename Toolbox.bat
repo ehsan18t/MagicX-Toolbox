@@ -171,9 +171,9 @@ IF "%REG_VALUE%" EQU "0x0" (
 
 
 CALL :Header
-ECHO  ============
-ECHO  ^|^| Enable ^|^|
-ECHO  ============
+ECHO  =============================
+ECHO  ^|^| Appearance Control Menu ^|^|
+ECHO  =============================
 ECHO  1. %arrow_icon_status% Enable Arrow Icon In Shortcut
 ECHO  2. %action_center_status% Enable Action Center
 ECHO  3. %old_battery_status% Enable Old Battery Flyout UI

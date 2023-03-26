@@ -106,10 +106,11 @@ SET "disable_old_battery_status=%APPLIED%"
 SET "disable_old_network_status=%APPLIED%"
 SET "disable_old_vol_status=%APPLIED%"
 
+SET "REG_VALUE="
+
 @REM Enable/Disable Arrow Icon In Shortcut
 SET "REG_KEY=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons"
 SET "REG_DATA=29"
-SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "%%systemroot%%\Blank.ico,0" (
     SET "enable_arrow_icon_status=%NOT_APPLIED%"
@@ -119,7 +120,6 @@ IF "%REG_VALUE%" EQU "%%systemroot%%\Blank.ico,0" (
 @REM Enable/Disable Action Center
 SET "REG_KEY=HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer"
 SET "REG_DATA=DisableNotificationCenter"
-SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x1" (
     SET "enable_action_center_status=%NOT_APPLIED%"
@@ -129,7 +129,6 @@ IF "%REG_VALUE%" EQU "0x1" (
 @REM Enable/Disable Old Battery Flyout UI
 SET "REG_KEY=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell"
 SET "REG_DATA=UseWin32BatteryFlyout"
-SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x1" (
     SET "enable_old_battery_status=%APPLIED%"
@@ -139,7 +138,6 @@ IF "%REG_VALUE%" EQU "0x1" (
 @REM Enable/Disable Old Network Flyout UI
 SET "REG_KEY=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Settings\Network"
 SET "REG_DATA=ReplaceVan"
-SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x2" (
     SET "enable_old_network_status=%APPLIED%"
@@ -149,7 +147,6 @@ IF "%REG_VALUE%" EQU "0x2" (
 @REM Enable/Disable Old Volume Control Flyout UI
 SET "REG_KEY=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC"
 SET "REG_DATA=EnableMtcUvc"
-SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x0" (
     SET "enable_old_vol_status=%APPLIED%"
@@ -818,7 +815,6 @@ SET "large_icon_cache_500kb_status=%APPLIED%"
 @REM Enable/Disable Large System Cache
 SET "REG_KEY=HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"
 SET "REG_DATA=LargeSystemCache"
-SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x1" (
     SET "enable_large_system_cache_status=%APPLIED%"
@@ -834,7 +830,6 @@ IF EXIST "%SystemDrive%\hiberfil.sys" (
 @REM Enable/Disable Startup Delay
 SET "REG_KEY=HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Serialize"
 SET "REG_DATA=StartupDelayInMSec"
-SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x0" (
     SET "disable_startup_delay_status=%APPLIED%"
@@ -844,7 +839,6 @@ IF "%REG_VALUE%" EQU "0x0" (
 @REM Enable/Disable Web/Being Search in Windows Search
 SET "REG_KEY=HKCU\Software\Microsoft\Windows\CurrentVersion\Search"
 SET "REG_DATA=BingSearchEnable"
-SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x0" (
     SET "disable_being_search_status=%APPLIED%"
@@ -854,7 +848,6 @@ IF "%REG_VALUE%" EQU "0x0" (
 @REM Enable/Disable Thumbnails
 SET "REG_KEY=HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer"
 SET "REG_DATA=DisableThumbnails"
-SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x1" (
     SET "disable_thumbnails_status=%APPLIED%"
@@ -864,7 +857,6 @@ IF "%REG_VALUE%" EQU "0x1" (
 @REM Enable/Disable Large Icon Cache
 SET "REG_KEY=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
 SET "REG_DATA=Max Cached Icons"
-SET "REG_VALUE="
 @REM Because of space in REG_DATA Token is different here...
 REG QUERY "%REG_KEY%" /v "%REG_DATA%" >NUL 2>&1
 IF %ERRORLEVEL% EQU 0 (
@@ -1090,7 +1082,6 @@ SET "Update_Enable_Status_C=%NOT_APPLIED%"
 
 SET "REG_KEY=HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
 SET "REG_DATA=AUOptions"
-SET "REG_VALUE="
 
 
 CALL :Check_REG_Value

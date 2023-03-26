@@ -1,5 +1,5 @@
 @ECHO OFF
-@REM @CHCP 65001>NUL
+@CHCP 65001>NUL
 @REM mode con:cols=78 lines=28
 SET Current_Version=2.1.1
 TITLE MagicX Toolbox v%Current_Version% by Ahsan400
@@ -35,7 +35,7 @@ SET "C_DEFAULT=%C_Yellow%"
 
 @REM Other Global Variables
 @REM Unicode Symbols ■
-SET "Status_Symbol=@"
+SET "Status_Symbol=■"
 SET "APPLIED=%C_Green%%Status_Symbol%%C_DEFAULT%"
 SET "NOT_APPLIED=%C_Red%%Status_Symbol%%C_DEFAULT%"
 SET "Bullet_Point1=%C_Yellow%%Status_Symbol%%C_DEFAULT%"

@@ -1071,15 +1071,15 @@ COLOR 0E
 SET Menu_Name=Windows Update Menu
 SET Menu_Address=Windows_Update
 
-SET "Update_Disable_Status=%NOT_APPLIED%"
-SET "Update_Enable_Status=%APPLIED%"
+SET "Windows_Update_Status=%APPLIED% Disable"
+SET "Windows_Update_val=1"
 REG QUERY "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" >NUL 2>&1
 IF %ERRORLEVEL% EQU 0 (
     SET "Service_Name=wuauserv"
     CALL :Check_Service_Disabled
     IF DEFINED IS_SERVICE_DISABLED (
-        SET "Update_Disable_Status=%APPLIED%"
-        SET "Update_Enable_Status=%NOT_APPLIED%"
+        SET "Windows_Update_Status=%NOT_APPLIED% Enable"
+        SET "Windows_Update_val=0"
     )
 )
 
@@ -1111,9 +1111,8 @@ ECHO  ^|  Because after you update windows it can ^change all the %C_Red%Tweaks%
 ECHO  -------------------------------------------------------------------------------
 CALL :TWO_ECHO
 ECHO  %C_Cyan%^<%C_Red%General Settings%C_Cyan%^>%C_DEFAULT%
-ECHO  1. After Update Tweaks
-ECHO  2. %Update_Disable_Status% Disable Windows Update
-ECHO  3. %Update_Enable_Status% Enable Windows Update
+ECHO  1. %Bullet_Point1% After Update Tweaks
+ECHO  2. %Windows_Update_Status% Windows Update
 ECHO.
 ECHO  %C_Cyan%^<%C_Red%Advanced Settings%C_Cyan%^>%C_DEFAULT%
 ECHO  A. %Update_Enable_Status_A% Check ^& Notify ^If Updates Available
@@ -1122,14 +1121,13 @@ ECHO  C. %Update_Enable_Status_C% Automatically Download and Install Updates
 ECHO.
 ECHO %C_Cyan% H. Main Menu %C_DEFAULT%
 ECHO.
-CHOICE /C:123ABCH /N /M "Enter your choice: "
+CHOICE /C:12ABCH /N /M "Enter your choice: "
 ECHO.
-IF ERRORLEVEL 7 GOTO Main_Menu
-IF ERRORLEVEL 6 GOTO Download_and_Install
-IF ERRORLEVEL 5 GOTO Check_and_Download
-IF ERRORLEVEL 4 GOTO Notify_Only
-IF ERRORLEVEL 3 GOTO en_Windows_Update
-IF ERRORLEVEL 2 GOTO ds_Windows_Update
+IF ERRORLEVEL 6 GOTO Main_Menu
+IF ERRORLEVEL 5 GOTO Download_and_Install
+IF ERRORLEVEL 4 GOTO Check_and_Download
+IF ERRORLEVEL 3 GOTO Notify_Only
+IF ERRORLEVEL 2 IF "%Windows_Update_val%" EQU "0" ( GOTO en_Windows_Update ) ELSE ( GOTO ds_Windows_Update )
 IF ERRORLEVEL 1 GOTO after_update_tweaks
 
 

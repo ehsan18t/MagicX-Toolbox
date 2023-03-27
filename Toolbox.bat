@@ -797,17 +797,20 @@ SET Menu_Name=System Menu
 SET Menu_Address=System_Menu
 
 @REM Variables for Status Checking
-SET "enable_large_system_cache_status=%NOT_APPLIED%"
-SET "enable_hibernation_status=%NOT_APPLIED%"
-SET "enable_startup_delay_status=%APPLIED%"
-SET "enable_being_search_status=%APPLIED%"
-SET "enable_thumbnails_status=%APPLIED%"
+SET "large_system_cache_status=%NOT_APPLIED% Enable"
+SET "large_system_cache_val=0"
 
-SET "disable_large_system_cache_status=%APPLIED%"
-SET "disable_hibernation_status=%APPLIED%"
-SET "disable_startup_delay_status=%NOT_APPLIED%"
-SET "disable_being_search_status=%NOT_APPLIED%"
-SET "disable_thumbnails_status=%NOT_APPLIED%"
+SET "hibernation_status=%NOT_APPLIED% Enable"
+SET "hibernation_val=0"
+
+SET "startup_delay_status=%APPLIED% Disable"
+SET "startup_delay_val=1"
+
+SET "being_search_status=%NOT_APPLIED% Enable"
+SET "being_search_val=0"
+
+SET "thumbnails_status=%APPLIED% Disable"
+SET "thumbnails_val=1"
 
 SET "large_icon_cache_4mb_status=%NOT_APPLIED%"
 SET "large_icon_cache_8mb_status=%NOT_APPLIED%"
@@ -820,14 +823,14 @@ SET "REG_DATA=LargeSystemCache"
 SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x1" (
-    SET "enable_large_system_cache_status=%APPLIED%"
-    SET "disable_large_system_cache_status=%NOT_APPLIED%"
+    SET "large_system_cache_status=%APPLIED% Disable"
+    SET "large_system_cache_val=1"
 )
 
 @REM Enable/Disable Hibernation
 IF EXIST "%SystemDrive%\hiberfil.sys" (
-    SET "enable_hibernation_status=%APPLIED%"
-    SET "disable_hibernation_status=%NOT_APPLIED%"
+    SET "hibernation_status=%APPLIED% Disable"
+    SET "hibernation_val=1"
 )
 
 @REM Enable/Disable Startup Delay
@@ -836,8 +839,8 @@ SET "REG_DATA=StartupDelayInMSec"
 SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x0" (
-    SET "disable_startup_delay_status=%APPLIED%"
-    SET "enable_startup_delay_status=%NOT_APPLIED%"
+    SET "startup_delay_status=%NOT_APPLIED% Enable"
+    SET "startup_delay_val=0"
 )
 
 @REM Enable/Disable Web/Being Search in Windows Search
@@ -845,9 +848,9 @@ SET "REG_KEY=HKCU\Software\Microsoft\Windows\CurrentVersion\Search"
 SET "REG_DATA=BingSearchEnable"
 SET "REG_VALUE="
 CALL :Check_REG_Value
-IF "%REG_VALUE%" EQU "0x0" (
-    SET "disable_being_search_status=%APPLIED%"
-    SET "enable_being_search_status=%NOT_APPLIED%"
+IF "%REG_VALUE%" EQU "0x1" (
+    SET "being_search_status=%APPLIED% Disable"
+    SET "being_search_val=1"
 )
 
 @REM Enable/Disable Thumbnails
@@ -856,8 +859,8 @@ SET "REG_DATA=DisableThumbnails"
 SET "REG_VALUE="
 CALL :Check_REG_Value
 IF "%REG_VALUE%" EQU "0x1" (
-    SET "disable_thumbnails_status=%APPLIED%"
-    SET "enable_thumbnails_status=%NOT_APPLIED%"
+    SET "thumbnails_status=%NOT_APPLIED% Enable"
+    SET "thumbnails_val=0"
 )
 
 @REM Enable/Disable Large Icon Cache
@@ -882,48 +885,34 @@ IF "%REG_VALUE%" EQU "8192" (
 )
 
 CALL :Header
-ECHO  ============
-ECHO  ^|^| Enable ^|^|
-ECHO  ============
-ECHO  1. %enable_large_system_cache_status% Enable Large System Cache %C_Cyan%(Only for %C_Red%8GB+%C_Cyan% RAM Users)%C_DEFAULT%
-ECHO  2. %enable_hibernation_status% Enable Hibernation %C_Cyan%(Recommended)%C_DEFAULT%
-ECHO  3. %enable_startup_delay_status% Enable Startup Delay %C_Cyan%(Recommended for %C_Red%HDD%C_Cyan%)%C_DEFAULT%
-ECHO  4. %enable_being_search_status% Enable Web/Being Search in Windows Search
-ECHO  5. %enable_thumbnails_status% Enable Thumbnails
+ECHO  =========================
+ECHO  ^|^| System Control Menu ^|^|
+ECHO  =========================
+ECHO  1. %large_system_cache_status% Large System Cache %C_Cyan%(Only for %C_Red%8GB+%C_Cyan% RAM Users)%C_DEFAULT%
+ECHO  2. %hibernation_status% Hibernation %C_Cyan%(Recommended)%C_DEFAULT%
+ECHO  3. %startup_delay_status% Startup Delay %C_Cyan%(Recommended for %C_Red%HDD%C_Cyan%)%C_DEFAULT%
+ECHO  4. %being_search_status% Web/Being Search in Windows Search
+ECHO  5. %thumbnails_status% Thumbnails
 ECHO  6. %large_icon_cache_4mb_status% Enable Large Icon Cache %C_Cyan%(4MB)%C_DEFAULT%
 ECHO  7. %large_icon_cache_8mb_status% Enable Large Icon Cache %C_Red%(8MB)%C_DEFAULT%
-ECHO.
-ECHO  =============
-ECHO  ^|^| Disable ^|^|
-ECHO  =============
-ECHO  A. %disable_large_system_cache_status% Disable Large System Cache
-ECHO  B. %disable_hibernation_status% Disable Hibernation
-ECHO  C. %disable_startup_delay_status% Disable Startup Delay %C_Cyan%(Recommended for %C_Red%SSD%C_Cyan%)%C_DEFAULT%
-ECHO  D. %disable_being_search_status% Disable Web/Being Search in Windows Search
-ECHO  E. %disable_thumbnails_status% Disable Thumbnails
-ECHO  F. %large_icon_cache_500kb_status% Disable Large Icon Cache %C_Cyan%(Default=%C_Green%500KB%C_Cyan%)%C_DEFAULT%
-ECHO  G. HELP %C_Cyan%(Description of All Above Tweaks)%C_DEFAULT%
+ECHO  8. %large_icon_cache_500kb_status% Disable Large Icon Cache %C_Cyan%(Default=%C_Green%500KB%C_Cyan%)%C_DEFAULT%
+ECHO  9. %Bullet_Point1% HELP %C_Cyan%(Description of All Above Tweaks)%C_DEFAULT%
 ECHO.
 ECHO %C_Cyan% H. Main Menu %C_DEFAULT%
 
 ECHO [1;37m
-CHOICE /C:1234567ABCDEFGH /N /M "Enter your choice: "
+CHOICE /C:123456789GH /N /M "Enter your choice: "
 ECHO %C_DEFAULT%
 IF ERRORLEVEL 15 GOTO Main_Menu
-IF ERRORLEVEL 14 GOTO sys_help
-IF ERRORLEVEL 13 GOTO ds_large_icn_cache
-IF ERRORLEVEL 12 GOTO ds_thumb
-IF ERRORLEVEL 11 GOTO ds_web_search
-IF ERRORLEVEL 10 GOTO ds_strtup_delay
-IF ERRORLEVEL 9 GOTO ds_hibernate
-IF ERRORLEVEL 8 GOTO ds_large_sys_cache
+IF ERRORLEVEL 9 GOTO sys_help
+IF ERRORLEVEL 8 GOTO ds_large_icn_cache
 IF ERRORLEVEL 7 GOTO en_large_icn_cache_8mb
 IF ERRORLEVEL 6 GOTO en_large_icn_cache_4mb
-IF ERRORLEVEL 5 GOTO en_thumb
-IF ERRORLEVEL 4 GOTO en_web_search
-IF ERRORLEVEL 3 GOTO en_strtup_delay
-IF ERRORLEVEL 2 GOTO en_hibernate
-IF ERRORLEVEL 1 GOTO en_large_sys_cache
+IF ERRORLEVEL 5 IF "%thumbnails_val%" EQU "0" ( GOTO en_thumb ) ELSE ( GOTO ds_thumb )
+IF ERRORLEVEL 4 IF "%being_search_val%" EQU "0" ( GOTO en_web_search ) ELSE ( GOTO ds_web_search )
+IF ERRORLEVEL 3 IF "%startup_delay_val%" EQU "0" ( GOTO en_strtup_delay ) ELSE ( GOTO ds_strtup_delay )
+IF ERRORLEVEL 2 IF "%hibernation_val%" EQU "0" ( GOTO en_hibernate ) ELSE ( GOTO ds_hibernate )
+IF ERRORLEVEL 1 IF "%large_system_cache_val%" EQU "0" ( GOTO en_large_sys_cache ) ELSE ( GOTO ds_large_sys_cache )
 
 
 :en_large_sys_cache
@@ -965,6 +954,10 @@ REG ADD "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Serialize" /v "
 CALL :END_LINE_RSRT
 
 :en_web_search
+REG ADD "HKCU\Software\Microsoft\Windows\CurrentVersion\Search" /v "BingSearchEnable" /t REG_DWORD /d "1" /f >NUL 2>&1
+REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Search" /v "BingSearchEnable" /t REG_DWORD /d "1" /f >NUL 2>&1
+REG DELETE "HKCU\Software\Microsoft\Windows\CurrentVersion\Search" /v "CortanaConsent" /f >NUL 2>&1
+REG DELETE "HKLM\Software\Microsoft\Windows\CurrentVersion\Search" /v "CortanaConsent" /f >NUL 2>&1
 REG DELETE "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v "DisableSearchBoxSuggestions" /f >NUL 2>&1
 REG DELETE "HKLM\Software\Policies\Microsoft\Windows\Explorer" /v "DisableSearchBoxSuggestions" /f
 CALL :RSTRT_WIN_EX

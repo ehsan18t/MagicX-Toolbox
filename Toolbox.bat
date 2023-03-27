@@ -901,9 +901,9 @@ ECHO.
 ECHO %C_Cyan% H. Main Menu %C_DEFAULT%
 
 ECHO [1;37m
-CHOICE /C:123456789GH /N /M "Enter your choice: "
+CHOICE /C:123456789H /N /M "Enter your choice: "
 ECHO %C_DEFAULT%
-IF ERRORLEVEL 15 GOTO Main_Menu
+IF ERRORLEVEL 10 GOTO Main_Menu
 IF ERRORLEVEL 9 GOTO sys_help
 IF ERRORLEVEL 8 GOTO ds_large_icn_cache
 IF ERRORLEVEL 7 GOTO en_large_icn_cache_8mb

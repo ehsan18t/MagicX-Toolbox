@@ -3,7 +3,7 @@ SETLOCAL ENABLEDELAYEDEXPANSION
 @CHCP 65001>NUL
 @REM mode con:cols=78 lines=28
 SET Current_Version=2.1.1
-TITLE MagicX Toolbox v%Current_Version% by Ahsan400
+TITLE MagicX Toolbox v%Current_Version%
 
 @REM Global PATH Variables
 SET "Current_Dir=%~dp0"

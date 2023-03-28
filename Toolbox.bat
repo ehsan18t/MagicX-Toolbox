@@ -1,4 +1,5 @@
 @ECHO OFF
+SETLOCAL ENABLEDELAYEDEXPANSION
 @CHCP 65001>NUL
 @REM mode con:cols=78 lines=28
 SET Current_Version=2.1.1

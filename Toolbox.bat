@@ -2,7 +2,7 @@
 SETLOCAL ENABLEDELAYEDEXPANSION
 @CHCP 65001 >NUL 2>&1
 @REM mode con:cols=78 lines=28
-SET Current_Version=2.1.3
+SET Current_Version=2.1.2
 TITLE MagicX Toolbox v%Current_Version%
 
 @REM Global PATH Variables
@@ -1393,6 +1393,7 @@ GOTO %Menu_Address%
 
 :Update
 CLS
+@CHCP 1252 >NUL 2>&1
 COLOR 0E
 ECHO.
 IF "%Show_Changelogs%" EQU "true" (

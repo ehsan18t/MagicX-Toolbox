@@ -1,6 +1,6 @@
 @ECHO OFF
 SETLOCAL ENABLEDELAYEDEXPANSION
-@CHCP 65001>NUL
+@CHCP 65001 >NUL 2>&1
 @REM mode con:cols=78 lines=28
 SET Current_Version=2.1.2
 TITLE MagicX Toolbox v%Current_Version%
@@ -1003,6 +1003,7 @@ CALL :END_LINE
 @REM ::						 ::
 @REM ::::::::::::::::::::::::::
 :Downloads
+@CHCP 1252 >NUL 2>&1
 SET Menu_Name=Downloads Center
 SET Menu_Address=Downloads_Menu
 ECHO  ^=^> %C_Cyan%Fetching Downloads Info......%C_DEFAULT%
@@ -1351,6 +1352,7 @@ CALL :END_LINE
 @REM ::							 ::
 @REM ::::::::::::::::::::::::::::::
 :Check_Update
+@CHCP 1252 >NUL 2>&1
 CLS
 ECHO.
 ECHO  				============================

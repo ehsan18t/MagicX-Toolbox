@@ -11,6 +11,12 @@
       9. Make options more user friendly 
 -->
 
+>[!NOTE]
+> **Use [_MagicX Toolbox_](https://github.com/ehsan18t/magicx-toolbox-gui) (GUI) instead of this script based app. With that you get an user friendly UI also can restore/undo any change you made.**
+>
+> This repository will not be maintained anymore. I am putting everything on the MagicX Toolbox GUI.
+
+
 <h1 align="center">MagicX Toolbox</h1>
 <div align="center">
   <strong>Ultimate tool to control your 64-bit Windows 10</strong>
